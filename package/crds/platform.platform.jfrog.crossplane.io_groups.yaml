@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: resources.null.template.upbound.io
+  name: groups.platform.platform.jfrog.crossplane.io
 spec:
-  group: null.template.upbound.io
+  group: platform.platform.jfrog.crossplane.io
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - jfrog-platform
+    kind: Group
+    listKind: GroupList
+    plural: groups
+    singular: group
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,10 +34,11 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API. The null_resource
-          resource implements the standard resource lifecycle but takes no further
-          action.hashicorp. The triggers argument allows specifying an arbitrary set
-          of values that, when changed, will cause the resource to be replaced.
+        description: Group is the Schema for the Groups API. Provides a group resource
+          to create and manage groups, and manages membership. A group represents
+          a role and is used with RBAC (Role-Based Access Control) rules. See JFrog
+          documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/create-and-edit-groups
+          for more details.
         properties:
           apiVersion:
             description: |-
@@ -57,7 +58,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: GroupSpec defines the desired state of Group
             properties:
               deletionPolicy:
                 default: Delete
@@ -75,14 +76,39 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
+                  adminPrivileges:
                     description: |-
-                      running any associated provisioners.
-                      A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
-                    type: object
-                    x-kubernetes-map-type: granular
+                      (Boolean) Any users added to this group will automatically be assigned with admin privileges in the system.
+                      Any users added to this group will automatically be assigned with admin privileges in the system.
+                    type: boolean
+                  autoJoin:
+                    description: |-
+                      (Boolean) When this parameter is set, any new users defined in the system are automatically assigned to this group.
+                      When this parameter is set, any new users defined in the system are automatically assigned to this group.
+                    type: boolean
+                  description:
+                    description: |-
+                      (String) A description for the group.
+                      A description for the group.
+                    type: string
+                  externalId:
+                    description: |-
+                      (String) New external group ID used to configure the corresponding group in Azure AD.
+                      New external group ID used to configure the corresponding group in Azure AD.
+                    type: string
+                  members:
+                    description: |-
+                      (Set of String, Deprecated) List of users assigned to the group.
+                      List of users assigned to the group.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  useGroupMembersResource:
+                    description: |-
+                      (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
+                      When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -97,14 +123,39 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
+                  adminPrivileges:
                     description: |-
-                      running any associated provisioners.
-                      A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
-                    type: object
-                    x-kubernetes-map-type: granular
+                      (Boolean) Any users added to this group will automatically be assigned with admin privileges in the system.
+                      Any users added to this group will automatically be assigned with admin privileges in the system.
+                    type: boolean
+                  autoJoin:
+                    description: |-
+                      (Boolean) When this parameter is set, any new users defined in the system are automatically assigned to this group.
+                      When this parameter is set, any new users defined in the system are automatically assigned to this group.
+                    type: boolean
+                  description:
+                    description: |-
+                      (String) A description for the group.
+                      A description for the group.
+                    type: string
+                  externalId:
+                    description: |-
+                      (String) New external group ID used to configure the corresponding group in Azure AD.
+                      New external group ID used to configure the corresponding group in Azure AD.
+                    type: string
+                  members:
+                    description: |-
+                      (Set of String, Deprecated) List of users assigned to the group.
+                      List of users assigned to the group.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  useGroupMembersResource:
+                    description: |-
+                      (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
+                      When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -274,22 +325,55 @@ spec:
             - forProvider
             type: object
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: GroupStatus defines the observed state of Group.
             properties:
               atProvider:
                 properties:
-                  id:
-                    description: (String) This is set to a random value at create
-                      time.
-                    type: string
-                  triggers:
-                    additionalProperties:
-                      type: string
+                  adminPrivileges:
                     description: |-
-                      running any associated provisioners.
-                      A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
-                    type: object
-                    x-kubernetes-map-type: granular
+                      (Boolean) Any users added to this group will automatically be assigned with admin privileges in the system.
+                      Any users added to this group will automatically be assigned with admin privileges in the system.
+                    type: boolean
+                  autoJoin:
+                    description: |-
+                      (Boolean) When this parameter is set, any new users defined in the system are automatically assigned to this group.
+                      When this parameter is set, any new users defined in the system are automatically assigned to this group.
+                    type: boolean
+                  description:
+                    description: |-
+                      (String) A description for the group.
+                      A description for the group.
+                    type: string
+                  externalId:
+                    description: |-
+                      (String) New external group ID used to configure the corresponding group in Azure AD.
+                      New external group ID used to configure the corresponding group in Azure AD.
+                    type: string
+                  id:
+                    type: string
+                  members:
+                    description: |-
+                      (Set of String, Deprecated) List of users assigned to the group.
+                      List of users assigned to the group.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  realm:
+                    description: |-
+                      (String) The realm for the group.
+                      The realm for the group.
+                    type: string
+                  realmAttributes:
+                    description: |-
+                      (String) The realm for the group.
+                      The realm for the group.
+                    type: string
+                  useGroupMembersResource:
+                    description: |-
+                      (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
+                      When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.
