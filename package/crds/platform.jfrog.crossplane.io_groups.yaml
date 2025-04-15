@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: groups.platform.platform.jfrog.crossplane.io
+  name: groups.platform.jfrog.crossplane.io
 spec:
-  group: platform.platform.jfrog.crossplane.io
+  group: platform.jfrog.crossplane.io
   names:
     categories:
     - crossplane
