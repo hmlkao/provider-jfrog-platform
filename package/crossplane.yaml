@@ -1,4 +1,14 @@
 apiVersion: meta.pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: upjet-provider-template
+  name: provider-jfrog-platform
+  annotations:
+    meta.crossplane.io/maintainer: Ondrej Homolka <ondrej.homolka@gmail.com>
+    meta.crossplane.io/source: github.com/hmlkao/provider-jfrog-platform
+    meta.crossplane.io/license: Apache-2.0
+    meta.crossplane.io/description: |
+      JFrog Platform Crossplane provider to manage JFrog Platform resources in Kubernetes.
+    meta.crossplane.io/readme: |
+      Provider JFrog Platform is a Crossplane provider for JFrog Platform.
+      If you encounter an issue please create an issue in the
+      [hmlkao/provider-jfrog-platform](https://github.com/hmlkao/provider-jfrog-platform/issues) repo.
