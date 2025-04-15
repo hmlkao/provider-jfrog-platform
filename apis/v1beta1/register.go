@@ -13,7 +13,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "jfrog-platform.platform.jfrog.crossplane.io"
+	Group   = "platform.jfrog.crossplane.io"
 	Version = "v1beta1"
 )
 

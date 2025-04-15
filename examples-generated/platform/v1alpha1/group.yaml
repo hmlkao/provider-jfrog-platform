@@ -1,4 +1,4 @@
-apiVersion: platform.platform.jfrog.crossplane.io/v1alpha1
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
 kind: Group
 metadata:
   annotations:

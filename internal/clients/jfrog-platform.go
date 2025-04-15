@@ -27,6 +27,9 @@ const (
 	errUnmarshalCredentials = "cannot unmarshal jfrog-platform credentials as JSON"
 )
 
+var reqFields = []string{}
+var optFields = []string{"url", "access_token", "tfc_credential_tag_name", "oidc_provider_name"}
+
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
 func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
@@ -63,10 +66,18 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{}
+		// Required fields
+		for _, req := range reqFields {
+			ps.Configuration[req] = creds[req]
+		}
+		// Optional fields
+		for _, opt := range optFields {
+			if v, ok := creds[opt]; ok {
+				ps.Configuration[opt] = v
+			}
+		}
+
 		return ps, nil
 	}
 }
