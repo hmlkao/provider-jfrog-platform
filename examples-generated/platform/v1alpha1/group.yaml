@@ -14,3 +14,4 @@ spec:
     externalId: My Azure ID
     members:
     - admin
+    name: my-group

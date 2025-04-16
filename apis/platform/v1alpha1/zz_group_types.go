@@ -36,6 +36,10 @@ type GroupInitParameters struct {
 	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
 
+	// (String) Name of the group.
+	// Name of the group.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
 	// When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
 	UseGroupMembersResource *bool `json:"useGroupMembersResource,omitempty" tf:"use_group_members_resource,omitempty"`
@@ -65,6 +69,10 @@ type GroupObservation struct {
 	// List of users assigned to the group.
 	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	// (String) Name of the group.
+	// Name of the group.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String) The realm for the group.
 	// The realm for the group.
@@ -106,6 +114,11 @@ type GroupParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Members []*string `json:"members,omitempty" tf:"members,omitempty"`
+
+	// (String) Name of the group.
+	// Name of the group.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
 	// When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
@@ -149,8 +162,9 @@ type GroupStatus struct {
 type Group struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              GroupSpec   `json:"spec"`
-	Status            GroupStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	Spec   GroupSpec   `json:"spec"`
+	Status GroupStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

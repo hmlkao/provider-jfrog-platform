@@ -73,6 +73,11 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 			}
 		}
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.UseGroupMembersResource != nil {
 		in, out := &in.UseGroupMembersResource, &out.UseGroupMembersResource
 		*out = new(bool)
@@ -161,6 +166,11 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 			}
 		}
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.Realm != nil {
 		in, out := &in.Realm, &out.Realm
 		*out = new(string)
@@ -221,6 +231,11 @@ func (in *GroupParameters) DeepCopyInto(out *GroupParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
 	}
 	if in.UseGroupMembersResource != nil {
 		in, out := &in.UseGroupMembersResource, &out.UseGroupMembersResource

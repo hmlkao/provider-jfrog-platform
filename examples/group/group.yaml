@@ -3,6 +3,8 @@ kind: Group
 metadata:
   name: my-crossplane-group
 spec:
-  forProvider: {}
+  forProvider:
+    name: My Crossplane Group
+    useGroupMembersResource: true
   providerConfigRef:
     name: default
