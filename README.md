@@ -35,23 +35,23 @@ You can see the API reference [here](https://doc.crds.dev/github.com/hmlkao/prov
 
 List of all resources of [Terraform provider v2.2.2](https://registry.terraform.io/providers/jfrog/platform/2.2.2/docs).
 
-| Resource                         | Supported            | Kind             |
-|----------------------------------|----------------------|------------------|
-| `platform_aws_iam_role`          | :x:                  |                  |
-| `platform_crowd_settings`        | :x:                  |                  |
-| `platform_global_role`           | :x:                  |                  |
-| `platform_group`                 | :heavy_check_mark:   | `Group`          |
-| `platform_group_members`         | :x:                  |                  |
-| `platform_http_sso_settings`     | :x:                  |                  |
-| `platform_license`               | :x:                  |                  |
-| `platform_oidc_configuration`    | :x:                  |                  |
-| `platform_oidc_identity_mapping` | :x:                  |                  |
-| `platform_permission`            | :x:                  |                  |
-| `platform_reverse_proxy`         | :x:                  |                  |
-| `platform_saml_settings`         | :x:                  |                  |
-| `platform_scim_group`            | :x:                  |                  |
-| `platform_scim_user`             | :x:                  |                  |
-| `platform_workers_service`       | :x:                  |                  |
+| Resource                         | Supported                                                             | Kind             |
+|----------------------------------|-----------------------------------------------------------------------|------------------|
+| `platform_aws_iam_role`          | :x:                                                                   |                  |
+| `platform_crowd_settings`        | :x:                                                                   |                  |
+| `platform_global_role`           | :x:                                                                   |                  |
+| `platform_group`                 | :heavy_check_mark: ([known issues](./KNOWN_ISSUES.md#platform_group)) | `Group`          |
+| `platform_group_members`         | :x:                                                                   |                  |
+| `platform_http_sso_settings`     | :x:                                                                   |                  |
+| `platform_license`               | :x:                                                                   |                  |
+| `platform_oidc_configuration`    | :x:                                                                   |                  |
+| `platform_oidc_identity_mapping` | :x:                                                                   |                  |
+| `platform_permission`            | :x:                                                                   |                  |
+| `platform_reverse_proxy`         | :x:                                                                   |                  |
+| `platform_saml_settings`         | :x:                                                                   |                  |
+| `platform_scim_group`            | :x:                                                                   |                  |
+| `platform_scim_user`             | :x:                                                                   |                  |
+| `platform_workers_service`       | :x:                                                                   |                  |
 
 ## Developing
 

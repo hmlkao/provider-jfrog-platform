@@ -104,6 +104,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  name:
+                    description: |-
+                      (String) Name of the group.
+                      Name of the group.
+                    type: string
                   useGroupMembersResource:
                     description: |-
                       (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
@@ -151,6 +156,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  name:
+                    description: |-
+                      (String) Name of the group.
+                      Name of the group.
+                    type: string
                   useGroupMembersResource:
                     description: |-
                       (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
@@ -324,6 +334,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
             description: GroupStatus defines the observed state of Group.
             properties:
@@ -359,6 +374,11 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  name:
+                    description: |-
+                      (String) Name of the group.
+                      Name of the group.
+                    type: string
                   realm:
                     description: |-
                       (String) The realm for the group.
