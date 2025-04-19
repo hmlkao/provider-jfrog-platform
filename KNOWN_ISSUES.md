@@ -2,6 +2,7 @@
 
 - [Known issues](#known-issues)
   - [Resource Import Not Implemented](#resource-import-not-implemented)
+  - [Nested Schema](#nested-schema)
   - [`platform_group`](#platform_group)
 
 ## Resource Import Not Implemented
@@ -18,6 +19,19 @@ platform_group_members.my-group-members: Importing from ID "My Crossplane Group"
 │ This resource does not support import. Please contact the provider developer for additional information.
 ╵
 ```
+
+## Nested Schema
+
+Terraform resource contains Nested Schema and upjet is not able to generate provider, it fails with error:
+
+```bash
+# Example
+$ make generate
+...
+panic: cannot generate crd for resource platform_permission: cannot build types for Permission: cannot build the Types for resource "platform_permission": cannot infer type from schema of field artifact: invalid schema type TypeInvalid
+```
+
+There is [opened issue](https://github.com/crossplane/upjet/issues/372) on crossplane/upjet, no workaround here for now.
 
 ## `platform_group`
 

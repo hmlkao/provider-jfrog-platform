@@ -56,13 +56,13 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
 | `platform_http_sso_settings`     | :x:                                                                                        |                  |
 | `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                  |
 | `platform_oidc_configuration`    | :x:                                                                                        |                  |
-| `platform_oidc_identity_mapping` | :x:                                                                                        |                  |
-| `platform_permission`            | :x:                                                                                        |                  |
+| `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
+| `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
 | `platform_reverse_proxy`         | :x:                                                                                        |                  |
 | `platform_saml_settings`         | :x:                                                                                        |                  |
-| `platform_scim_group`            | :x:                                                                                        |                  |
-| `platform_scim_user`             | :x:                                                                                        |                  |
-| `platform_workers_service`       | :x:                                                                                        |                  |
+| `platform_scim_group`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
+| `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
+| `platform_workers_service`       | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
 
 ## Build provider from scratch
 
