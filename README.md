@@ -47,23 +47,23 @@ You can see the API reference [here](https://doc.crds.dev/github.com/hmlkao/prov
 
 List of all resources of [Terraform provider v2.2.2](https://registry.terraform.io/providers/jfrog/platform/2.2.2/docs).
 
-| Resource                         | Supported                                                                                  | Kind             |
-|----------------------------------|--------------------------------------------------------------------------------------------|------------------|
-| `platform_aws_iam_role`          | :x:                                                                                        |                  |
-| `platform_crowd_settings`        | :x:                                                                                        |                  |
-| `platform_global_role`           | :x:                                                                                        |                  |
-| `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                      | `Group`          |
-| `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                  |
-| `platform_http_sso_settings`     | :x:                                                                                        |                  |
-| `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                  |
-| `platform_oidc_configuration`    | :x:                                                                                        |                  |
-| `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-| `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-| `platform_reverse_proxy`         | :heavy_check_mark:                                                                         | `ReverseProxy`   |
-| `platform_saml_settings`         | :heavy_check_mark:                                                                         | `SAMLSettings`   |
-| `platform_scim_group`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-| `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-| `platform_workers_service`       | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
+| Resource                         | Supported                                                                                  | Kind                |
+|----------------------------------|--------------------------------------------------------------------------------------------|---------------------|
+| `platform_aws_iam_role`          | :x:                                                                                        |                     |
+| `platform_crowd_settings`        | :x:                                                                                        |                     |
+| `platform_global_role`           | :x:                                                                                        |                     |
+| `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                      | `Group`             |
+| `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                     |
+| `platform_http_sso_settings`     | :x:                                                                                        |                     |
+| `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                     |
+| `platform_oidc_configuration`    | :heavy_check_mark:                                                                         | `OIDCConfiguration` |
+| `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
+| `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
+| `platform_reverse_proxy`         | :heavy_check_mark:                                                                         | `ReverseProxy`      |
+| `platform_saml_settings`         | :heavy_check_mark:                                                                         | `SAMLSettings`      |
+| `platform_scim_group`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
+| `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
+| `platform_workers_service`       | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
 
 ## Adding new resource
 

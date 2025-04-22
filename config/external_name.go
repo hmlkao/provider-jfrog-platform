@@ -10,9 +10,10 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Cannot use NameAsIdentifier, Name parameter can contain characters which are not allowed in Terraform resource name
-	"platform_group":         config.IdentifierFromProvider,
-	"platform_reverse_proxy": config.IdentifierFromProvider,
-	"platform_saml_settings": config.IdentifierFromProvider,
+	"platform_group":              config.IdentifierFromProvider,
+	"platform_oidc_configuration": config.IdentifierFromProvider,
+	"platform_reverse_proxy":      config.IdentifierFromProvider,
+	"platform_saml_settings":      config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

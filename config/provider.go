@@ -10,6 +10,7 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 	"github.com/hmlkao/provider-jfrog-platform/config/group"
+	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/config/oidc_configuration"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/reverse_proxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/saml_settings"
 )
@@ -38,6 +39,7 @@ func GetProvider() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		group.Configure,
+		oidcconfiguration.Configure,
 		reverseproxy.Configure,
 		samlsettings.Configure,
 	} {
