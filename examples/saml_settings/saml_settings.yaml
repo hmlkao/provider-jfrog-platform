@@ -1,0 +1,16 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: SAMLSettings
+metadata:
+  name: my-okta-saml-settings
+spec:
+  forProvider:
+    name: My Okta SAML Settings
+    certificateSecretRef:
+      name: okta-saml-certificate
+      namespace: crossplane-system
+      key: cert
+    loginURL: http://tempurl.org/saml
+    logoutURL: https://myaccount.okta.com
+    serviceProviderName: okta
+  providerConfigRef:
+    name: default
