@@ -1,0 +1,26 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: OIDCConfiguration
+metadata:
+  name: my-github-oidc-configuration
+spec:
+  forProvider:
+    name: GitHub OIDC configuration
+    issuerURL: https://token.actions.githubusercontent.com
+    providerType: GitHub
+  providerConfigRef:
+    name: default
+
+---
+
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: OIDCConfiguration
+metadata:
+  name: my-project-github-oidc-configuration
+spec:
+  forProvider:
+    name: Project GitHub OIDC configuration
+    issuerURL: https://token.actions.githubusercontent.com
+    providerType: GitHub
+    projectKey: my-project
+  providerConfigRef:
+    name: default
