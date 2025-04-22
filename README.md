@@ -58,7 +58,7 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
 | `platform_oidc_configuration`    | :x:                                                                                        |                  |
 | `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
 | `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-| `platform_reverse_proxy`         | :x:                                                                                        |                  |
+| `platform_reverse_proxy`         | :heavy_check_mark:                                                                         | `ReverseProxy`   |
 | `platform_saml_settings`         | :heavy_check_mark:                                                                         | `SAMLSettings`   |
 | `platform_scim_group`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
 | `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |

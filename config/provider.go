@@ -10,6 +10,7 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 	"github.com/hmlkao/provider-jfrog-platform/config/group"
+	reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/reverse_proxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/saml_settings"
 )
 
@@ -37,6 +38,7 @@ func GetProvider() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		group.Configure,
+		reverseproxy.Configure,
 		samlsettings.Configure,
 	} {
 		configure(pc)

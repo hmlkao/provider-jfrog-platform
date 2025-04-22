@@ -1,0 +1,11 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: ReverseProxy
+metadata:
+  name: my-reverse-proxy
+spec:
+  forProvider:
+    serverProvider: NGINX
+    internalHostname: localhost
+    publicServerName: mydomain.com
+  providerConfigRef:
+    name: default
