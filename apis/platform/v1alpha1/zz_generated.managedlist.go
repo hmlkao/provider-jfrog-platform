@@ -17,6 +17,15 @@ func (l *GroupList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ReverseProxyList.
+func (l *ReverseProxyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this SAMLSettingsList.
 func (l *SAMLSettingsList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
