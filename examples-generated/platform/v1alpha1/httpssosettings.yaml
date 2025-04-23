@@ -1,0 +1,15 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: HTTPSSOSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/httpssosettings
+  labels:
+    testing.upbound.io/example-name: my-http-sso-settings
+  name: my-http-sso-settings
+spec:
+  forProvider:
+    allowUserToAccessProfile: true
+    autoCreateUser: true
+    proxied: true
+    remoteUserRequestVariable: MY_REMOTE_USER
+    syncLdapGroups: false

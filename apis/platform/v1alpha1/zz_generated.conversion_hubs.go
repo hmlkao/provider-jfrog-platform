@@ -10,6 +10,9 @@ package v1alpha1
 func (tr *Group) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *HTTPSSOSettings) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *OIDCConfiguration) Hub() {}
 
 // Hub marks this type as a conversion hub.
