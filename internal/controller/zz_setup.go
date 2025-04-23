@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/pkg/controller"
 
 	group "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/group"
+	httpssosettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/httpssosettings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/oidcconfiguration"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/reverseproxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/samlsettings"
@@ -21,6 +22,7 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		group.Setup,
+		httpssosettings.Setup,
 		oidcconfiguration.Setup,
 		reverseproxy.Setup,
 		samlsettings.Setup,
