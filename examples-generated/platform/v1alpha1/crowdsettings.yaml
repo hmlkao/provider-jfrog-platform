@@ -1,0 +1,23 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: CrowdSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/crowdsettings
+  labels:
+    testing.upbound.io/example-name: my-crowd-settings
+  name: my-crowd-settings
+spec:
+  forProvider:
+    allowUserToAccessProfile: false
+    applicationName: my-crowd-settings
+    autoUserCreation: true
+    directAuthentication: true
+    enable: true
+    overrideAllGroupsUponLogin: false
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    serverUrl: http://tempurl.org
+    sessionValidationInterval: 5
+    useDefaultProxy: false
