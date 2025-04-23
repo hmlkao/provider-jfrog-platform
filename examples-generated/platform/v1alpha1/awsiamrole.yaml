@@ -1,0 +1,12 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: AWSIAMRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/awsiamrole
+  labels:
+    testing.upbound.io/example-name: myuser-aws-iam-role
+  name: myuser-aws-iam-role
+spec:
+  forProvider:
+    iamRole: arn:aws:iam::000000000000:role/example
+    username: myuser
