@@ -1,0 +1,10 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: AWSIAMRole
+metadata:
+  name: myuser-aws-iam-role
+spec:
+  forProvider:
+    username: myuser
+    role: arn:aws:iam::000000000000:role/example
+  providerConfigRef:
+    name: default
