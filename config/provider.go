@@ -9,6 +9,7 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/pkg/config"
+	crowdsettings "github.com/hmlkao/provider-jfrog-platform/config/crowd_settings"
 	globalrole "github.com/hmlkao/provider-jfrog-platform/config/global_role"
 	"github.com/hmlkao/provider-jfrog-platform/config/group"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/config/http_sso_settings"
@@ -40,6 +41,7 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
+		crowdsettings.Configure,
 		globalrole.Configure,
 		group.Configure,
 		httpssosettings.Configure,

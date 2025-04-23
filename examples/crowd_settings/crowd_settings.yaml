@@ -1,0 +1,16 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: CrowdSettings
+metadata:
+  name: my-crowd-settings
+spec:
+  forProvider:
+    enable: true
+    applicationName: My Crowd Settings
+    passwordSecretRef:
+      name: my-crowd-settings-secret
+      namespace: crossplane-system
+      key: password
+    serverURL: http://tempurl.org
+    sessionValidationInterval: 5
+  providerConfigRef:
+    name: default

@@ -9,7 +9,8 @@ import "github.com/crossplane/upjet/pkg/config"
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	"platform_global_role": config.IdentifierFromProvider,
+	"platform_crowd_settings": config.IdentifierFromProvider,
+	"platform_global_role":    config.IdentifierFromProvider,
 	// Cannot use NameAsIdentifier, Name parameter can contain characters which are not allowed in Terraform resource name
 	"platform_group":              config.IdentifierFromProvider,
 	"platform_http_sso_settings":  config.IdentifierFromProvider,
