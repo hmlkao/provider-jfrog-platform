@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	globalrole "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/globalrole"
 	group "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/group"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/httpssosettings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/internal/controller/platform/oidcconfiguration"
@@ -21,6 +22,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		globalrole.Setup,
 		group.Setup,
 		httpssosettings.Setup,
 		oidcconfiguration.Setup,
