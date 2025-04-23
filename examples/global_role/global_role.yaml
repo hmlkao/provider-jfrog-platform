@@ -1,0 +1,12 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: GlobalRole
+metadata:
+  name: my-global-role
+spec:
+  forProvider:
+    name: My Global Role
+    type: CUSTOM_GLOBAL
+    actions: [ READ_REPOSITORY, READ_BUILD ]
+    environments: [ DEV, PROD ]
+  providerConfigRef:
+    name: default
