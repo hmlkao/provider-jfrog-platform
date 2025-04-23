@@ -1,0 +1,9 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: HTTPSSOSettings
+metadata:
+  name: my-http-sso-settings
+spec:
+  forProvider:
+    proxied: true
+  providerConfigRef:
+    name: default
