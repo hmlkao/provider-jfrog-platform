@@ -54,7 +54,7 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
 | `platform_global_role`           | :x:                                                                                        |                     |
 | `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                      | `Group`             |
 | `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                     |
-| `platform_http_sso_settings`     | :x:                                                                                        |                     |
+| `platform_http_sso_settings`     | :heavy_check_mark:                                                                         | `HTTPSSOSettings`   |
 | `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                     |
 | `platform_oidc_configuration`    | :heavy_check_mark:                                                                         | `OIDCConfiguration` |
 | `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
