@@ -50,7 +50,7 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
 | Resource                         | Supported                                                                                  | Kind                |
 |----------------------------------|--------------------------------------------------------------------------------------------|---------------------|
 | `platform_aws_iam_role`          | :x:                                                                                        |                     |
-| `platform_crowd_settings`        | :x:                                                                                        |                     |
+| `platform_crowd_settings`        | :heavy_check_mark:                                                                         | `CrowdSettings`     |
 | `platform_global_role`           | :heavy_check_mark:                                                                         | `GlobalRole`        |
 | `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                      | `Group`             |
 | `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented)) |                     |
