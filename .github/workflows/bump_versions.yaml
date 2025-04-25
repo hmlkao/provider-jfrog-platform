@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   bump-tfm-provider-version:
@@ -19,11 +20,28 @@ jobs:
         with:
           submodules: true
 
+      - name: Get current version
+        id: current-version
+        run: |
+          current_version=$(grep 'export TERRAFORM_PROVIDER_VERSION' < Makefile | cut -d' ' -f4)
+          echo "TFM_PROVIDER_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
+
+      - name: Get new version
+        id: new-version
+        run: |
+          new_version=$(curl -sSL https://api.github.com/repos/jfrog/terraform-provider-platform/releases/latest | jq -r '.tag_name' | tr -d 'v')
+          echo "TFM_PROVIDER_VERSION_NEW=${new_version}" >> $GITHUB_OUTPUT
+
       - name: Bump version
-        run: hack/bump_tfm_provider_version.sh
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        run: hack/bump_tfm_provider_version.sh "${{steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT}}" "${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}"
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
+        with:
+          title: Bump TFM provider to v${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}
+          branch: bump-version/tfm-provider
+          labels: bump-version, tfm-provider
 
   #bump-go-version:
   #bump-up-version:
