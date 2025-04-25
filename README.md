@@ -75,8 +75,7 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
     index 7389013..dfe425e 100644
     --- a/README.md
     +++ b/README.md
-    @@ -58,7 +58,7 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
-     | `platform_oidc_configuration`    | :x:                                                                                        |                  |
+    @@ -59,7 +59,7 @@ | `platform_oidc_configuration`    | :x:                                                                                        |                  |
      | `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
      | `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
     -| `platform_reverse_proxy`         | :x:                                                                                        |                  |
@@ -185,7 +184,7 @@ List of all resources of [Terraform provider v2.2.2](https://registry.terraform.
 
 ## Build provider from scratch
 
-Check [`BUILD_FROM_SCRATCH.md`]([./BUILD_FROM_SCRATCH.md](https://github.com/hmlkao/provider-artifactory/blob/main/BUILD_FROM_SCRATCH.md)) for notes how was `provider-artifactory` built using [crossplane/upjet tool](https://github.com/crossplane/upjet) step-by-step.
+Check [`BUILD_FROM_SCRATCH.md`]([./BUILD_FROM_SCRATCH.md](https://github.com/hmlkao/provider-jfrog-artifactory/blob/main/BUILD_FROM_SCRATCH.md)) for notes how was `provider-jfrog-artifactory` built using [crossplane/upjet tool](https://github.com/crossplane/upjet) step-by-step.
 
 ## Developing
 
