@@ -1,0 +1,31 @@
+name: Bump versions
+
+on:
+  workflow_dispatch: ~
+  schedule:
+    - cron: '0 10 * * Mon' # Every Monday at 10 o'clock UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump-tfm-provider-version:
+    name: Bump TFM provider version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Bump version
+        run: hack/bump_tfm_provider_version.sh
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+
+  #bump-go-version:
+  #bump-up-version:
+  #bump-kind-version:
+  #bump-alpine-version:
