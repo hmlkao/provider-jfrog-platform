@@ -40,8 +40,12 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           title: Bump TFM provider to v${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}
+          commit-message: Bump Terraform provider version to v${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}
           branch: bump-version/tfm-provider
           labels: bump-version, tfm-provider
+          # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
+          #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
+          token: ${{ secrets.BUMP_VERSION_TOKEN }}
 
   #bump-go-version:
   #bump-up-version:
