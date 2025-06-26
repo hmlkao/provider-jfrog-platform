@@ -10,6 +10,10 @@ permissions:
   pull-requests: write
   issues: write
 
+env:
+  # Common versions
+  GO_VERSION: '1.24'
+
 jobs:
   bump-tfm-provider-version:
     name: Bump TFM provider version
@@ -35,6 +39,27 @@ jobs:
       - name: Bump version
         if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
         run: hack/bump_tfm_provider_version.sh "${{steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT}}" "${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}"
+
+      #####
+      # Generate files
+      # Copy/paste from ci.yml workflow
+      #####
+      - name: Setup Go
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Vendor Dependencies
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        run: make vendor vendor.check
+
+      - name: Generate files
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        run: make generate
+      #####
+      # Generate files (end)
+      #####
 
       - name: Create PR
         # Previous step must be successful
