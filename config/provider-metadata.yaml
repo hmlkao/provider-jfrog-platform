@@ -378,21 +378,21 @@ resources:
                           "**",
                           "*.js"
                         ],
-                        "name": "ALL-LOCAL"
+                        "name": "ANY LOCAL"
                       },
                       {
                         "include_patterns": [
                           "**",
                           "*.js"
                         ],
-                        "name": "ALL-REMOTE"
+                        "name": "ANY REMOTE"
                       },
                       {
                         "include_patterns": [
                           "**",
                           "*.js"
                         ],
-                        "name": "ALL-DISTRIBUTION"
+                        "name": "ANY DISTRIBUTION"
                       }
                     ]
                   },
@@ -673,7 +673,7 @@ resources:
                   "source_code": "export default async (context: PlatformContext, data: BeforeDownloadRequest): Promise\u003cBeforeDownloadResponse\u003e =\u003e {\n  console.log(await context.clients.platformHttp.get('/artifactory/api/system/ping'));\n  console.log(await axios.get('https://my.external.resource'));\n  return {\n    status: 'DOWNLOAD_PROCEED',\n    message: 'proceed',\n  }\n}\n"
                 }
         argumentDocs:
-            action: '(String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE'
+            action: '(String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE'
             artifact_filter_criteria: (Attributes) (see below for nested schema)
             description: (String) Description of the worker.
             enabled: (Boolean) Whether to enable the worker immediately after creation.
