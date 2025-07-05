@@ -18,44 +18,48 @@ jobs:
   bump-tfm-provider-version:
     name: Bump TFM provider version
     runs-on: ubuntu-latest
+    outputs:
+      current-version: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT }}
+      latest-version: ${{ steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: true
-
       - name: Get current version
         id: current-version
         run: |
           current_version=$(grep 'export TERRAFORM_PROVIDER_VERSION' < Makefile | cut -d' ' -f4)
+          echo "Current version used for build is '${current_version}'"
           echo "TFM_PROVIDER_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
-
-      - name: Get new version
-        id: new-version
+      - name: Get latest version
+        id: latest-version
         run: |
-          new_version=$(curl -sSL https://api.github.com/repos/jfrog/terraform-provider-platform/releases/latest | jq -r '.tag_name' | tr -d 'v')
-          echo "TFM_PROVIDER_VERSION_NEW=${new_version}" >> $GITHUB_OUTPUT
-
+          latest_version=$(curl -sSL https://api.github.com/repos/jfrog/terraform-provider-platform/releases/latest | jq -r '.tag_name' | tr -d 'v')
+          if [[ "${latest_version}" == "null" ]]; then
+            echo "Failed to fetch the latest Terraform provider version"
+            exit 1
+          fi
+          echo "The latest version is '${latest_version}'"
+          echo "TFM_PROVIDER_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
       - name: Bump version
-        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
-        run: hack/bump_tfm_provider_version.sh "${{steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT}}" "${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}"
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
+        run: scripts/bump_tfm_provider_version.sh "${{steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT}}" "${{steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST}}"
 
       #####
       # Generate files
       # Copy/paste from ci.yml workflow
       #####
       - name: Setup Go
-        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
         uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-
       - name: Vendor Dependencies
-        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
         run: make vendor vendor.check
-
       - name: Generate files
-        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW }}
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
         run: make generate
       #####
       # Generate files (end)
@@ -65,13 +69,62 @@ jobs:
         # Previous step must be successful
         #   https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#success
         # The success() function evaluates to true even if the previous step was skipped, so we must check the same condition anyway
-        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW && success() }}
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST && success() }}
         uses: peter-evans/create-pull-request@v7
         with:
-          title: Bump TFM provider to v${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}
-          commit-message: Bump Terraform provider version to v${{steps.new-version.outputs.TFM_PROVIDER_VERSION_NEW}}
+          title: Bump TFM provider to v${{steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST}}
+          commit-message: Bump Terraform provider version to v${{steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST}}
           branch: bump-version/tfm-provider
           labels: bump-version, tfm-provider
+          # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
+          #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
+          token: ${{ secrets.BUMP_VERSION_TOKEN }}
+
+  bump-crossplane-version:
+    name: Bump Crossplane version
+    runs-on: ubuntu-latest
+    outputs:
+      current-version: ${{ steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT }}
+      latest-version: ${{ steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Get current version
+        id: current-version
+        run: |
+          current_version=$(grep '^CROSSPLANE_VERSION = ' < Makefile | cut -d' ' -f3)
+          echo "Current version used for build is '${current_version}'"
+          echo "CROSSPLANE_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
+
+      - name: Get latest version
+        id: latest-version
+        run: |
+          latest_version=$(curl -sSL https://api.github.com/repos/crossplane/crossplane/releases/latest | jq -r '.tag_name' | tr -d 'v')
+          if [[ "${latest_version}" == "null" ]]; then
+            echo "Failed to fetch the latest Crossplane version"
+            exit 1
+          fi
+          echo "The latest version is '${latest_version}'"
+          echo "CROSSPLANE_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        if: ${{ steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST }}
+        run: scripts/bump_crossplane_version.sh "${{steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT}}" "${{steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST}}"
+
+      - name: Create PR
+        # Previous step must be successful
+        #   https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#success
+        # The success() function evaluates to true even if the previous step was skipped, so we must check the same condition anyway
+        if: ${{ steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST && success() }}
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: Bump Crossplane to v${{steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST}}
+          commit-message: Bump Crossplane version to v${{steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST}}
+          branch: bump-version/crossplane
+          labels: bump-version, crossplane
           # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
           #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
           token: ${{ secrets.BUMP_VERSION_TOKEN }}
@@ -80,3 +133,16 @@ jobs:
   #bump-up-version:
   #bump-kind-version:
   #bump-alpine-version:
+
+  summary:
+    needs: [ bump-tfm-provider-version, bump-crossplane-version ]
+    name: Print summary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write summary
+        run: |
+          echo "# Versions" >> $GITHUB_STEP_SUMMARY
+          echo "| Component    | Current version                                                    | Latest version                                                    |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------------|--------------------------------------------------------------------|-------------------------------------------------------------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| TFM provider | \`${{ needs.bump-tfm-provider-version.outputs.current-version }}\` | \`${{ needs.bump-tfm-provider-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Crossplane   | \`${{ needs.bump-crossplane-version.outputs.current-version }}\`   | \`${{ needs.bump-crossplane-version.outputs.latest-version }}\`   |" >> $GITHUB_STEP_SUMMARY
