@@ -176,7 +176,7 @@ run: go.build
 # ====================================================================================
 # End to End Testing
 # https://docs.crossplane.io/latest/getting-started/introduction/
-CROSSPLANE_VERSION = 1.19.0
+CROSSPLANE_VERSION = 1.20.0
 CROSSPLANE_NAMESPACE = upbound-system
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
