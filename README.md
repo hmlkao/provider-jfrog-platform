@@ -15,6 +15,7 @@ Provider is generated from Terraform provider [jfrog/platform v2.2.5](https://re
   - [Adding new resource](#adding-new-resource)
   - [Build provider from scratch](#build-provider-from-scratch)
   - [Developing](#developing)
+  - [JFrog Platform icon](#jfrog-platform-icon)
   - [Report a Bug](#report-a-bug)
 
 ## Getting Started
@@ -211,6 +212,12 @@ Build binary:
 ```console
 make build
 ```
+
+## JFrog Platform icon
+
+Package icon was pulled from [JFrog Brand Guidelines](https://jfrog.com/brand-guidelines/).
+
+Icon is stored in [`extensions/icons/`](./extensions/icons/) folder according to instructions [Adding documentation, icons, and other assets to your package](https://docs.upbound.io/upbound-marketplace/packages#adding-documentation-icons-and-other-assets-to-your-package).
 
 ## Report a Bug
 
