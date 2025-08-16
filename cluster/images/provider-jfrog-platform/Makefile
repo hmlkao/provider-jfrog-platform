@@ -35,6 +35,8 @@ img.build.shared:
 		--build-arg TERRAFORM_NATIVE_PROVIDER_BINARY=$(TERRAFORM_NATIVE_PROVIDER_BINARY) \
 		-t $(IMAGE) \
 		$(IMAGE_TEMP_DIR) || $(FAIL)
+# To be able to run 'make build.all', because the 'up' command use 'docker.io' as default registry
+	@docker tag localhost/$(IMAGE) docker.io/$(IMAGE) || $(INFO)
 
 img.promote:
 	@$(INFO) Skipping image promotion from $(FROM_IMAGE) to $(TO_IMAGE)
