@@ -266,3 +266,6 @@ help-special: crossplane.help
 # TODO(negz): Update CI to use these targets.
 vendor: modules.download
 vendor.check: modules.check
+
+# This file contains custom make targets
+-include custom.mk

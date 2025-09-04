@@ -1,3 +1,4 @@
+<!-- markdownlint-disable descriptive-link-text -->
 # Provider JFrog Platform
 
 `provider-jfrog-platform` is a [Crossplane](https://crossplane.io/) provider that
@@ -48,6 +49,10 @@ You can see the API reference [here](https://doc.crds.dev/github.com/hmlkao/prov
 
 List of all resources of [Terraform provider v2.2.5](https://registry.terraform.io/providers/jfrog/platform/2.2.5/docs).
 
+Short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.crossplane.io` for **cluster-scoped resources**.
+
+Short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.m.crossplane.io` for **namespace-scoped resources**.
+
 | Resource                         | Supported                                                                                  | Kind                |
 |----------------------------------|--------------------------------------------------------------------------------------------|---------------------|
 | `platform_aws_iam_role`          | :heavy_check_mark:                                                                         | `AWSIAMRole`        |
@@ -89,7 +94,7 @@ List of all resources of [Terraform provider v2.2.5](https://registry.terraform.
     index ce80c1e..9ebaa51 100644
     --- a/config/external_name.go
     +++ b/config/external_name.go
-    @@ -11,6 +11,7 @@ import "github.com/crossplane/upjet/pkg/config"
+    @@ -11,6 +11,7 @@ import "github.com/crossplane/upjet/v2/pkg/config"
     var ExternalNameConfigs = map[string]config.ExternalName{
             // Cannot use NameAsIdentifier, Name parameter can contain characters which are not allowed in Terraform resource name
             "platform_group":         config.IdentifierFromProvider,
@@ -103,10 +108,10 @@ List of all resources of [Terraform provider v2.2.5](https://registry.terraform.
     +++ b/config/provider.go
     @@ -10,6 +10,7 @@ import (
 
-            ujconfig "github.com/crossplane/upjet/pkg/config"
-            "github.com/hmlkao/provider-jfrog-platform/config/group"
-    +       reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/reverse_proxy"
-            samlsettings "github.com/hmlkao/provider-jfrog-platform/config/saml_settings"
+            ujconfig "github.com/crossplane/upjet/v2/pkg/config"
+            "github.com/hmlkao/provider-jfrog-platform/config/namespaced/group"
+    +       reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/namespaced/reverse_proxy"
+            samlsettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/saml_settings"
     )
 
     @@ -37,6 +38,7 @@ func GetProvider() *ujconfig.Provider {
@@ -118,18 +123,18 @@ List of all resources of [Terraform provider v2.2.5](https://registry.terraform.
             } {
                     configure(pc)
 
-    diff --git a/config/reverse_proxy/config.go b/config/reverse_proxy/config.go
+    diff --git a/config/namespaced/reverse_proxy/config.go b/config/namespaced/reverse_proxy/config.go
     new file mode 100644
     index 0000000..3b77efb
     --- /dev/null
-    +++ b/config/reverse_proxy/config.go
+    +++ b/config/namespaced/reverse_proxy/config.go
     @@ -0,0 +1,25 @@
     +package reverseproxy
     +
     +import (
     +       "errors"
     +
-    +       "github.com/crossplane/upjet/pkg/config"
+    +       "github.com/crossplane/upjet/v2/pkg/config"
     +)
     +
     +// Configure configures individual resources by adding custom ResourceConfigurators.
@@ -217,7 +222,7 @@ make build
 
 Package icon was pulled from [JFrog Brand Guidelines](https://jfrog.com/brand-guidelines/).
 
-Icon is stored in [`extensions/icons/`](./extensions/icons/) folder according to instructions [Adding documentation, icons, and other assets to your package](https://docs.upbound.io/upbound-marketplace/packages#adding-documentation-icons-and-other-assets-to-your-package).
+Icon is stored in [`extensions/icons/`](./extensions/icons/) folder according to instructions [Add documentation, icons, and other assets to your package](https://docs.upbound.io/manuals/marketplace/packages#add-documentation-icons-and-other-assets-to-your-package).
 
 ## Report a Bug
 
