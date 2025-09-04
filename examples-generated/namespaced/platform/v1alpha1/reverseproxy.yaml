@@ -1,0 +1,21 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: ReverseProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/reverseproxy
+  labels:
+    testing.upbound.io/example-name: my-reverse-proxy
+  name: my-reverse-proxy
+  namespace: upbound-system
+spec:
+  forProvider:
+    dockerReverseProxyMethod: SUBDOMAIN
+    httpPort: 80
+    httpsPort: 443
+    internalHostname: localhost
+    publicServerName: jfrog.com
+    server_name_expression: '*.jfrog.com'
+    serverProvider: NGINX
+    sslCertificatePath: /etc/ssl/certs/myserver.crt
+    sslKeyPath: /etc/ssl/private/myserver.key
+    useHttps: true
