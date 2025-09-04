@@ -8,14 +8,11 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane/upjet/pkg/terraform"
-
-	"github.com/hmlkao/provider-jfrog-platform/apis/v1beta1"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 )
 
 const (
@@ -34,7 +31,12 @@ var optFields = []string{"url", "access_token", "tfc_credential_tag_name", "oidc
 // returns Terraform provider setup configuration
 func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
 	return func(ctx context.Context, client client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{
+		providerConfig, err := resolveProviderConfig(ctx, client, mg)
+		if err != nil {
+			return terraform.Setup{}, err
+		}
+
+		tfmProviderSetup := terraform.Setup{
 			Version: version,
 			Requirement: terraform.ProviderRequirement{
 				Source:  providerSource,
@@ -42,42 +44,28 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			},
 		}
 
-		configRef := mg.GetProviderConfigReference()
-		if configRef == nil {
-			return ps, errors.New(errNoProviderConfig)
-		}
-		pc := &v1beta1.ProviderConfig{}
-		if err := client.Get(ctx, types.NamespacedName{Name: configRef.Name}, pc); err != nil {
-			return ps, errors.Wrap(err, errGetProviderConfig)
-		}
-
-		t := resource.NewProviderConfigUsageTracker(client, &v1beta1.ProviderConfigUsage{})
-		if err := t.Track(ctx, mg); err != nil {
-			return ps, errors.Wrap(err, errTrackUsage)
-		}
-
-		data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, client, pc.Spec.Credentials.CommonCredentialSelectors)
+		data, err := resource.CommonCredentialExtractor(ctx, providerConfig.Spec.Credentials.Source, client, providerConfig.Spec.Credentials.CommonCredentialSelectors)
 		if err != nil {
-			return ps, errors.Wrap(err, errExtractCredentials)
+			return tfmProviderSetup, errors.Wrap(err, errExtractCredentials)
 		}
 		creds := map[string]string{}
 		if err := json.Unmarshal(data, &creds); err != nil {
-			return ps, errors.Wrap(err, errUnmarshalCredentials)
+			return tfmProviderSetup, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
 		// Set credentials in Terraform provider configuration.
-		ps.Configuration = map[string]any{}
+		tfmProviderSetup.Configuration = map[string]any{}
 		// Required fields
 		for _, req := range reqFields {
-			ps.Configuration[req] = creds[req]
+			tfmProviderSetup.Configuration[req] = creds[req]
 		}
 		// Optional fields
 		for _, opt := range optFields {
 			if v, ok := creds[opt]; ok {
-				ps.Configuration[opt] = v
+				tfmProviderSetup.Configuration[opt] = v
 			}
 		}
 
-		return ps, nil
+		return tfmProviderSetup, nil
 	}
 }
