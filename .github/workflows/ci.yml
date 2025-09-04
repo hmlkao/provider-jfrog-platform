@@ -322,4 +322,11 @@ jobs:
 
       - name: Publish Artifacts
         if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
-        run: make publish BRANCH_NAME=${GITHUB_REF##*/}
+        run: |
+          branch_name=${GITHUB_REF##*/}
+          echo "Branch name: ${branch_name}"
+          make publish BRANCH_NAME="${branch_name}"
+
+      - name: Set package extensions
+        if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
+        run: make set-extensions
