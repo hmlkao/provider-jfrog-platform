@@ -1,0 +1,20 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: GlobalRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/globalrole
+  labels:
+    testing.upbound.io/example-name: my-global-role
+  name: my-global-role
+  namespace: upbound-system
+spec:
+  forProvider:
+    actions:
+    - READ_REPOSITORY
+    - READ_BUILD
+    description: My custom global role
+    environments:
+    - DEV
+    - PROD
+    name: my-global-role
+    type: CUSTOM_GLOBAL

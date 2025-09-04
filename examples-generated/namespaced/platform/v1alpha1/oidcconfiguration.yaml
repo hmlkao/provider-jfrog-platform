@@ -1,0 +1,16 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: OIDCConfiguration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/oidcconfiguration
+  labels:
+    testing.upbound.io/example-name: my-github-oidc-configuration
+  name: my-github-oidc-configuration
+  namespace: upbound-system
+spec:
+  forProvider:
+    audience: jfrog-github
+    description: My GitHub OIDC configuration
+    issuerUrl: https://token.actions.githubusercontent.com
+    name: my-github-oidc-configuration
+    providerType: GitHub

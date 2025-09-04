@@ -1,0 +1,28 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: SAMLSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/samlsettings
+  labels:
+    testing.upbound.io/example-name: my-okta-saml-settings
+  name: my-okta-saml-settings
+  namespace: upbound-system
+spec:
+  forProvider:
+    allowUserToAccessProfile: true
+    autoRedirect: true
+    autoUserCreation: true
+    certificateSecretRef:
+      key: example-key
+      name: example-secret
+    emailAttribute: email
+    enable: true
+    groupAttribute: group
+    loginUrl: http://tempurl.org/saml
+    logoutUrl: https://myaccount.okta.com
+    name: my-okta-saml-settings
+    nameIdAttribute: id
+    serviceProviderName: okta
+    syncGroups: true
+    useEncryptedAssertion: false
+    verifyAudienceRestriction: true
