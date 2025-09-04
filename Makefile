@@ -20,6 +20,8 @@ export TERRAFORM_DOCS_PATH ?= docs/resources
 
 
 PLATFORMS ?= linux_amd64 linux_arm64
+# By default, we only release from the main branch, but we want to publish images also for PRs
+RELEASE_BRANCH_FILTER ?= main master release-% merge
 
 # -include will silently skip missing files, which allows us
 # to load those files with a target in the Makefile. If only
@@ -58,10 +60,10 @@ GO_SUBDIRS += cmd internal apis
 # https://github.com/kubernetes-sigs/kind/releases
 KIND_VERSION = v0.27.0
 # https://cli.upbound.io/stable?prefix=stable/
-UP_VERSION = v0.38.4
+UP_VERSION = v0.40.2
 UP_CHANNEL = stable
 # https://github.com/crossplane/uptest/releases
-UPTEST_VERSION = v1.3.0
+UPTEST_VERSION = v1.4.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -127,6 +129,7 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@$(INFO) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 	@mkdir -p $(TERRAFORM_WORKDIR)
 	@echo '{"terraform":[{"required_providers":[{"provider":{"source":"'"$(TERRAFORM_PROVIDER_SOURCE)"'","version":"'"$(TERRAFORM_PROVIDER_VERSION)"'"}}],"required_version":"'"$(TERRAFORM_VERSION)"'"}]}' > $(TERRAFORM_WORKDIR)/main.tf.json
+	@$(INFO) Check $(TERRAFORM_WORKDIR)/terraform-logs.txt if this is the last message you see.
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) init -upgrade > $(TERRAFORM_WORKDIR)/terraform-logs.txt 2>&1
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
@@ -164,6 +167,7 @@ cobertura:
 submodules:
 	@git submodule sync
 	@git submodule update --init --recursive
+	@git submodule update --remote --recursive
 
 # This is for running out-of-cluster locally, and is for convenience. Running
 # this make target will print out the command which was used. For more control,
@@ -176,6 +180,7 @@ run: go.build
 # ====================================================================================
 # End to End Testing
 # https://docs.crossplane.io/latest/getting-started/introduction/
+# https://github.com/crossplane/crossplane/releases
 CROSSPLANE_VERSION = 1.20.1
 CROSSPLANE_NAMESPACE = upbound-system
 -include build/makelib/local.xpkg.mk
