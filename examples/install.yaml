@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-jfrog-platform
 spec:
-  package: hmlkao/provider-jfrog-platform:v0.3.1
+  package: hmlkao/provider-jfrog-platform:v0.4.0
