@@ -17,6 +17,7 @@ import (
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/config/cluster/oidc_configuration"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/cluster/reverse_proxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/saml_settings"
+	scimgroup "github.com/hmlkao/provider-jfrog-platform/config/cluster/scim_group"
 )
 
 // GetProvider returns provider configuration
@@ -39,6 +40,7 @@ func GetProvider() *ujconfig.Provider {
 		oidcconfiguration.Configure,
 		reverseproxy.Configure,
 		samlsettings.Configure,
+		scimgroup.Configure,
 	} {
 		configure(pc)
 	}
