@@ -67,7 +67,7 @@ The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.
 | `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
 | `platform_reverse_proxy`         | :heavy_check_mark:                                                                         | `ReverseProxy`      |
 | `platform_saml_settings`         | :heavy_check_mark:                                                                         | `SAMLSettings`      |
-| `platform_scim_group`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
+| `platform_scim_group`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                      | `SCIMGroup`         |
 | `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
 | `platform_workers_service`       | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
 

@@ -1,0 +1,15 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: SCIMGroup
+metadata:
+  name: my-scim-group
+  namespace: example-namespace
+spec:
+  forProvider:
+    displayName: my-scim-group
+    members:
+    # At least one member is required, create a user first by ../scim_user/scim_user.yaml
+    - display: test@tempurl.org
+      value: test@tempurl.org
+  providerConfigRef:
+    kind: ProviderConfig
+    name: default
