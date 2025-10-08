@@ -1,0 +1,17 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: SCIMGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/scimgroup
+  labels:
+    testing.upbound.io/example-name: my-scim-group
+  name: my-scim-group
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: my-scim-group
+    members:
+    - display: test@tempurl.org
+      value: test@tempurl.org
+    - display: anonymous
+      value: anonymous
