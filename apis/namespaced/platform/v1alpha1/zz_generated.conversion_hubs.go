@@ -29,3 +29,6 @@ func (tr *ReverseProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SAMLSettings) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SCIMGroup) Hub() {}

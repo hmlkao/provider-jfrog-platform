@@ -17,6 +17,7 @@ import (
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/oidcconfiguration"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/reverseproxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/samlsettings"
+	scimgroup "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/scimgroup"
 	providerconfig "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/providerconfig"
 )
 
@@ -32,6 +33,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		oidcconfiguration.Setup,
 		reverseproxy.Setup,
 		samlsettings.Setup,
+		scimgroup.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -53,6 +55,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		oidcconfiguration.SetupGated,
 		reverseproxy.SetupGated,
 		samlsettings.SetupGated,
+		scimgroup.SetupGated,
 		providerconfig.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
