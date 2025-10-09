@@ -1,0 +1,15 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: SCIMUser
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/scimuser
+  labels:
+    testing.upbound.io/example-name: my-scim-user
+  name: my-scim-user
+spec:
+  forProvider:
+    active: true
+    emails:
+    - primary: true
+      value: test@tempurl.org
+    username: test@tempurl.org

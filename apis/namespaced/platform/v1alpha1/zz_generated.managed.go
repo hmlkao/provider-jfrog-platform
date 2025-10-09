@@ -367,3 +367,43 @@ func (mg *SCIMGroup) SetProviderConfigReference(r *xpv1.ProviderConfigReference)
 func (mg *SCIMGroup) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this SCIMUser.
+func (mg *SCIMUser) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this SCIMUser.
+func (mg *SCIMUser) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this SCIMUser.
+func (mg *SCIMUser) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this SCIMUser.
+func (mg *SCIMUser) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this SCIMUser.
+func (mg *SCIMUser) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this SCIMUser.
+func (mg *SCIMUser) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this SCIMUser.
+func (mg *SCIMUser) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this SCIMUser.
+func (mg *SCIMUser) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

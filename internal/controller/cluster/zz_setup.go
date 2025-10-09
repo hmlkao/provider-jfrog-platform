@@ -18,6 +18,7 @@ import (
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/reverseproxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/samlsettings"
 	scimgroup "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/scimgroup"
+	scimuser "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/platform/scimuser"
 	providerconfig "github.com/hmlkao/provider-jfrog-platform/internal/controller/cluster/providerconfig"
 )
 
@@ -34,6 +35,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		reverseproxy.Setup,
 		samlsettings.Setup,
 		scimgroup.Setup,
+		scimuser.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -56,6 +58,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		reverseproxy.SetupGated,
 		samlsettings.SetupGated,
 		scimgroup.SetupGated,
+		scimuser.SetupGated,
 		providerconfig.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
