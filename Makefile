@@ -64,6 +64,8 @@ UP_VERSION = v0.40.2
 UP_CHANNEL = stable
 # https://github.com/crossplane/uptest/releases
 UPTEST_VERSION = v1.4.0
+# https://github.com/crossplane/crossplane/releases
+CROSSPLANE_CLI_VERSION ?= v2.0.2
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
