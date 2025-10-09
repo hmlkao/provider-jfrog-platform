@@ -58,7 +58,7 @@ GO_SUBDIRS += cmd internal apis
 # Setup Kubernetes tools
 
 # https://github.com/kubernetes-sigs/kind/releases
-KIND_VERSION = v0.27.0
+KIND_VERSION = v0.30.0
 # https://cli.upbound.io/stable?prefix=stable/
 UP_VERSION = v0.40.2
 UP_CHANNEL = stable
