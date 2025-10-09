@@ -18,6 +18,7 @@ import (
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/namespaced/reverse_proxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/saml_settings"
 	scimgroup "github.com/hmlkao/provider-jfrog-platform/config/namespaced/scim_group"
+	scimuser "github.com/hmlkao/provider-jfrog-platform/config/namespaced/scim_user"
 )
 
 // GetProvider returns provider configuration
@@ -41,6 +42,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		reverseproxy.Configure,
 		samlsettings.Configure,
 		scimgroup.Configure,
+		scimuser.Configure,
 	} {
 		configure(pc)
 	}
