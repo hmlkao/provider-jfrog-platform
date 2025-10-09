@@ -24,8 +24,8 @@ type OIDCConfigurationInitParameters struct {
 	// Description of the OIDC provider
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// (Boolean) Only settable when provider_type is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-	// Only settable when `provider_type` is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+	// (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+	// Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
 	EnablePermissiveConfiguration *bool `json:"enablePermissiveConfiguration,omitempty" tf:"enable_permissive_configuration,omitempty"`
 
 	// (String) OIDC issuer URL. For GitHub actions, the URL must start with https://token.actions.githubusercontent.com.
@@ -36,16 +36,16 @@ type OIDCConfigurationInitParameters struct {
 	// Name of the OIDC provider
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (String) This field is mandatory, when provider_type is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-	// This field is mandatory, when `provider_type` is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+	// (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+	// This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
 	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
 
 	// (String) If set, this Identity Configuration will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Configuration will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
 	// If set, this Identity Configuration will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Configuration will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
 	ProjectKey *string `json:"projectKey,omitempty" tf:"project_key,omitempty"`
 
-	// (String) Type of OIDC provider. Can be generic, GitHub, or Azure.
-	// Type of OIDC provider. Can be `generic`, `GitHub`, or `Azure`.
+	// (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+	// Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
 
 	// (Boolean) This enables and disables the default proxy for OIDC integration. If enabled, the OIDC mechanism will utilize the default proxy for all OIDC requests. If disabled, the OIDC mechanism does not use any proxy for all OIDC requests. Before enabling this functionality you must configure the default proxy.
@@ -63,8 +63,8 @@ type OIDCConfigurationObservation struct {
 	// Description of the OIDC provider
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// (Boolean) Only settable when provider_type is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-	// Only settable when `provider_type` is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+	// (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+	// Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
 	EnablePermissiveConfiguration *bool `json:"enablePermissiveConfiguration,omitempty" tf:"enable_permissive_configuration,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -77,16 +77,16 @@ type OIDCConfigurationObservation struct {
 	// Name of the OIDC provider
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (String) This field is mandatory, when provider_type is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-	// This field is mandatory, when `provider_type` is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+	// (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+	// This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
 	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
 
 	// (String) If set, this Identity Configuration will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Configuration will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
 	// If set, this Identity Configuration will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Configuration will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
 	ProjectKey *string `json:"projectKey,omitempty" tf:"project_key,omitempty"`
 
-	// (String) Type of OIDC provider. Can be generic, GitHub, or Azure.
-	// Type of OIDC provider. Can be `generic`, `GitHub`, or `Azure`.
+	// (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+	// Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
 
 	// (Boolean) This enables and disables the default proxy for OIDC integration. If enabled, the OIDC mechanism will utilize the default proxy for all OIDC requests. If disabled, the OIDC mechanism does not use any proxy for all OIDC requests. Before enabling this functionality you must configure the default proxy.
@@ -106,8 +106,8 @@ type OIDCConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// (Boolean) Only settable when provider_type is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-	// Only settable when `provider_type` is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+	// (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+	// Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
 	// +kubebuilder:validation:Optional
 	EnablePermissiveConfiguration *bool `json:"enablePermissiveConfiguration,omitempty" tf:"enable_permissive_configuration,omitempty"`
 
@@ -121,8 +121,8 @@ type OIDCConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (String) This field is mandatory, when provider_type is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-	// This field is mandatory, when `provider_type` is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+	// (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+	// This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
 	// +kubebuilder:validation:Optional
 	Organization *string `json:"organization,omitempty" tf:"organization,omitempty"`
 
@@ -131,8 +131,8 @@ type OIDCConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	ProjectKey *string `json:"projectKey,omitempty" tf:"project_key,omitempty"`
 
-	// (String) Type of OIDC provider. Can be generic, GitHub, or Azure.
-	// Type of OIDC provider. Can be `generic`, `GitHub`, or `Azure`.
+	// (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+	// Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
 	// +kubebuilder:validation:Optional
 	ProviderType *string `json:"providerType,omitempty" tf:"provider_type,omitempty"`
 

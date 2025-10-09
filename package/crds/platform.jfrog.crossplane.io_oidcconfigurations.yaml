@@ -87,8 +87,8 @@ spec:
                     type: string
                   enablePermissiveConfiguration:
                     description: |-
-                      (Boolean) Only settable when provider_type is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-                      Only settable when `provider_type` is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
                     type: boolean
                   issuerUrl:
                     description: |-
@@ -102,8 +102,8 @@ spec:
                     type: string
                   organization:
                     description: |-
-                      (String) This field is mandatory, when provider_type is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-                      This field is mandatory, when `provider_type` is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
                     type: string
                   projectKey:
                     description: |-
@@ -112,8 +112,8 @@ spec:
                     type: string
                   providerType:
                     description: |-
-                      (String) Type of OIDC provider. Can be generic, GitHub, or Azure.
-                      Type of OIDC provider. Can be `generic`, `GitHub`, or `Azure`.
+                      (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+                      Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
                     type: string
                   useDefaultProxy:
                     description: |-
@@ -146,8 +146,8 @@ spec:
                     type: string
                   enablePermissiveConfiguration:
                     description: |-
-                      (Boolean) Only settable when provider_type is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-                      Only settable when `provider_type` is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
                     type: boolean
                   issuerUrl:
                     description: |-
@@ -161,8 +161,8 @@ spec:
                     type: string
                   organization:
                     description: |-
-                      (String) This field is mandatory, when provider_type is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-                      This field is mandatory, when `provider_type` is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
                     type: string
                   projectKey:
                     description: |-
@@ -171,8 +171,8 @@ spec:
                     type: string
                   providerType:
                     description: |-
-                      (String) Type of OIDC provider. Can be generic, GitHub, or Azure.
-                      Type of OIDC provider. Can be `generic`, `GitHub`, or `Azure`.
+                      (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+                      Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
                     type: string
                   useDefaultProxy:
                     description: |-
@@ -296,8 +296,8 @@ spec:
                     type: string
                   enablePermissiveConfiguration:
                     description: |-
-                      (Boolean) Only settable when provider_type is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-                      Only settable when `provider_type` is GitHub. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
                     type: boolean
                   id:
                     type: string
@@ -313,8 +313,8 @@ spec:
                     type: string
                   organization:
                     description: |-
-                      (String) This field is mandatory, when provider_type is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-                      This field is mandatory, when `provider_type` is GitHub. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
                     type: string
                   projectKey:
                     description: |-
@@ -323,8 +323,8 @@ spec:
                     type: string
                   providerType:
                     description: |-
-                      (String) Type of OIDC provider. Can be generic, GitHub, or Azure.
-                      Type of OIDC provider. Can be `generic`, `GitHub`, or `Azure`.
+                      (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+                      Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
                     type: string
                   useDefaultProxy:
                     description: |-
