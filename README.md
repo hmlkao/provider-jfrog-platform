@@ -6,9 +6,9 @@ is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 JFrog Platform API.
 
-The repo was created from [crossplane/upjet-provider-template@7311f9f](https://github.com/crossplane/upjet-provider-template/tree/7311f9f9baa87f4431702ba209dffbc6067ce74b) template.
+The repo was created from the [crossplane/upjet-provider-template@7311f9f](https://github.com/crossplane/upjet-provider-template/tree/7311f9f9baa87f4431702ba209dffbc6067ce74b) template.
 
-Provider is generated from Terraform provider [jfrog/platform v2.2.6](https://registry.terraform.io/providers/jfrog/platform/2.2.6/docs).
+The provider is generated from Terraform provider [jfrog/platform v2.2.6](https://registry.terraform.io/providers/jfrog/platform/2.2.6/docs).
 
 - [Provider JFrog Platform](#provider-jfrog-platform)
   - [Getting Started](#getting-started)
@@ -41,17 +41,17 @@ spec:
 EOF
 ```
 
-Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
+Notice that in this example, the Provider resource is referencing a ControllerConfig with debug enabled.
 
 You can see the API reference [here](https://doc.crds.dev/github.com/hmlkao/provider-jfrog-platform).
 
 ## Supported resources
 
-List of all resources of [Terraform provider v2.2.6](https://registry.terraform.io/providers/jfrog/platform/2.2.6/docs).
+This is a list of all resources from [Terraform provider v2.2.6](https://registry.terraform.io/providers/jfrog/platform/2.2.6/docs).
 
-Short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.crossplane.io` for **cluster-scoped resources**.
+The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.crossplane.io` for **cluster-scoped resources**.
 
-Short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.m.crossplane.io` for **namespace-scoped resources**.
+The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.m.crossplane.io` for **namespace-scoped resources**.
 
 | Resource                         | Supported                                                                                  | Kind                |
 |----------------------------------|--------------------------------------------------------------------------------------------|---------------------|
@@ -73,7 +73,7 @@ Short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.m.cr
 
 ## Adding new resource
 
-1. Add/Modifiy files related to Terraform resource (check this reference [commit](https://github.com/hmlkao/provider-jfrog-platform/commit/a814281b232db283a6fa3846dce2e1aa8dc0e63a)), an example diff for human modified files:
+1. Add/Modify files related to the Terraform resource (check this reference [commit](https://github.com/hmlkao/provider-jfrog-platform/commit/a814281b232db283a6fa3846dce2e1aa8dc0e63a)), an example diff for human-modified files:
 
     ```diff
     $ git diff HEAD^^ HEAD^
@@ -180,17 +180,17 @@ Short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.m.cr
     make generate
     ```
 
-3. Verify that changes are reviewable
+3. Verify that the changes are reviewable
 
     ```bash
     make reviewable test
     ```
 
-4. Create PR with all files included
+4. Create a PR with all files included
 
 ## Build provider from scratch
 
-Check [`BUILD_FROM_SCRATCH.md`]([./BUILD_FROM_SCRATCH.md](https://github.com/hmlkao/provider-jfrog-artifactory/blob/main/BUILD_FROM_SCRATCH.md)) for notes how was `provider-jfrog-artifactory` built using [crossplane/upjet tool](https://github.com/crossplane/upjet) step-by-step.
+Check [`BUILD_FROM_SCRATCH.md`](https://github.com/hmlkao/provider-jfrog-artifactory/blob/main/BUILD_FROM_SCRATCH.md) for notes on how `provider-jfrog-artifactory` was built using the [crossplane/upjet tool](https://github.com/crossplane/upjet) step-by-step.
 
 ## Developing
 
@@ -220,9 +220,9 @@ make build
 
 ## JFrog Platform icon
 
-Package icon was pulled from [JFrog Brand Guidelines](https://jfrog.com/brand-guidelines/).
+The package icon was pulled from [JFrog Brand Guidelines](https://jfrog.com/brand-guidelines/).
 
-Icon is stored in [`extensions/icons/`](./extensions/icons/) folder according to instructions [Add documentation, icons, and other assets to your package](https://docs.upbound.io/manuals/marketplace/packages#add-documentation-icons-and-other-assets-to-your-package).
+The icon is stored in the [`extensions/icons/`](./extensions/icons/) folder according to the instructions [Add documentation, icons, and other assets to your package](https://docs.upbound.io/manuals/marketplace/packages#add-documentation-icons-and-other-assets-to-your-package).
 
 ## Report a Bug
 
