@@ -19,6 +19,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"platform_reverse_proxy":      config.IdentifierFromProvider,
 	"platform_saml_settings":      config.IdentifierFromProvider,
 	"platform_scim_group":         config.IdentifierFromProvider,
+	"platform_scim_user":          config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

@@ -1,0 +1,14 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: SCIMUser
+metadata:
+  name: my-scim-user
+  namespace: example-namespace
+spec:
+  forProvider:
+    username: test@tempurl.org
+    emails:
+    - primary: true
+      value: test@tempurl.org
+  providerConfigRef:
+    kind: ProviderConfig
+    name: default
