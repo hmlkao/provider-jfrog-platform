@@ -5,10 +5,11 @@
   - [Nested Schema](#nested-schema)
   - [`check-diff` is failing in CI workflow](#check-diff-is-failing-in-ci-workflow)
   - [`platform_group`](#platform_group)
+  - [`platform_scim_user`](#platform_scim_user)
 
 ## Resource Import Not Implemented
 
-The Terraform resource doesn't allow import and it's not possible to set an external name, because there is no ID set in the terraform state, e.g.:
+This Terraform resource does not support import, and it is not possible to set an external name because no ID is set in the Terraform state, for example:
 
 ```bash
 # Example
@@ -24,9 +25,9 @@ platform_group_members.my-group-members: Importing from ID "My Crossplane Group"
 ## Nested Schema
 
 > [!NOTE]
-> The issue [crossplane/upjet#372](https://github.com/crossplane/upjet/issues/372) was solved and nested schema is not a problem anymore
+> The issue crossplane/upjet#372 has been resolved, so nested schemas are no longer a problem.
 
-The Terraform resource contains a Nested Schema and upjet is not able to generate a provider, it fails with an error:
+This Terraform resource contains a nested schema, and Upjet was previously unable to generate a provider; it failed with the following error:
 
 ```bash
 # Example
@@ -35,13 +36,11 @@ $ make generate
 panic: cannot generate crd for resource platform_permission: cannot build types for Permission: cannot build the Types for resource "platform_permission": cannot infer type from schema of field artifact: invalid schema type TypeInvalid
 ```
 
-There is an [open issue](https://github.com/crossplane/upjet/issues/372) on crossplane/upjet, with no workaround available for now.
-
 ## `check-diff` is failing in CI workflow
 
-New Terraform provider version was probably merged into the repository, but you still have an old one on your localhost.
+A new Terraform provider version was probably merged into the repository, but you still have an older one locally.
 
-Just remove `.work` folder and run `make generate` (new version will be downloaded) to fix this issue.
+Remove the `.work` folder and run `make generate` (the new version will be downloaded) to fix the issue.
 
 ```shell
 rm -rf .work
@@ -50,4 +49,27 @@ make generate
 
 ## `platform_group`
 
-If you omit the parameter `useGroupMembersResource`, the provider will reconcile this resource repeatedly, because the terraform refresh sets this parameter to `null` and terraform apply wants to set it to `true` (default value) again.
+If you omit the `useGroupMembersResource` parameter, the provider will reconcile this resource repeatedly because a Terraform refresh sets this parameter to `null`, and `terraform apply` then attempts to set it back to `true` (its default value).
+
+## `platform_scim_user`
+
+Refreshing this resource ends with an error:
+
+```text
+platform_scim_user.my-scim-user: Refreshing state...
+╷
+│ Error: Unable to Refresh Resource
+│
+│   with platform_scim_user.my-scim-user,
+│   on main.tf.json line 1, in resource.platform_scim_user.my-scim-user:
+│    1: {"provider":{"platform":{"access_token":"REDADTED","url":"REDACTED"}},"resource":{"platform_scim_user":{"my-scim-user":{"emails":[{"primary":true,"value":"test@tempurl.org"}],"lifecycle":{"prevent_destroy":true},"username":"test@tempurl.org"}}},"terraform":{"required_providers":{"platform":{"source":"jfrog/platform","version":"2.2.6"}}}}
+│
+│ An unexpected error occurred while attempting to refresh resource state. Please retry the operation or report this issue to the provider developers.
+│
+│ Error: test@tempurl.org isn't found
+╵
+```
+
+The problem is that the provider tries to refresh the resource first and then run `terraform apply`. This means the apply never happens because the refresh fails.
+
+If the user exists, it works well and user is removed properly when is the resource deleted - so, the SCIM user cannot be managed by Crossplane now.
