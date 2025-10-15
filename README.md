@@ -78,99 +78,143 @@ The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.
     ```diff
     $ git diff HEAD^^ HEAD^
     diff --git a/README.md b/README.md
-    index 7389013..dfe425e 100644
+    index 28e6ea5..e0cd4bf 100644
     --- a/README.md
     +++ b/README.md
-    @@ -59,7 +59,7 @@ | `platform_oidc_configuration`    | :x:                                                                                        |                  |
-     | `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-     | `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-    -| `platform_reverse_proxy`         | :x:                                                                                        |                  |
-    +| `platform_reverse_proxy`         | :heavy_check_mark:                                                                         | `ReverseProxy`   |
-     | `platform_saml_settings`         | :heavy_check_mark:                                                                         | `SAMLSettings`   |
-     | `platform_scim_group`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
-     | `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                  |
+    @@ -68,7 +68,7 @@ The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.
+     | `platform_reverse_proxy`         | :heavy_check_mark:                                                                         | `ReverseProxy`      |
+     | `platform_saml_settings`         | :heavy_check_mark:                                                                         | `SAMLSettings`      |
+     | `platform_scim_group`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                      | `SCIMGroup`         |
+    -| `platform_scim_user`             | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
+    +| `platform_scim_user`             | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                      | `SCIMUser`          |
+     | `platform_workers_service`       | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                     |                     |
 
-    diff --git a/config/external_name.go b/config/external_name.go
-    index ce80c1e..9ebaa51 100644
-    --- a/config/external_name.go
-    +++ b/config/external_name.go
-    @@ -11,6 +11,7 @@ import "github.com/crossplane/upjet/v2/pkg/config"
-    var ExternalNameConfigs = map[string]config.ExternalName{
-            // Cannot use NameAsIdentifier, Name parameter can contain characters which are not allowed in Terraform resource name
-            "platform_group":         config.IdentifierFromProvider,
-    +       "platform_reverse_proxy": config.IdentifierFromProvider,
-            "platform_saml_settings": config.IdentifierFromProvider,
-    }
-
-    diff --git a/config/provider.go b/config/provider.go
-    index ef63761..a4318f5 100644
-    --- a/config/provider.go
-    +++ b/config/provider.go
-    @@ -10,6 +10,7 @@ import (
-
-            ujconfig "github.com/crossplane/upjet/v2/pkg/config"
-            "github.com/hmlkao/provider-jfrog-platform/config/namespaced/group"
-    +       reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/namespaced/reverse_proxy"
-            samlsettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/saml_settings"
-    )
-
-    @@ -37,6 +38,7 @@ func GetProvider() *ujconfig.Provider {
-            for _, configure := range []func(provider *ujconfig.Provider){
-                    // add custom config functions
-                    group.Configure,
-    +               reverseproxy.Configure,
-                    samlsettings.Configure,
-            } {
-                    configure(pc)
-
-    diff --git a/config/namespaced/reverse_proxy/config.go b/config/namespaced/reverse_proxy/config.go
+    ## Adding new resource
+    diff --git a/config/cluster/scim_user/config.go b/config/cluster/scim_user/config.go
     new file mode 100644
-    index 0000000..3b77efb
+    index 0000000..1f9c52b
     --- /dev/null
-    +++ b/config/namespaced/reverse_proxy/config.go
-    @@ -0,0 +1,25 @@
-    +package reverseproxy
+    +++ b/config/cluster/scim_user/config.go
+    @@ -0,0 +1,21 @@
+    +package scimuser
     +
     +import (
-    +       "errors"
+    +        "errors"
     +
-    +       "github.com/crossplane/upjet/v2/pkg/config"
+    +        "github.com/crossplane/upjet/v2/pkg/config"
     +)
     +
     +// Configure configures individual resources by adding custom ResourceConfigurators.
     +func Configure(p *config.Provider) {
-    +       p.AddResourceConfigurator("platform_reverse_proxy", func(r *config.Resource) {
-    +               r.ShortGroup = "platform"
-    +               r.Kind = "ReverseProxy"
-    +               // Cannot use config.NameAsIdentifier variable because 'name' parameter can use characters which are invalid for Trerraform resource name
-    +               //   Terraform resource name must start with a letter or underscore and may contain only letters, digits, underscores, and dashes.
-    +               // Variable config.NameAsIdentifier is using IDAsExternalName func which tries to get the 'id' from the tfstate,
-    +               // but there is no 'id' after the Terraform state refresh, so we specify custum function to get 'name'
-    +               r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-    +                       if name, ok := tfstate["server_provider"].(string); ok && name != "" {
-    +                               return name, nil
-    +                       }
-    +                       return "", errors.New("cannot find 'server_provider' in tfstate")
-    +               }
-    +       })
+    +        p.AddResourceConfigurator("platform_scim_user", func(r *config.Resource) {
+    +                r.ShortGroup = "platform"
+    +                r.Kind = "SCIMUser"
+    +                r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+    +                        if username, ok := tfstate["username"].(string); ok && username != "" {
+    +                                return username, nil
+    +                        }
+    +                        return "", errors.New("cannot find 'username' in tfstate")
+    +                }
+    +        })
     +}
+    diff --git a/config/external_name.go b/config/external_name.go
+    index b9570e9..8482aea 100644
+    --- a/config/external_name.go
+    +++ b/config/external_name.go
+    @@ -19,6 +19,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
+            "platform_reverse_proxy":      config.IdentifierFromProvider,
+            "platform_saml_settings":      config.IdentifierFromProvider,
+            "platform_scim_group":         config.IdentifierFromProvider,
+    +       "platform_scim_user":          config.IdentifierFromProvider,
+    }
 
-    diff --git a/examples/reverse_proxy/reverse_proxy.yaml b/examples/reverse_proxy/reverse_proxy.yaml
+    // ExternalNameConfigurations applies all external name configs listed in the
+    diff --git a/config/namespaced/scim_user/config.go b/config/namespaced/scim_user/config.go
     new file mode 100644
-    index 0000000..4250e93
+    index 0000000..1f9c52b
     --- /dev/null
-    +++ b/examples/reverse_proxy/reverse_proxy.yaml
-    @@ -0,0 +1,11 @@
-    +apiVersion: platform.jfrog.crossplane.io/v1alpha1
-    +kind: ReverseProxy
+    +++ b/config/namespaced/scim_user/config.go
+    @@ -0,0 +1,21 @@
+    +package scimuser
+    +
+    +import (
+    +        "errors"
+    +
+    +        "github.com/crossplane/upjet/v2/pkg/config"
+    +)
+    +
+    +// Configure configures individual resources by adding custom ResourceConfigurators.
+    +func Configure(p *config.Provider) {
+    +        p.AddResourceConfigurator("platform_scim_user", func(r *config.Resource) {
+    +                r.ShortGroup = "platform"
+    +                r.Kind = "SCIMUser"
+    +                r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
+    +                        if username, ok := tfstate["username"].(string); ok && username != "" {
+    +                                return username, nil
+    +                        }
+    +                        return "", errors.New("cannot find 'username' in tfstate")
+    +                }
+    +        })
+    +}
+    diff --git a/config/provider_cluster.go b/config/provider_cluster.go
+    index b76f058..46bc337 100644
+    --- a/config/provider_cluster.go
+    +++ b/config/provider_cluster.go
+    @@ -18,6 +18,7 @@ import (
+            reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/cluster/reverse_proxy"
+            samlsettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/saml_settings"
+            scimgroup "github.com/hmlkao/provider-jfrog-platform/config/cluster/scim_group"
+    +       scimuser "github.com/hmlkao/provider-jfrog-platform/config/cluster/scim_user"
+    )
+
+    // GetProvider returns provider configuration
+    @@ -41,6 +42,7 @@ func GetProvider() *ujconfig.Provider {
+                    reverseproxy.Configure,
+                    samlsettings.Configure,
+                    scimgroup.Configure,
+    +               scimuser.Configure,
+            } {
+                    configure(pc)
+            }
+    diff --git a/config/provider_namespaced.go b/config/provider_namespaced.go
+    index a48487e..cb75c9f 100644
+    --- a/config/provider_namespaced.go
+    +++ b/config/provider_namespaced.go
+    @@ -18,6 +18,7 @@ import (
+            reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/namespaced/reverse_proxy"
+            samlsettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/saml_settings"
+            scimgroup "github.com/hmlkao/provider-jfrog-platform/config/namespaced/scim_group"
+    +       scimuser "github.com/hmlkao/provider-jfrog-platform/config/namespaced/scim_user"
+    )
+
+    // GetProvider returns provider configuration
+    @@ -41,6 +42,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
+                    reverseproxy.Configure,
+                    samlsettings.Configure,
+                    scimgroup.Configure,
+    +               scimuser.Configure,
+            } {
+                    configure(pc)
+            }
+    diff --git a/examples/namespaced/scim_user/scim_user.yaml b/examples/namespaced/scim_user/scim_user.yaml
+    new file mode 100644
+    index 0000000..19fd3cc
+    --- /dev/null
+    +++ b/examples/namespaced/scim_user/scim_user.yaml
+    @@ -0,0 +1,14 @@
+    +apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+    +kind: SCIMUser
     +metadata:
-    +  name: my-reverse-proxy
+    +  name: my-scim-user
+    +  namespace: example-namespace
     +spec:
     +  forProvider:
-    +    serverProvider: NGINX
-    +    internalHostname: localhost
-    +    publicServerName: mydomain.com
+    +    username: test@tempurl.org
+    +    emails:
+    +    - primary: true
+    +      value: test@tempurl.org
     +  providerConfigRef:
+    +    kind: ProviderConfig
     +    name: default
     ```
 
