@@ -49,9 +49,9 @@ You can see the API reference [here](https://doc.crds.dev/github.com/hmlkao/prov
 
 This is a list of all resources from [Terraform provider v2.2.6](https://registry.terraform.io/providers/jfrog/platform/2.2.6/docs).
 
-The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.crossplane.io` for **cluster-scoped resources**.
+The short group is `platform`, so the `apiGroup` is `platform.jfrog.crossplane.io` for **cluster-scoped resources**.
 
-The short group is `platform`, so the `apiGroup` is `platform.artifactory.jfrog.m.crossplane.io` for **namespace-scoped resources**.
+The short group is `platform`, so the `apiGroup` is `platform.jfrog.m.crossplane.io` for **namespace-scoped resources**.
 
 | Resource                         | Supported                                                                                                                    | Kind                |
 |----------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------|
