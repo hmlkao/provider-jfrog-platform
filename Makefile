@@ -60,10 +60,10 @@ GO_SUBDIRS += cmd internal apis
 # https://github.com/kubernetes-sigs/kind/releases
 KIND_VERSION = v0.30.0
 # https://cli.upbound.io/stable?prefix=stable/
-UP_VERSION = v0.40.2
+UP_VERSION = v0.41.0
 UP_CHANNEL = stable
 # https://github.com/crossplane/uptest/releases
-UPTEST_VERSION = v1.4.0
+UPTEST_VERSION = v2.2.0
 # https://github.com/crossplane/crossplane/releases
 CROSSPLANE_CLI_VERSION ?= v2.0.2
 -include build/makelib/k8s_tools.mk

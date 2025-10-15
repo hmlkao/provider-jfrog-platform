@@ -37,8 +37,8 @@ type ProviderConfigStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:printcolumn:name="SECRET-NAME",type="string",JSONPath=".spec.credentials.secretRef.name",priority=1
-// +kubebuilder:resource:scope=Cluster
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,provider,jfrog-platform}
+// +kubebuilder:resource:scope=Namespaced
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,provider,jfrog-platform}
 type ProviderConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -58,10 +58,34 @@ type ProviderConfigList struct {
 
 // +kubebuilder:object:root=true
 
+// A ProviderConfigUsage indicates that a resource is using a ProviderConfig.
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:printcolumn:name="CONFIG-NAME",type="string",JSONPath=".providerConfigRef.name"
+// +kubebuilder:printcolumn:name="RESOURCE-KIND",type="string",JSONPath=".resourceRef.kind"
+// +kubebuilder:printcolumn:name="RESOURCE-NAME",type="string",JSONPath=".resourceRef.name"
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,provider,jfrog-platform}
+type ProviderConfigUsage struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	xpv2.TypedProviderConfigUsage `json:",inline"`
+}
+
+// +kubebuilder:object:root=true
+
+// ProviderConfigUsageList contains a list of ProviderConfigUsage
+type ProviderConfigUsageList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ProviderConfigUsage `json:"items"`
+}
+
+// +kubebuilder:object:root=true
+
 // A ClusterProviderConfig configures the Artifactory provider.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:printcolumn:name="SOURCE",type="string",JSONPath=".spec.source",priority=1
+// +kubebuilder:printcolumn:name="SECRET-NAME",type="string",JSONPath=".spec.credentials.secretRef.name",priority=1
 // +kubebuilder:resource:scope=Cluster
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,providerconfig,artifactory}
 // +kubebuilder:storageversion
@@ -80,28 +104,4 @@ type ClusterProviderConfigList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ClusterProviderConfig `json:"items"`
-}
-
-// +kubebuilder:object:root=true
-
-// A ProviderConfigUsage indicates that a resource is using a ProviderConfig.
-// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:printcolumn:name="CONFIG-NAME",type="string",JSONPath=".providerConfigRef.name"
-// +kubebuilder:printcolumn:name="RESOURCE-KIND",type="string",JSONPath=".resourceRef.kind"
-// +kubebuilder:printcolumn:name="RESOURCE-NAME",type="string",JSONPath=".resourceRef.name"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,provider,jfrog-platform}
-type ProviderConfigUsage struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	xpv2.TypedProviderConfigUsage `json:",inline"`
-}
-
-// +kubebuilder:object:root=true
-
-// ProviderConfigUsageList contains a list of ProviderConfigUsage
-type ProviderConfigUsageList struct {
-	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ProviderConfigUsage `json:"items"`
 }
