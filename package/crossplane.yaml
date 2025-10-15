@@ -12,3 +12,6 @@ metadata:
       Provider JFrog Platform is a Crossplane provider for JFrog Platform.
       If you encounter an issue please create an issue in the
       [hmlkao/provider-jfrog-platform](https://github.com/hmlkao/provider-jfrog-platform/issues) repo.
+spec:
+  capabilities:
+  - SafeStart
