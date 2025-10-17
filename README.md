@@ -64,7 +64,7 @@ The short group is `platform`, so the `apiGroup` is `platform.jfrog.m.crossplane
 | `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                     |
 | `platform_oidc_configuration`    | :heavy_check_mark:                                                                                                           | `OIDCConfiguration` |
 | `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                                       |                     |
-| `platform_permission`            | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                                       |                     |
+| `platform_permission`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `Permission`        |
 | `platform_reverse_proxy`         | :heavy_check_mark:                                                                                                           | `ReverseProxy`      |
 | `platform_saml_settings`         | :heavy_check_mark:                                                                                                           | `SAMLSettings`      |
 | `platform_scim_group`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `SCIMGroup`         |

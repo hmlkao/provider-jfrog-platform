@@ -15,6 +15,7 @@ import (
 	"github.com/hmlkao/provider-jfrog-platform/config/cluster/group"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/http_sso_settings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/config/cluster/oidc_configuration"
+	"github.com/hmlkao/provider-jfrog-platform/config/cluster/permission"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/cluster/reverse_proxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/saml_settings"
 	scimgroup "github.com/hmlkao/provider-jfrog-platform/config/cluster/scim_group"
@@ -40,6 +41,7 @@ func GetProvider() *ujconfig.Provider {
 		group.Configure,
 		httpssosettings.Configure,
 		oidcconfiguration.Configure,
+		permission.Configure,
 		reverseproxy.Configure,
 		samlsettings.Configure,
 		scimgroup.Configure,

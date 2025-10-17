@@ -16,6 +16,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"platform_group":              config.IdentifierFromProvider,
 	"platform_http_sso_settings":  config.IdentifierFromProvider,
 	"platform_oidc_configuration": config.IdentifierFromProvider,
+	"platform_permission":         config.IdentifierFromProvider,
 	"platform_reverse_proxy":      config.IdentifierFromProvider,
 	"platform_saml_settings":      config.IdentifierFromProvider,
 	"platform_scim_group":         config.IdentifierFromProvider,
