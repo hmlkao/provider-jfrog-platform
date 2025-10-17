@@ -20,6 +20,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"platform_saml_settings":      config.IdentifierFromProvider,
 	"platform_scim_group":         config.IdentifierFromProvider,
 	"platform_scim_user":          config.IdentifierFromProvider,
+	"platform_workers_service":    config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
