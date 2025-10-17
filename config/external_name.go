@@ -9,19 +9,19 @@ import "github.com/crossplane/upjet/v2/pkg/config"
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	"platform_aws_iam_role":   config.IdentifierFromProvider,
-	"platform_crowd_settings": config.IdentifierFromProvider,
-	"platform_global_role":    config.IdentifierFromProvider,
-	// Cannot use NameAsIdentifier, 'name' parameter can contain characters which are not allowed in Terraform resource name
-	"platform_group":              config.IdentifierFromProvider,
-	"platform_http_sso_settings":  config.IdentifierFromProvider,
-	"platform_oidc_configuration": config.IdentifierFromProvider,
-	"platform_permission":         config.IdentifierFromProvider,
-	"platform_reverse_proxy":      config.IdentifierFromProvider,
-	"platform_saml_settings":      config.IdentifierFromProvider,
-	"platform_scim_group":         config.IdentifierFromProvider,
-	"platform_scim_user":          config.IdentifierFromProvider,
-	"platform_workers_service":    config.IdentifierFromProvider,
+	"platform_aws_iam_role":          config.IdentifierFromProvider,
+	"platform_crowd_settings":        config.IdentifierFromProvider,
+	"platform_global_role":           config.IdentifierFromProvider,
+	"platform_group":                 config.IdentifierFromProvider, // Cannot use NameAsIdentifier, 'name' parameter can contain characters which are not allowed in Terraform resource name
+	"platform_http_sso_settings":     config.IdentifierFromProvider,
+	"platform_oidc_configuration":    config.IdentifierFromProvider,
+	"platform_oidc_identity_mapping": config.IdentifierFromProvider,
+	"platform_permission":            config.IdentifierFromProvider,
+	"platform_reverse_proxy":         config.IdentifierFromProvider,
+	"platform_saml_settings":         config.IdentifierFromProvider,
+	"platform_scim_group":            config.IdentifierFromProvider,
+	"platform_scim_user":             config.IdentifierFromProvider,
+	"platform_workers_service":       config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
