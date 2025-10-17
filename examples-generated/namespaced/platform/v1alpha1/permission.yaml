@@ -1,0 +1,80 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: Permission
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/permission
+  labels:
+    testing.upbound.io/example-name: my-permission
+  name: my-permission
+  namespace: upbound-system
+spec:
+  forProvider:
+    artifact:
+      actions:
+        users:
+        - name: my-user
+          permissions:
+          - READ
+          - WRITE
+      targets:
+      - includePatterns:
+        - '**'
+        name: my-docker-local
+      - includePatterns:
+        - '**'
+        - '*.js'
+        name: ANY LOCAL
+      - includePatterns:
+        - '**'
+        - '*.js'
+        name: ANY REMOTE
+      - includePatterns:
+        - '**'
+        - '*.js'
+        name: ANY DISTRIBUTION
+    build:
+      targets:
+      - excludePatterns:
+        - '*.js'
+        includePatterns:
+        - '**'
+        name: artifactory-build-info
+    destination:
+      actions:
+        groups:
+        - name: my-group
+          permissions:
+          - READ
+          - ANNOTATE
+      targets:
+      - includePatterns:
+        - '**'
+        name: '*'
+    name: my-permission-name
+    pipelineSource:
+      actions:
+        groups:
+        - name: my-group
+          permissions:
+          - READ
+          - ANNOTATE
+      targets:
+      - includePatterns:
+        - '**'
+        name: '*'
+    releaseBundle:
+      actions:
+        groups:
+        - name: my-group
+          permissions:
+          - READ
+          - ANNOTATE
+        users:
+        - name: my-user
+          permissions:
+          - READ
+          - WRITE
+      targets:
+      - includePatterns:
+        - '**'
+        name: release-bundle

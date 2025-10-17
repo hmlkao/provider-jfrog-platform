@@ -15,6 +15,7 @@ import (
 	group "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/group"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/httpssosettings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/oidcconfiguration"
+	permission "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/permission"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/reverseproxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/samlsettings"
 	scimgroup "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/scimgroup"
@@ -33,6 +34,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		group.Setup,
 		httpssosettings.Setup,
 		oidcconfiguration.Setup,
+		permission.Setup,
 		reverseproxy.Setup,
 		samlsettings.Setup,
 		scimgroup.Setup,
@@ -57,6 +59,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		group.SetupGated,
 		httpssosettings.SetupGated,
 		oidcconfiguration.SetupGated,
+		permission.SetupGated,
 		reverseproxy.SetupGated,
 		samlsettings.SetupGated,
 		scimgroup.SetupGated,

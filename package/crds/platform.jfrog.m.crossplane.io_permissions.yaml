@@ -1,0 +1,1562 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: permissions.platform.jfrog.m.crossplane.io
+spec:
+  group: platform.jfrog.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - jfrog-platform
+    kind: Permission
+    listKind: PermissionList
+    plural: permissions
+    singular: permission
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Permission is the Schema for the Permissions API. Provides a
+          JFrog permission https://jfrog.com/help/r/jfrog-platform-administration-documentation/permissions
+          resource to manage how users and groups access JFrog resources. This resource
+          is applicable for the next-generation permissions model and fully backwards
+          compatible with the legacy artifactory_permission_target resource in Artifactory
+          provider.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: PermissionSpec defines the desired state of Permission
+            properties:
+              forProvider:
+                properties:
+                  artifact:
+                    description: (Attributes) Defines the repositories to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Downloads artifacts and reads the metadata.
+                                    **ANNOTATE**: Annotates artifacts and folders with metadata and properties.
+                                    **WRITE**: Deploys artifacts & deploys to remote repository caches.
+                                    **DELETE**: Deletes or overwrites artifacts.
+                                    **SCAN**: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Downloads artifacts and reads the metadata.
+                                    **ANNOTATE**: Annotates artifacts and folders with metadata and properties.
+                                    **WRITE**: Deploys artifacts & deploys to remote repository caches.
+                                    **DELETE**: Deletes or overwrites artifacts.
+                                    **SCAN**: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple comma separated wildcard patterns for **existing and future** repository artifact paths (with no leading slash). Ant-style path expressions are supported (*, **, ?). For example: `org/apache/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple comma separated wildcard patterns for **existing and future** repository artifact paths (with no leading slash). Ant-style path expressions are supported (*, **, ?). For example: `org/apache/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify repository key as name. Use `ANY LOCAL`, `ANY REMOTE`, or `ANY DISTRIBUTION` for any repository type.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  build:
+                    description: (Attributes) Defines the builds to be used or excluded.
+                      (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View and downloads build info artifacts from the artifactory-build-info default repository and reads the corresponding build in the Builds page.
+                                    **ANNOTATE**: Annotates build info artifacts and folders with metadata and properties.
+                                    **WRITE**: Allows uploading and promoting build info artifacts.
+                                    **DELETE**: Deletes build info artifacts.
+                                    **SCAN**: Triggers Xray scans on builds. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing build info permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View and downloads build info artifacts from the artifactory-build-info default repository and reads the corresponding build in the Builds page.
+                                    **ANNOTATE**: Annotates build info artifacts and folders with metadata and properties.
+                                    **WRITE**: Allows uploading and promoting build info artifacts.
+                                    **DELETE**: Deletes build info artifacts.
+                                    **SCAN**: Triggers Xray scans on builds. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing build info permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify **existing and future** build names (i.e. artifact paths) in the build info repository (without a leading slash) that will be excluded from this permission target. Ant-style path expressions are supported (*, **, ?). For example, an `apache/**` pattern will exclude the "apache" build info from the permission.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify **existing and future** build names (i.e. artifact paths) in the build info repository (without a leading slash) that will be included in this permission target. Ant-style path expressions are supported (*, **, ?). For example, an `apache/**` pattern will include the "apache" build info in the permission.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  destination:
+                    description: (Attributes) Defines the destinations to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **EXECUTE**: Distributes Release Bundles according to their destination permissions.
+                                    **DELETE**: Deletes Release Bundles from the selected destinations.
+                                    **MANAGE**: Adds and deletes users who can distribute Release Bundles on assigned destinations.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **EXECUTE**: Distributes Release Bundles according to their destination permissions.
+                                    **DELETE**: Deletes Release Bundles from the selected destinations.
+                                    **MANAGE**: Adds and deletes users who can distribute Release Bundles on assigned destinations.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for existing and future JPD or city names. Ant-style path expressions are supported (*, **, ?). For example: `site_*` or `New*`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for existing and future JPD or city names. Ant-style path expressions are supported (*, **, ?). For example: `site_*` or `New*`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify destination name as name. Use `*` to include all destinations.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  name:
+                    description: |-
+                      (String) Permission name
+                      Permission name
+                    type: string
+                  pipelineSource:
+                    description: (Attributes) Defines the pipeline sources to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View the available pipeline sources.
+                                    **EXECUTE**: Manually trigger execution of steps.
+                                    **MANAGE**: Create and edit pipeline sources.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View the available pipeline sources.
+                                    **EXECUTE**: Manually trigger execution of steps.
+                                    **MANAGE**: Create and edit pipeline sources.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify the full repository name of the **existing and future** pipeline sources that will be excluded from this permission. The pattern should have the following format: `{FULL_REPOSITORY_NAME_PATTERN}/**`. Ant-style path expressions are supported (*, **, ?). For example, the pattern `*/*test*/**` will exclude all repositories that contain the word "test" regardless of the repository owner.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify the full repository name of the **existing and future** pipeline sources that will be included in this permission. The pattern should have the following format: `{FULL_REPOSITORY_NAME_PATTERN}/**`. Ant-style path expressions are supported (*, **, ?). For example, the pattern `*/*test*/**` will include all repositories that contain the word "test" regardless of the repository owner.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify pipeline source name as name. Use `*` to include all pipeline sources.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  releaseBundle:
+                    description: (Attributes) Defines the release bundles to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Views and downloads Release Bundle artifacts from the relevant Release Bundle repository and reads the corresponding Release Bundles in the Distribution page.
+                                    **ANNOTATE**: Annotates Release Bundle artifacts and folder with metadata and properties.
+                                    **WRITE**: Creates Release Bundles.
+                                    **EXECUTE**: Allows users to promote Release Bundles v2 to a selected target environment and is a prerequisite for distributing Release Bundles (v1 & v2) to Distribution Edge nodes.
+                                    **DELETE**: Deletes Release Bundles.
+                                    **SCAN** Xray Metadata: Triggers Xray scans on Release Bundles. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing Release Bundle permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Views and downloads Release Bundle artifacts from the relevant Release Bundle repository and reads the corresponding Release Bundles in the Distribution page.
+                                    **ANNOTATE**: Annotates Release Bundle artifacts and folder with metadata and properties.
+                                    **WRITE**: Creates Release Bundles.
+                                    **EXECUTE**: Allows users to promote Release Bundles v2 to a selected target environment and is a prerequisite for distributing Release Bundles (v1 & v2) to Distribution Edge nodes.
+                                    **DELETE**: Deletes Release Bundles.
+                                    **SCAN** Xray Metadata: Triggers Xray scans on Release Bundles. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing Release Bundle permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for **existing and future** Release Bundle names. Ant-style path expressions are supported (*, **, ?). For example: `product_*/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for **existing and future** Release Bundle names. Ant-style path expressions are supported (*, **, ?). For example: `product_*/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify release bundle repository key as name.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  artifact:
+                    description: (Attributes) Defines the repositories to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Downloads artifacts and reads the metadata.
+                                    **ANNOTATE**: Annotates artifacts and folders with metadata and properties.
+                                    **WRITE**: Deploys artifacts & deploys to remote repository caches.
+                                    **DELETE**: Deletes or overwrites artifacts.
+                                    **SCAN**: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Downloads artifacts and reads the metadata.
+                                    **ANNOTATE**: Annotates artifacts and folders with metadata and properties.
+                                    **WRITE**: Deploys artifacts & deploys to remote repository caches.
+                                    **DELETE**: Deletes or overwrites artifacts.
+                                    **SCAN**: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple comma separated wildcard patterns for **existing and future** repository artifact paths (with no leading slash). Ant-style path expressions are supported (*, **, ?). For example: `org/apache/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple comma separated wildcard patterns for **existing and future** repository artifact paths (with no leading slash). Ant-style path expressions are supported (*, **, ?). For example: `org/apache/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify repository key as name. Use `ANY LOCAL`, `ANY REMOTE`, or `ANY DISTRIBUTION` for any repository type.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  build:
+                    description: (Attributes) Defines the builds to be used or excluded.
+                      (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View and downloads build info artifacts from the artifactory-build-info default repository and reads the corresponding build in the Builds page.
+                                    **ANNOTATE**: Annotates build info artifacts and folders with metadata and properties.
+                                    **WRITE**: Allows uploading and promoting build info artifacts.
+                                    **DELETE**: Deletes build info artifacts.
+                                    **SCAN**: Triggers Xray scans on builds. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing build info permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View and downloads build info artifacts from the artifactory-build-info default repository and reads the corresponding build in the Builds page.
+                                    **ANNOTATE**: Annotates build info artifacts and folders with metadata and properties.
+                                    **WRITE**: Allows uploading and promoting build info artifacts.
+                                    **DELETE**: Deletes build info artifacts.
+                                    **SCAN**: Triggers Xray scans on builds. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing build info permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify **existing and future** build names (i.e. artifact paths) in the build info repository (without a leading slash) that will be excluded from this permission target. Ant-style path expressions are supported (*, **, ?). For example, an `apache/**` pattern will exclude the "apache" build info from the permission.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify **existing and future** build names (i.e. artifact paths) in the build info repository (without a leading slash) that will be included in this permission target. Ant-style path expressions are supported (*, **, ?). For example, an `apache/**` pattern will include the "apache" build info in the permission.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  destination:
+                    description: (Attributes) Defines the destinations to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **EXECUTE**: Distributes Release Bundles according to their destination permissions.
+                                    **DELETE**: Deletes Release Bundles from the selected destinations.
+                                    **MANAGE**: Adds and deletes users who can distribute Release Bundles on assigned destinations.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **EXECUTE**: Distributes Release Bundles according to their destination permissions.
+                                    **DELETE**: Deletes Release Bundles from the selected destinations.
+                                    **MANAGE**: Adds and deletes users who can distribute Release Bundles on assigned destinations.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for existing and future JPD or city names. Ant-style path expressions are supported (*, **, ?). For example: `site_*` or `New*`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for existing and future JPD or city names. Ant-style path expressions are supported (*, **, ?). For example: `site_*` or `New*`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify destination name as name. Use `*` to include all destinations.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  name:
+                    description: |-
+                      (String) Permission name
+                      Permission name
+                    type: string
+                  pipelineSource:
+                    description: (Attributes) Defines the pipeline sources to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View the available pipeline sources.
+                                    **EXECUTE**: Manually trigger execution of steps.
+                                    **MANAGE**: Create and edit pipeline sources.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View the available pipeline sources.
+                                    **EXECUTE**: Manually trigger execution of steps.
+                                    **MANAGE**: Create and edit pipeline sources.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify the full repository name of the **existing and future** pipeline sources that will be excluded from this permission. The pattern should have the following format: `{FULL_REPOSITORY_NAME_PATTERN}/**`. Ant-style path expressions are supported (*, **, ?). For example, the pattern `*/*test*/**` will exclude all repositories that contain the word "test" regardless of the repository owner.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify the full repository name of the **existing and future** pipeline sources that will be included in this permission. The pattern should have the following format: `{FULL_REPOSITORY_NAME_PATTERN}/**`. Ant-style path expressions are supported (*, **, ?). For example, the pattern `*/*test*/**` will include all repositories that contain the word "test" regardless of the repository owner.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify pipeline source name as name. Use `*` to include all pipeline sources.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  releaseBundle:
+                    description: (Attributes) Defines the release bundles to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Views and downloads Release Bundle artifacts from the relevant Release Bundle repository and reads the corresponding Release Bundles in the Distribution page.
+                                    **ANNOTATE**: Annotates Release Bundle artifacts and folder with metadata and properties.
+                                    **WRITE**: Creates Release Bundles.
+                                    **EXECUTE**: Allows users to promote Release Bundles v2 to a selected target environment and is a prerequisite for distributing Release Bundles (v1 & v2) to Distribution Edge nodes.
+                                    **DELETE**: Deletes Release Bundles.
+                                    **SCAN** Xray Metadata: Triggers Xray scans on Release Bundles. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing Release Bundle permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Views and downloads Release Bundle artifacts from the relevant Release Bundle repository and reads the corresponding Release Bundles in the Distribution page.
+                                    **ANNOTATE**: Annotates Release Bundle artifacts and folder with metadata and properties.
+                                    **WRITE**: Creates Release Bundles.
+                                    **EXECUTE**: Allows users to promote Release Bundles v2 to a selected target environment and is a prerequisite for distributing Release Bundles (v1 & v2) to Distribution Edge nodes.
+                                    **DELETE**: Deletes Release Bundles.
+                                    **SCAN** Xray Metadata: Triggers Xray scans on Release Bundles. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing Release Bundle permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for **existing and future** Release Bundle names. Ant-style path expressions are supported (*, **, ?). For example: `product_*/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for **existing and future** Release Bundle names. Ant-style path expressions are supported (*, **, ?). For example: `product_*/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify release bundle repository key as name.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+          status:
+            description: PermissionStatus defines the observed state of Permission.
+            properties:
+              atProvider:
+                properties:
+                  artifact:
+                    description: (Attributes) Defines the repositories to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Downloads artifacts and reads the metadata.
+                                    **ANNOTATE**: Annotates artifacts and folders with metadata and properties.
+                                    **WRITE**: Deploys artifacts & deploys to remote repository caches.
+                                    **DELETE**: Deletes or overwrites artifacts.
+                                    **SCAN**: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Downloads artifacts and reads the metadata.
+                                    **ANNOTATE**: Annotates artifacts and folders with metadata and properties.
+                                    **WRITE**: Deploys artifacts & deploys to remote repository caches.
+                                    **DELETE**: Deletes or overwrites artifacts.
+                                    **SCAN**: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple comma separated wildcard patterns for **existing and future** repository artifact paths (with no leading slash). Ant-style path expressions are supported (*, **, ?). For example: `org/apache/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple comma separated wildcard patterns for **existing and future** repository artifact paths (with no leading slash). Ant-style path expressions are supported (*, **, ?). For example: `org/apache/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify repository key as name. Use `ANY LOCAL`, `ANY REMOTE`, or `ANY DISTRIBUTION` for any repository type.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  build:
+                    description: (Attributes) Defines the builds to be used or excluded.
+                      (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View and downloads build info artifacts from the artifactory-build-info default repository and reads the corresponding build in the Builds page.
+                                    **ANNOTATE**: Annotates build info artifacts and folders with metadata and properties.
+                                    **WRITE**: Allows uploading and promoting build info artifacts.
+                                    **DELETE**: Deletes build info artifacts.
+                                    **SCAN**: Triggers Xray scans on builds. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing build info permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View and downloads build info artifacts from the artifactory-build-info default repository and reads the corresponding build in the Builds page.
+                                    **ANNOTATE**: Annotates build info artifacts and folders with metadata and properties.
+                                    **WRITE**: Allows uploading and promoting build info artifacts.
+                                    **DELETE**: Deletes build info artifacts.
+                                    **SCAN**: Triggers Xray scans on builds. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing build info permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify **existing and future** build names (i.e. artifact paths) in the build info repository (without a leading slash) that will be excluded from this permission target. Ant-style path expressions are supported (*, **, ?). For example, an `apache/**` pattern will exclude the "apache" build info from the permission.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify **existing and future** build names (i.e. artifact paths) in the build info repository (without a leading slash) that will be included in this permission target. Ant-style path expressions are supported (*, **, ?). For example, an `apache/**` pattern will include the "apache" build info in the permission.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  destination:
+                    description: (Attributes) Defines the destinations to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **EXECUTE**: Distributes Release Bundles according to their destination permissions.
+                                    **DELETE**: Deletes Release Bundles from the selected destinations.
+                                    **MANAGE**: Adds and deletes users who can distribute Release Bundles on assigned destinations.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **EXECUTE**: Distributes Release Bundles according to their destination permissions.
+                                    **DELETE**: Deletes Release Bundles from the selected destinations.
+                                    **MANAGE**: Adds and deletes users who can distribute Release Bundles on assigned destinations.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for existing and future JPD or city names. Ant-style path expressions are supported (*, **, ?). For example: `site_*` or `New*`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for existing and future JPD or city names. Ant-style path expressions are supported (*, **, ?). For example: `site_*` or `New*`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify destination name as name. Use `*` to include all destinations.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  id:
+                    type: string
+                  name:
+                    description: |-
+                      (String) Permission name
+                      Permission name
+                    type: string
+                  pipelineSource:
+                    description: (Attributes) Defines the pipeline sources to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View the available pipeline sources.
+                                    **EXECUTE**: Manually trigger execution of steps.
+                                    **MANAGE**: Create and edit pipeline sources.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: View the available pipeline sources.
+                                    **EXECUTE**: Manually trigger execution of steps.
+                                    **MANAGE**: Create and edit pipeline sources.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify the full repository name of the **existing and future** pipeline sources that will be excluded from this permission. The pattern should have the following format: `{FULL_REPOSITORY_NAME_PATTERN}/**`. Ant-style path expressions are supported (*, **, ?). For example, the pattern `*/*test*/**` will exclude all repositories that contain the word "test" regardless of the repository owner.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Use Ant-style wildcard patterns to specify the full repository name of the **existing and future** pipeline sources that will be included in this permission. The pattern should have the following format: `{FULL_REPOSITORY_NAME_PATTERN}/**`. Ant-style path expressions are supported (*, **, ?). For example, the pattern `*/*test*/**` will include all repositories that contain the word "test" regardless of the repository owner.
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify pipeline source name as name. Use `*` to include all pipeline sources.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  releaseBundle:
+                    description: (Attributes) Defines the release bundles to be used
+                      or excluded. (see below for nested schema)
+                    properties:
+                      actions:
+                        description: (Attributes) Either one of users or groups attribute
+                          must be set. (see below for nested schema)
+                        properties:
+                          groups:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Views and downloads Release Bundle artifacts from the relevant Release Bundle repository and reads the corresponding Release Bundles in the Distribution page.
+                                    **ANNOTATE**: Annotates Release Bundle artifacts and folder with metadata and properties.
+                                    **WRITE**: Creates Release Bundles.
+                                    **EXECUTE**: Allows users to promote Release Bundles v2 to a selected target environment and is a prerequisite for distributing Release Bundles (v1 & v2) to Distribution Edge nodes.
+                                    **DELETE**: Deletes Release Bundles.
+                                    **SCAN** Xray Metadata: Triggers Xray scans on Release Bundles. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing Release Bundle permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                          users:
+                            description: (Attributes Set) (see below for nested schema)
+                            items:
+                              properties:
+                                name:
+                                  description: (String) Permission name
+                                  type: string
+                                permissions:
+                                  description: |-
+                                    (Set of String) READ: Downloads artifacts and reads the metadata.
+                                    ANNOTATE: Annotates artifacts and folders with metadata and properties.
+                                    WRITE: Deploys artifacts & deploys to remote repository caches.
+                                    DELETE: Deletes or overwrites artifacts.
+                                    SCAN: Triggers Xray scans on artifacts in repositories. Creates and deletes custom issues and license.
+                                    MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                    **READ**: Views and downloads Release Bundle artifacts from the relevant Release Bundle repository and reads the corresponding Release Bundles in the Distribution page.
+                                    **ANNOTATE**: Annotates Release Bundle artifacts and folder with metadata and properties.
+                                    **WRITE**: Creates Release Bundles.
+                                    **EXECUTE**: Allows users to promote Release Bundles v2 to a selected target environment and is a prerequisite for distributing Release Bundles (v1 & v2) to Distribution Edge nodes.
+                                    **DELETE**: Deletes Release Bundles.
+                                    **SCAN** Xray Metadata: Triggers Xray scans on Release Bundles. Creates and deletes custom issues and license.
+                                    **MANAGE**: Allows changing Release Bundle permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
+                                  items:
+                                    type: string
+                                  type: array
+                                  x-kubernetes-list-type: set
+                              type: object
+                            type: array
+                        type: object
+                      targets:
+                        description: (Attributes Set) (see below for nested schema)
+                        items:
+                          properties:
+                            excludePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for **existing and future** Release Bundle names. Ant-style path expressions are supported (*, **, ?). For example: `product_*/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            includePatterns:
+                              description: |-
+                                style path expressions are supported (*, **, ?). For example: org/apache/**
+                                Simple wildcard patterns for **existing and future** Release Bundle names. Ant-style path expressions are supported (*, **, ?). For example: `product_*/**`
+                              items:
+                                type: string
+                              type: array
+                              x-kubernetes-list-type: set
+                            name:
+                              description: |-
+                                (String) Permission name
+                                Specify release bundle repository key as name.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

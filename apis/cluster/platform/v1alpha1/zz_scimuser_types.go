@@ -42,19 +42,19 @@ type EmailsParameters struct {
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
-type GroupsInitParameters struct {
+type SCIMUserGroupsInitParameters struct {
 
 	// (String)
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type GroupsObservation struct {
+type SCIMUserGroupsObservation struct {
 
 	// (String)
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
-type GroupsParameters struct {
+type SCIMUserGroupsParameters struct {
 
 	// (String)
 	// +kubebuilder:validation:Optional
@@ -82,7 +82,7 @@ type SCIMUserObservation struct {
 	Emails []EmailsObservation `json:"emails,omitempty" tf:"emails,omitempty"`
 
 	// (Attributes Set) (see below for nested schema)
-	Groups []GroupsObservation `json:"groups,omitempty" tf:"groups,omitempty"`
+	Groups []SCIMUserGroupsObservation `json:"groups,omitempty" tf:"groups,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 

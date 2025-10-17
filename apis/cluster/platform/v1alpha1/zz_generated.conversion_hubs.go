@@ -25,6 +25,9 @@ func (tr *HTTPSSOSettings) Hub() {}
 func (tr *OIDCConfiguration) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *Permission) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *ReverseProxy) Hub() {}
 
 // Hub marks this type as a conversion hub.
