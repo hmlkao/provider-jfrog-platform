@@ -19,6 +19,7 @@ import (
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/samlsettings"
 	scimgroup "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/scimgroup"
 	scimuser "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/scimuser"
+	workersservice "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/workersservice"
 	providerconfig "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/providerconfig"
 )
 
@@ -36,6 +37,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		samlsettings.Setup,
 		scimgroup.Setup,
 		scimuser.Setup,
+		workersservice.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -59,6 +61,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		samlsettings.SetupGated,
 		scimgroup.SetupGated,
 		scimuser.SetupGated,
+		workersservice.SetupGated,
 		providerconfig.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

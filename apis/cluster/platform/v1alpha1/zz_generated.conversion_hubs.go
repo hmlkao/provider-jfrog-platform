@@ -35,3 +35,6 @@ func (tr *SCIMGroup) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *SCIMUser) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *WorkersService) Hub() {}

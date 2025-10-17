@@ -1,0 +1,33 @@
+apiVersion: platform.jfrog.m.crossplane.io/v1alpha1
+kind: WorkersService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/workersservice
+  labels:
+    testing.upbound.io/example-name: my-workers-service
+  name: my-workers-service
+  namespace: upbound-system
+spec:
+  forProvider:
+    action: BEFORE_DOWNLOAD
+    description: My workers service
+    enabled: true
+    filterCriteria:
+      artifactFilterCriteria:
+        repoKeys:
+        - my-repo-key
+    key: my-workers-service
+    secrets:
+    - key: my-secret-key-1
+      value: my-secret-value-1
+    - key: my-secret-key-2
+      value: my-secret-value-2
+    sourceCode: |
+      export default async (context: PlatformContext, data: BeforeDownloadRequest): Promise<BeforeDownloadResponse> => {
+        console.log(await context.clients.platformHttp.get('/artifactory/api/system/ping'));
+        console.log(await axios.get('https://my.external.resource'));
+        return {
+          status: 'DOWNLOAD_PROCEED',
+          message: 'proceed',
+        }
+      }
