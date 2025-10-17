@@ -1,0 +1,11 @@
+apiVersion: platform.jfrog.crossplane.io/v1beta1
+kind: ClusterProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: platform-creds
+      namespace: product-jfrog
+      key: credentials
