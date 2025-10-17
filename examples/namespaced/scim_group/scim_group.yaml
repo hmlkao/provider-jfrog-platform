@@ -11,5 +11,5 @@ spec:
     - display: test@tempurl.org
       value: test@tempurl.org
   providerConfigRef:
-    kind: ProviderConfig
+    kind: ClusterProviderConfig
     name: default
