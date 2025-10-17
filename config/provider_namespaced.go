@@ -15,6 +15,7 @@ import (
 	"github.com/hmlkao/provider-jfrog-platform/config/namespaced/group"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/http_sso_settings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/config/namespaced/oidc_configuration"
+	oidcidentitymapping "github.com/hmlkao/provider-jfrog-platform/config/namespaced/oidc_identity_mapping"
 	"github.com/hmlkao/provider-jfrog-platform/config/namespaced/permission"
 	reverseproxy "github.com/hmlkao/provider-jfrog-platform/config/namespaced/reverse_proxy"
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/saml_settings"
@@ -41,6 +42,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		group.Configure,
 		httpssosettings.Configure,
 		oidcconfiguration.Configure,
+		oidcidentitymapping.Configure,
 		permission.Configure,
 		reverseproxy.Configure,
 		samlsettings.Configure,

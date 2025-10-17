@@ -53,23 +53,23 @@ The short group is `platform`, so the `apiGroup` is `platform.jfrog.crossplane.i
 
 The short group is `platform`, so the `apiGroup` is `platform.jfrog.m.crossplane.io` for **namespace-scoped resources**.
 
-| Resource                         | Supported                                                                                                                    | Kind                |
-|----------------------------------|------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| `platform_aws_iam_role`          | :heavy_check_mark:                                                                                                           | `AWSIAMRole`        |
-| `platform_crowd_settings`        | :heavy_check_mark:                                                                                                           | `CrowdSettings`     |
-| `platform_global_role`           | :heavy_check_mark:                                                                                                           | `GlobalRole`        |
-| `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                                                        | `Group`             |
-| `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                     |
-| `platform_http_sso_settings`     | :heavy_check_mark:                                                                                                           | `HTTPSSOSettings`   |
-| `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                     |
-| `platform_oidc_configuration`    | :heavy_check_mark:                                                                                                           | `OIDCConfiguration` |
-| `platform_oidc_identity_mapping` | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                                       |                     |
-| `platform_permission`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `Permission`        |
-| `platform_reverse_proxy`         | :heavy_check_mark:                                                                                                           | `ReverseProxy`      |
-| `platform_saml_settings`         | :heavy_check_mark:                                                                                                           | `SAMLSettings`      |
-| `platform_scim_group`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `SCIMGroup`         |
-| `platform_scim_user`             | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema)) ([Known Issues](./KNOWN_ISSUES.md#platform_scim_user)) | `SCIMUser`          |
-| `platform_workers_service`       | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `WorkersService`    |
+| Resource                         | Supported                                                                                                                    | Kind                  |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| `platform_aws_iam_role`          | :heavy_check_mark:                                                                                                           | `AWSIAMRole`          |
+| `platform_crowd_settings`        | :heavy_check_mark:                                                                                                           | `CrowdSettings`       |
+| `platform_global_role`           | :heavy_check_mark:                                                                                                           | `GlobalRole`          |
+| `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                                                        | `Group`               |
+| `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                       |
+| `platform_http_sso_settings`     | :heavy_check_mark:                                                                                                           | `HTTPSSOSettings`     |
+| `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                       |
+| `platform_oidc_configuration`    | :heavy_check_mark:                                                                                                           | `OIDCConfiguration`   |
+| `platform_oidc_identity_mapping` | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `OIDCIdentityMapping` |
+| `platform_permission`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `Permission`          |
+| `platform_reverse_proxy`         | :heavy_check_mark:                                                                                                           | `ReverseProxy`        |
+| `platform_saml_settings`         | :heavy_check_mark:                                                                                                           | `SAMLSettings`        |
+| `platform_scim_group`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `SCIMGroup`           |
+| `platform_scim_user`             | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema)) ([Known Issues](./KNOWN_ISSUES.md#platform_scim_user)) | `SCIMUser`            |
+| `platform_workers_service`       | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `WorkersService`      |
 
 ## Adding new resource
 
