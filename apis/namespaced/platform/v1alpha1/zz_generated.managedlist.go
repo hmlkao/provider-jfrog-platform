@@ -62,6 +62,15 @@ func (l *OIDCConfigurationList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this OIDCIdentityMappingList.
+func (l *OIDCIdentityMappingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this PermissionList.
 func (l *PermissionList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

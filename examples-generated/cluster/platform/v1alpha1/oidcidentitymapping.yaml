@@ -1,0 +1,24 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: OIDCIdentityMapping
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/oidcidentitymapping
+  labels:
+    testing.upbound.io/example-name: my-github-oidc-user-identity-mapping
+  name: my-github-oidc-user-identity-mapping
+spec:
+  forProvider:
+    claimsJson: |-
+      ${jsonencode({
+          "sub" = "repo:humpty/access-oidc-poc:ref:refs/heads/main",
+          "workflow_ref" = "humpty/access-oidc-poc/.github/workflows/job.yaml@refs/heads/main"
+        })}
+    description: My GitHub OIDC user identity mapping
+    name: my-github-oidc-user-identity-mapping
+    priority: 1
+    providerName: my-github-oidc-configuration
+    tokenSpec:
+      audience: '*@*'
+      expiresIn: 7200
+      scope: applied-permissions/user
+      username: my-user
