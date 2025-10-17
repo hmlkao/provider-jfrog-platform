@@ -19,6 +19,7 @@ import (
 	samlsettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/saml_settings"
 	scimgroup "github.com/hmlkao/provider-jfrog-platform/config/cluster/scim_group"
 	scimuser "github.com/hmlkao/provider-jfrog-platform/config/cluster/scim_user"
+	workersservice "github.com/hmlkao/provider-jfrog-platform/config/cluster/workers_service"
 )
 
 // GetProvider returns provider configuration
@@ -43,6 +44,7 @@ func GetProvider() *ujconfig.Provider {
 		samlsettings.Configure,
 		scimgroup.Configure,
 		scimuser.Configure,
+		workersservice.Configure,
 	} {
 		configure(pc)
 	}

@@ -69,7 +69,7 @@ The short group is `platform`, so the `apiGroup` is `platform.jfrog.m.crossplane
 | `platform_saml_settings`         | :heavy_check_mark:                                                                                                           | `SAMLSettings`      |
 | `platform_scim_group`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `SCIMGroup`         |
 | `platform_scim_user`             | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema)) ([Known Issues](./KNOWN_ISSUES.md#platform_scim_user)) | `SCIMUser`          |
-| `platform_workers_service`       | :x: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                                       |                     |
+| `platform_workers_service`       | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `WorkersService`    |
 
 ## Adding new resource
 
