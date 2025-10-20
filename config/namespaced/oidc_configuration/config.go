@@ -9,8 +9,8 @@ import (
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("platform_oidc_configuration", func(r *config.Resource) {
-		r.ShortGroup = "platform"
-		r.Kind = "OIDCConfiguration"
+		r.ShortGroup = "platform"    // Otherwise 'oidc' is used
+		r.Kind = "OIDCConfiguration" // Otherwise 'Configuration' is used
 		// Import is supported using the following syntax
 		//   terraform import platform_oidc_configuration.my-oidc-configuration my-oidc-configuration
 		//   terraform import platform_oidc_configuration.my-oidc-configuration my-oidc-configuration:myproj
