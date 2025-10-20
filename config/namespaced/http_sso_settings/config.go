@@ -9,8 +9,8 @@ import (
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("platform_http_sso_settings", func(r *config.Resource) {
-		r.ShortGroup = "platform"
-		r.Kind = "HTTPSSOSettings"
+		r.ShortGroup = "platform"  // Otherwise 'http' is used
+		r.Kind = "HTTPSSOSettings" // Otherwise 'SSOSettings' is used
 		// Cannot use config.NameAsIdentifier variable because 'name' parameter can use characters which are invalid for Trerraform resource name
 		//   Terraform resource name must start with a letter or underscore and may contain only letters, digits, underscores, and dashes.
 		// Variable config.NameAsIdentifier is using IDAsExternalName func which tries to get the 'id' from the tfstate,

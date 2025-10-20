@@ -9,8 +9,8 @@ import (
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("platform_aws_iam_role", func(r *config.Resource) {
-		r.ShortGroup = "platform"
-		r.Kind = "AWSIAMRole"
+		r.ShortGroup = "platform" // Otherwise 'aws' is used
+		r.Kind = "AWSIAMRole"     // Otherwise 'IAMRole' is used
 		r.ExternalName.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
 			if username, ok := tfstate["username"].(string); ok && username != "" {
 				return username, nil
