@@ -25,7 +25,7 @@ Install the provider by using the following command after changing the image tag
 to the [latest release](https://marketplace.upbound.io/providers/hmlkao/provider-jfrog-platform):
 
 ```bash
-up ctp provider install hmlkao/provider-jfrog-platform:v0.5.0
+up ctp provider install hmlkao/provider-jfrog-platform:v0.6.0
 ```
 
 Alternatively, you can use declarative installation:
@@ -37,7 +37,7 @@ kind: Provider
 metadata:
   name: provider-jfrog-platform
 spec:
-  package: hmlkao/provider-jfrog-platform:v0.5.0
+  package: hmlkao/provider-jfrog-platform:v0.6.0
 EOF
 ```
 
