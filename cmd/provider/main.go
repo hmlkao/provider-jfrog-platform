@@ -122,7 +122,7 @@ func main() {
 	}
 
 	//
-	// Cluster scoped configuration
+	// Namespaced configuration
 	//
 	namespacedOptions := tjcontroller.Options{
 		Options: xpcontroller.Options{
@@ -137,7 +137,7 @@ func main() {
 				MRStateMetrics:          stateMetrics,
 			},
 		},
-		Provider: config.GetProvider(),
+		Provider: config.GetProviderNamespaced(),
 		// use the following WorkspaceStoreOption to enable the shared gRPC mode
 		// terraform.WithProviderRunner(terraform.NewSharedProvider(log, os.Getenv("TERRAFORM_NATIVE_PROVIDER_PATH"), terraform.WithNativeProviderArgs("-debuggable")))
 		WorkspaceStore: terraform.NewWorkspaceStore(log),
