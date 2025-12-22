@@ -13,4 +13,5 @@ spec:
     description: My GitHub OIDC configuration
     issuerUrl: https://token.actions.githubusercontent.com
     name: my-github-oidc-configuration
+    organization: jfrog
     providerType: GitHub
