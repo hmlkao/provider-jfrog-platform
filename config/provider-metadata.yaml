@@ -1,7 +1,7 @@
 name: jfrog/platform
 resources:
     platform_aws_iam_role:
-        subCategory: ""
+        subCategory: AWS IAM Role
         description: Provides a resource to manage AWS IAM roles for JFrog platform users. You can use the AWS IAM roles for passwordless access to Amazon EKS. For more information, see Passwordless Access for Amazon EKS https://jfrog.com/help/r/jfrog-installation-setup-documentation/passwordless-access-for-amazon-eks. ->Only available for Artifactory 7.90.10 or later.
         name: platform_aws_iam_role
         title: platform_aws_iam_role Resource - terraform-provider-platform
@@ -15,10 +15,9 @@ resources:
         argumentDocs:
             iam_role: (String) The AWS IAM role. Must follow the regex, "^arn:aws:iam::\d{12}:role/[\w+=,.@:-]+$"
             username: (String) The JFrog Platform user name.
-        importStatements:
-            - terraform import platform_aws_iam_role.myuser-aws-iam-role myuser
+        importStatements: []
     platform_crowd_settings:
-        subCategory: ""
+        subCategory: Authentication Providers Configuration
         description: Provides a JFrog Crowd Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/atlassian-crowd-and-jira-integration resource. This allows you to delegate authentication requests to Atlassian Crowd/JIRA, use authenticated Crowd/JIRA users and have the JPD participate in a transparent SSO environment managed by Crowd/JIRA.
         name: platform_crowd_settings
         title: platform_crowd_settings Resource - terraform-provider-platform
@@ -48,10 +47,9 @@ resources:
             server_url: (String) The full URL of the server to use.
             session_validation_interval: (Number) The time window (min) during which the session does not need to be validated. If set to 0, the token expires only when the session expires.
             use_default_proxy: (Boolean) If a default proxy definition exists, it is used to pass through to the Crowd Server. Default value is false.
-        importStatements:
-            - terraform import platform_crowd_settings.my-crowd-settings my-crowd-settings
+        importStatements: []
     platform_global_role:
-        subCategory: ""
+        subCategory: Global Roles
         description: Provides a JFrog global role https://jfrog.com/help/r/jfrog-platform-administration-documentation/global-and-project-role-types resource to manage custom global roles.
         name: platform_global_role
         title: platform_global_role Resource - terraform-provider-platform
@@ -77,10 +75,9 @@ resources:
             environments: (Set of String) List of global or custom environments. A repository can be available in different environments. Members with roles defined in the set environment will have access to the repository.
             name: (String) Name of the role
             type: '(String) Type of the role. Allowed values: ADMIN, CUSTOM_GLOBAL, PREDEFINED'
-        importStatements:
-            - terraform import platform_global_role.my-global-role my-global-role
+        importStatements: []
     platform_group:
-        subCategory: ""
+        subCategory: Groups
         description: Provides a group resource to create and manage groups, and manages membership. A group represents a role and is used with RBAC (Role-Based Access Control) rules. See JFrog documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/create-and-edit-groups for more details.
         name: platform_group
         title: platform_group Resource - terraform-provider-platform
@@ -107,10 +104,9 @@ resources:
             realm: (String) The realm for the group.
             realm_attributes: (String) The realm for the group.
             use_group_members_resource: (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
-        importStatements:
-            - terraform import platform_group.my-group my-group
+        importStatements: []
     platform_group_members:
-        subCategory: ""
+        subCategory: Users
         description: Provides a resource to manage group membership. See JFrog documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/assign-users-to-groups for more details.
         name: platform_group_members
         title: platform_group_members Resource - terraform-provider-platform
@@ -137,10 +133,9 @@ resources:
         argumentDocs:
             members: (Set of String) List of users assigned to the group.
             name: (String) Name of the group.
-        importStatements:
-            - terraform import platform_group_members.my-group my-group
+        importStatements: []
     platform_http_sso_settings:
-        subCategory: ""
+        subCategory: Authentication Providers Configuration
         description: Provides a JFrog HTTP SSO Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/http-sso resource. This allows you to reuse existing HTTP-based SSO infrastructures with the JFrog Platform Unit (JPD), such as the SSO modules offered by Apache HTTPd.
         name: platform_http_sso_settings
         title: platform_http_sso_settings Resource - terraform-provider-platform
@@ -160,10 +155,9 @@ resources:
             proxied: '(Boolean) When set, Artifactory trusts incoming requests and reuses the remote user originally set on the request by the SSO of the HTTP server. This is useful if you want to use existing enterprise SSO integrations, such as the powerful authentication schemes provided by Apache (mod_auth_ldap, mod_auth_ntlm, mod_auth_kerb, etc.). When Artifactory is deployed as a webapp on Tomcat behind Apache: If using mod_jk, be sure to use the JkEnvVar REMOTE_USER directive in Apache''s configuration.'
             remote_user_request_variable: (String) The name of the HTTP request variable to use for extracting the user identity. Default to REMOTE_USER.
             sync_ldap_groups: (Boolean) When set, the user will be associated with the groups returned in the LDAP login response. Note that the user's association with the returned groups is persistent if the auto_create_user is set. Default to false.
-        importStatements:
-            - terraform import platform_http_sso_settings.my-http-sso-settings my-http-sso-settings
+        importStatements: []
     platform_license:
-        subCategory: ""
+        subCategory: Configuration
         description: Provides a JFrog license https://jfrog.com/help/r/jfrog-platform-administration-documentation/managing-licenses resource to install/update license. ~>Only available for self-hosted instances.
         name: platform_license
         title: platform_license Resource - terraform-provider-platform
@@ -182,10 +176,10 @@ resources:
             valid_through: (String) Date of the license is valid through.
         importStatements: []
     platform_myjfrog_ip_allowlist:
-        subCategory: Deprecated
+        subCategory: MyJFrog Portal
         description: Provides a MyJFrog IP allowlist https://jfrog.com/help/r/jfrog-hosting-models-documentation/configure-the-ip/cidr-allowlist resource to manage list of allow IP/CIDR addresses. To use this resource, you need an access token. Only a Primary Admin can generate MyJFrog tokens. For more information, see Generate a Token in MyJFrog https://jfrog.com/help/r/jfrog-hosting-models-documentation/generate-a-token-in-myjfrog. ->This resource is supported only on the Cloud (SaaS) platform. ~>The rate limit is 5 times per hour for actions that result in a successful outcome (for Create, Update, and Delete actions). See Allowlist REST API https://jfrog.com/help/r/jfrog-rest-apis/allowlist-rest-api for full list of limitations. !>This resource is being deprecated and moved to the new provider jfrog/myjfrog https://registry.terraform.io/providers/jfrog/myjfrog. Use myjfrog_ip_allowlist resource there instead.
         name: platform_myjfrog_ip_allowlist
-        title: platform_myjfrog_ip_allowlist Resource - terraform-provider-platform
+        title: platform_myjfrog_ip_allowlist Resource (Deprecated) - terraform-provider-platform
         examples:
             - name: myjfrog-ip-allowlist
               manifest: |-
@@ -199,10 +193,9 @@ resources:
         argumentDocs:
             ips: (Set of String) List of IPs for the JPD allowlist
             server_name: (String) Name of the server. If your JFrog URL is myserver.jfrog.io, the server_name is myserver.
-        importStatements:
-            - terraform import platform_myjfrog_ip_allowlist.myjfrog-ip-allowlist jpd-server-name
+        importStatements: []
     platform_oidc_configuration:
-        subCategory: ""
+        subCategory: OIDC Integration
         description: Manage OIDC configuration in JFrog platform. See the JFrog OIDC configuration documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/configure-an-oidc-integration for more information.
         name: platform_oidc_configuration
         title: platform_oidc_configuration Resource - terraform-provider-platform
@@ -214,6 +207,7 @@ resources:
                   "description": "My GitHub OIDC configuration",
                   "issuer_url": "https://token.actions.githubusercontent.com",
                   "name": "my-github-oidc-configuration",
+                  "organization": "jfrog",
                   "provider_type": "GitHub"
                 }
             - name: my-github-oidc-enterprise-configuration
@@ -223,7 +217,8 @@ resources:
                   "description": "My GitHub OIDC enterprise configuration",
                   "issuer_url": "https://token.actions.githubusercontent.com/jfrog",
                   "name": "my-github-oidc-enterprise-configuration",
-                  "provider_type": "GitHub"
+                  "organization": "jfrog",
+                  "provider_type": "GitHubEnterprise"
                 }
             - name: my-generic-oidc-configuration
               manifest: |-
@@ -233,6 +228,16 @@ resources:
                   "issuer_url": "https://tempurl.org",
                   "name": "my-generic-oidc-configuration",
                   "provider_type": "generic"
+                }
+            - name: my-azure-oidc-configuration
+              manifest: |-
+                {
+                  "audience": "azure-audience",
+                  "description": "My Azure OIDC configuration",
+                  "issuer_url": "https://sts.windows.net/your-tenant-id/",
+                  "name": "{{ .name }}",
+                  "provider_type": "Azure",
+                  "use_default_proxy": true
                 }
         argumentDocs:
             audience: (String) Informational field that you can use to include details of the audience that uses the OIDC configuration.
@@ -244,13 +249,9 @@ resources:
             project_key: (String) If set, this Identity Configuration will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Configuration will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
             provider_type: (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
             use_default_proxy: (Boolean) This enables and disables the default proxy for OIDC integration. If enabled, the OIDC mechanism will utilize the default proxy for all OIDC requests. If disabled, the OIDC mechanism does not use any proxy for all OIDC requests. Before enabling this functionality you must configure the default proxy.
-        importStatements:
-            - |-
-              terraform import platform_oidc_configuration.my-oidc-configuration my-oidc-configuration
-
-              terraform import platform_oidc_configuration.my-oidc-configuration my-oidc-configuration:myproj
+        importStatements: []
     platform_oidc_identity_mapping:
-        subCategory: ""
+        subCategory: OIDC Integration
         description: Manage OIDC identity mapping for an OIDC configuration in JFrog platform. See the JFrog OIDC identity mappings documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/configure-identity-mappings for more information.
         name: platform_oidc_identity_mapping
         title: platform_oidc_identity_mapping Resource - terraform-provider-platform
@@ -341,13 +342,9 @@ resources:
             token_spec: (Attributes) Specifications of the token. In case of success, a token with the following details will be generated and passed to OIDC Provider. (see below for nested schema)
             username: (String) User name of the OIDC user. Not applicable when scope is set to applied-permissions/groups. Must be set when scope is set to applied-permissions/roles.
             username_pattern: (String) Provide a pattern which is used to map OIDC user to Artifactory user.
-        importStatements:
-            - |-
-              terraform import platform_oidc_identity_mapping.my-oidc-identity-mapping my-oidc-identity-mapping:my-oidc-configuration
-
-              terraform import platform_oidc_identity_mapping.my-oidc-identity-mapping my-oidc-identity-mapping:my-oidc-configuration:myproj
+        importStatements: []
     platform_permission:
-        subCategory: ""
+        subCategory: Permissions
         description: Provides a JFrog permission https://jfrog.com/help/r/jfrog-platform-administration-documentation/permissions resource to manage how users and groups access JFrog resources. This resource is applicable for the next-generation permissions model and fully backwards compatible with the legacy artifactory_permission_target resource in Artifactory provider.
         name: platform_permission
         title: platform_permission Resource - terraform-provider-platform
@@ -379,21 +376,21 @@ resources:
                           "**",
                           "*.js"
                         ],
-                        "name": "ANY LOCAL"
+                        "name": "ALL-LOCAL"
                       },
                       {
                         "include_patterns": [
                           "**",
                           "*.js"
                         ],
-                        "name": "ANY REMOTE"
+                        "name": "ALL-REMOTE"
                       },
                       {
                         "include_patterns": [
                           "**",
                           "*.js"
                         ],
-                        "name": "ANY DISTRIBUTION"
+                        "name": "ALL-DISTRIBUTION"
                       }
                     ]
                   },
@@ -502,12 +499,11 @@ resources:
                 MANAGE: Allows changing the permission settings for other users in this permission target. It does not permit adding/removing resources to the permission target.
             pipeline_source: (Attributes) Defines the pipeline sources to be used or excluded. (see below for nested schema)
             release_bundle: (Attributes) Defines the release bundles to be used or excluded. (see below for nested schema)
-            targets: (Attributes Set) (see below for nested schema)
+            targets: (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
             users: (Attributes Set) (see below for nested schema)
-        importStatements:
-            - terraform import platform_permission.my-permission my-permission-name
+        importStatements: []
     platform_reverse_proxy:
-        subCategory: ""
+        subCategory: Configuration
         description: Provides a JFrog Reverse Proxy https://jfrog.com/help/r/jfrog-artifactory-documentation/reverse-proxy-settings resource. ~>Only available for self-hosted instances.
         name: platform_reverse_proxy
         title: platform_reverse_proxy Resource - terraform-provider-platform
@@ -536,10 +532,9 @@ resources:
             ssl_certificate_path: (String) The full path of the certificate file on the web server, e.g. /etc/ssl/certs/myserver.crt. Must be set when use_https is set to true
             ssl_key_path: (String) The full path of the key file on the web server, e.g. /etc/ssl/private/myserver.key. Must be set when use_https is set to true
             use_https: (Boolean) When set, Artifactory will be accessible via HTTPS at the corresponding port that is set. Only settable when server_provider is set to NIGNIX or APACHE
-        importStatements:
-            - terraform import platform_reverse_proxy.my-reverse-proxy DIRECT
+        importStatements: []
     platform_saml_settings:
-        subCategory: ""
+        subCategory: Authentication Providers Configuration
         description: Provides a JFrog SAML SSO Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/saml-sso resource. ~>Only available for self-hosted instances.
         name: platform_saml_settings
         title: platform_saml_settings Resource - terraform-provider-platform
@@ -580,10 +575,9 @@ resources:
             sync_groups: (Boolean) When set, in addition to the groups the user is already associated with, he will also be associated with the groups returned in the SAML login response. Note that the user's association with the returned groups is not persistent. It is only valid for the current login session. Default value is false.
             use_encrypted_assertion: (Boolean) When set, an X.509 public certificate will be created by Artifactory. Download this certificate and upload it to your IDP and choose your own encryption algorithm. This process will let you encrypt the assertion section in your SAML response. Default value is false.
             verify_audience_restriction: (Boolean) Set this flag to specify who the assertion is intended for. The "audience" will be the service provider and is typically a URL but can technically be formatted as any string of data. Default value is true.
-        importStatements:
-            - terraform import platform_saml_settings.my-okta-saml-settings my-okta-saml-settings
+        importStatements: []
     platform_scim_group:
-        subCategory: ""
+        subCategory: SCIM
         description: Provides a JFrog SCIM Group https://jfrog.com/help/r/jfrog-platform-administration-documentation/scim resource to manage groups with the SCIM protocol.
         name: platform_scim_group
         title: platform_scim_group Resource - terraform-provider-platform
@@ -611,10 +605,9 @@ resources:
             members: (Attributes Set) (see below for nested schema)
             meta: (Map of String)
             value: (String)
-        importStatements:
-            - terraform import platform_scim_group.my-scim-group my-scim-group
+        importStatements: []
     platform_scim_user:
-        subCategory: ""
+        subCategory: SCIM
         description: Provides a JFrog SCIM User https://jfrog.com/help/r/jfrog-platform-administration-documentation/scim resource to manage users with the SCIM protocol.
         name: platform_scim_user
         title: platform_scim_user Resource - terraform-provider-platform
@@ -639,10 +632,9 @@ resources:
             primary: (Boolean)
             username: (String)
             value: (String)
-        importStatements:
-            - terraform import platform_scim_user.my-scim-user test@tempurl.org
+        importStatements: []
     platform_workers_service:
-        subCategory: ""
+        subCategory: Workers
         description: Provides a JFrog Workers Service https://jfrog.com/help/r/jfrog-platform-administration-documentation/workers-service resource. This can be used to create and manage Workers Service. ->From Artifactory 7.94 the Workers service will be available in a general availability release to Enterprise X and Enterprise+ licenses.
         name: platform_workers_service
         title: platform_workers_service Resource - terraform-provider-platform
@@ -686,5 +678,4 @@ resources:
             secrets: (Attributes Set) The secrets to be added to the worker. (see below for nested schema)
             source_code: (String) The worker script in TypeScript or JavaScript.
             value: (String) The name of the secret.
-        importStatements:
-            - terraform import platform_workers_service.my-worker-service my-worker-service-key
+        importStatements: []

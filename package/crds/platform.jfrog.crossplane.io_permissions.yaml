@@ -141,7 +141,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -232,7 +234,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -254,7 +258,7 @@ spec:
                             name:
                               description: |-
                                 (String) Permission name
-                                Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+                                Specify build info repository name. Any custom build info repository name is allowed (e.g. `artifactory-build-info` or a custom repository). Specify build name as part of the `include_patterns` or `exclude_patterns`.
                               type: string
                           type: object
                         type: array
@@ -317,7 +321,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -407,7 +413,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -500,7 +508,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -605,7 +615,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -696,7 +708,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -718,7 +732,7 @@ spec:
                             name:
                               description: |-
                                 (String) Permission name
-                                Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+                                Specify build info repository name. Any custom build info repository name is allowed (e.g. `artifactory-build-info` or a custom repository). Specify build name as part of the `include_patterns` or `exclude_patterns`.
                               type: string
                           type: object
                         type: array
@@ -781,7 +795,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -871,7 +887,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -964,7 +982,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -1152,7 +1172,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -1243,7 +1265,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -1265,7 +1289,7 @@ spec:
                             name:
                               description: |-
                                 (String) Permission name
-                                Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+                                Specify build info repository name. Any custom build info repository name is allowed (e.g. `artifactory-build-info` or a custom repository). Specify build name as part of the `include_patterns` or `exclude_patterns`.
                               type: string
                           type: object
                         type: array
@@ -1328,7 +1352,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -1420,7 +1446,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:
@@ -1513,7 +1541,9 @@ spec:
                             type: array
                         type: object
                       targets:
-                        description: (Attributes Set) (see below for nested schema)
+                        description: (Attributes Set) When artifact is specified,
+                          targets must contain at least one target. Empty targets
+                          are not allowed. (see below for nested schema)
                         items:
                           properties:
                             excludePatterns:

@@ -177,7 +177,7 @@ type ArtifactInitParameters struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *ActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []TargetsInitParameters `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -186,7 +186,7 @@ type ArtifactObservation struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *ActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []TargetsObservation `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -196,7 +196,7 @@ type ArtifactParameters struct {
 	// +kubebuilder:validation:Optional
 	Actions *ActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Targets []TargetsParameters `json:"targets" tf:"targets,omitempty"`
 }
@@ -235,7 +235,7 @@ type BuildInitParameters struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *BuildActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []BuildTargetsInitParameters `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -244,7 +244,7 @@ type BuildObservation struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *BuildActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []BuildTargetsObservation `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -254,7 +254,7 @@ type BuildParameters struct {
 	// +kubebuilder:validation:Optional
 	Actions *BuildActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Targets []BuildTargetsParameters `json:"targets" tf:"targets,omitempty"`
 }
@@ -272,7 +272,7 @@ type BuildTargetsInitParameters struct {
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
 	// (String) Permission name
-	// Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+	// Specify build info repository name. Any custom build info repository name is allowed (e.g. `artifactory-build-info` or a custom repository). Specify build name as part of the `include_patterns` or `exclude_patterns`.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -289,7 +289,7 @@ type BuildTargetsObservation struct {
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
 	// (String) Permission name
-	// Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+	// Specify build info repository name. Any custom build info repository name is allowed (e.g. `artifactory-build-info` or a custom repository). Specify build name as part of the `include_patterns` or `exclude_patterns`.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
@@ -308,7 +308,7 @@ type BuildTargetsParameters struct {
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
 	// (String) Permission name
-	// Only `artifactory-build-info` is allowed for name. Specify build name as part of the `include_patterns` or `exclude_patterns`.
+	// Specify build info repository name. Any custom build info repository name is allowed (e.g. `artifactory-build-info` or a custom repository). Specify build name as part of the `include_patterns` or `exclude_patterns`.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
 }
@@ -459,7 +459,7 @@ type DestinationInitParameters struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *DestinationActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []DestinationTargetsInitParameters `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -468,7 +468,7 @@ type DestinationObservation struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *DestinationActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []DestinationTargetsObservation `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -478,7 +478,7 @@ type DestinationParameters struct {
 	// +kubebuilder:validation:Optional
 	Actions *DestinationActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Targets []DestinationTargetsParameters `json:"targets" tf:"targets,omitempty"`
 }
@@ -822,7 +822,7 @@ type PipelineSourceInitParameters struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *PipelineSourceActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []PipelineSourceTargetsInitParameters `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -831,7 +831,7 @@ type PipelineSourceObservation struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *PipelineSourceActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []PipelineSourceTargetsObservation `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -841,7 +841,7 @@ type PipelineSourceParameters struct {
 	// +kubebuilder:validation:Optional
 	Actions *PipelineSourceActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Targets []PipelineSourceTargetsParameters `json:"targets" tf:"targets,omitempty"`
 }
@@ -1070,7 +1070,7 @@ type ReleaseBundleInitParameters struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *ReleaseBundleActionsInitParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []ReleaseBundleTargetsInitParameters `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -1079,7 +1079,7 @@ type ReleaseBundleObservation struct {
 	// (Attributes) Either one of users or groups attribute must be set. (see below for nested schema)
 	Actions *ReleaseBundleActionsObservation `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	Targets []ReleaseBundleTargetsObservation `json:"targets,omitempty" tf:"targets,omitempty"`
 }
 
@@ -1089,7 +1089,7 @@ type ReleaseBundleParameters struct {
 	// +kubebuilder:validation:Optional
 	Actions *ReleaseBundleActionsParameters `json:"actions,omitempty" tf:"actions,omitempty"`
 
-	// (Attributes Set) (see below for nested schema)
+	// (Attributes Set) When artifact is specified, targets must contain at least one target. Empty targets are not allowed. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	Targets []ReleaseBundleTargetsParameters `json:"targets" tf:"targets,omitempty"`
 }
