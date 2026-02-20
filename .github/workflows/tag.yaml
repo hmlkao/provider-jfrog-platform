@@ -10,12 +10,21 @@ on:
         description: 'Tag message'
         required: true
 
-permissions:
-  contents: write
-
 jobs:
-  tag:
-    uses: upbound/official-providers-ci/.github/workflows/provider-tag.yml@standard-runners
-    with:
-      version: ${{ github.event.inputs.version }}
-      message: ${{ github.event.inputs.message }}
+  create-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      # contents and actions permissions are required for the negz/create-tag
+      # action to create a tag and push it to the repository
+      contents: write
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Create Tag
+        uses: negz/create-tag@39bae1e0932567a58c20dea5a1a0d18358503320 # v1
+        with:
+          version: ${{ github.event.inputs.version }}
+          message: ${{ github.event.inputs.message }}
+          token: ${{ secrets.GITHUB_TOKEN }}

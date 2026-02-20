@@ -1,7 +1,3 @@
-/*
-Copyright 2022 Upbound Inc.
-*/
-
 package v1beta1
 
 import (
@@ -82,13 +78,12 @@ type ProviderConfigUsageList struct {
 
 // +kubebuilder:object:root=true
 
-// A ClusterProviderConfig configures the Artifactory provider.
+// A ClusterProviderConfig configures the JFrog Platform provider.
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:printcolumn:name="SECRET-NAME",type="string",JSONPath=".spec.credentials.secretRef.name",priority=1
 // +kubebuilder:resource:scope=Cluster
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,providerconfig,artifactory}
-// +kubebuilder:storageversion
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,provider,jfrog-platform}
 type ClusterProviderConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

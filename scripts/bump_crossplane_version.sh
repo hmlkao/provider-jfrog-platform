@@ -19,7 +19,7 @@ fi
 
 main() {
   sed -i "s|CROSSPLANE_VERSION = ${current_version}|CROSSPLANE_VERSION = ${new_version}|" "$dir/../Makefile"
-  sed -i "s|CROSSPLANE_CLI_VERSION ?= v${current_version}|CROSSPLANE_CLI_VERSION ?= v${new_version}|" "$dir/../Makefile"
+  sed -i "s|CROSSPLANE_CLI_VERSION = v${current_version}|CROSSPLANE_CLI_VERSION = v${new_version}|" "$dir/../Makefile"
 }
 
 main "$@"

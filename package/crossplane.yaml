@@ -14,4 +14,4 @@ metadata:
       [hmlkao/provider-jfrog-platform](https://github.com/hmlkao/provider-jfrog-platform/issues) repo.
 spec:
   capabilities:
-  - SafeStart
+    - SafeStart
