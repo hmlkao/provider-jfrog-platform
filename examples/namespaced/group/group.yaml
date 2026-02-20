@@ -1,0 +1,10 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  name: my-crossplane-group
+spec:
+  forProvider:
+    name: My Crossplane Group
+    useGroupMembersResource: true
+  providerConfigRef:
+    name: default

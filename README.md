@@ -6,7 +6,7 @@ is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 JFrog Platform API.
 
-The repo was created from the [crossplane/upjet-provider-template@7311f9f](https://github.com/crossplane/upjet-provider-template/tree/7311f9f9baa87f4431702ba209dffbc6067ce74b) template.
+The repo was created from [crossplane/upjet-provider-template@9644008](https://github.com/crossplane/upjet-provider-template/tree/96440083ef6ed070d9413436a9d6a40000d6773f) template.
 
 The provider is generated from Terraform provider [jfrog/platform v2.2.7](https://registry.terraform.io/providers/jfrog/platform/2.2.7/docs).
 
@@ -21,14 +21,7 @@ The provider is generated from Terraform provider [jfrog/platform v2.2.7](https:
 
 ## Getting Started
 
-Install the provider by using the following command after changing the image tag
-to the [latest release](https://marketplace.upbound.io/providers/hmlkao/provider-jfrog-platform):
-
-```bash
-up ctp provider install hmlkao/provider-jfrog-platform:v0.6.2
-```
-
-Alternatively, you can use declarative installation:
+Use declarative installation:
 
 ```bash
 cat <<EOF | kubectl apply -f -
@@ -37,13 +30,9 @@ kind: Provider
 metadata:
   name: provider-jfrog-platform
 spec:
-  package: hmlkao/provider-jfrog-platform:v0.6.2
+  package: hmlkao/provider-jfrog-platform:v0.7.0
 EOF
 ```
-
-Notice that in this example, the Provider resource is referencing a ControllerConfig with debug enabled.
-
-You can see the API reference [here](https://doc.crds.dev/github.com/hmlkao/provider-jfrog-platform).
 
 ## Supported resources
 
@@ -248,6 +237,32 @@ Run against a Kubernetes cluster:
 
 ```console
 make run
+```
+
+Create resource
+
+```console
+# Example
+kubectl apply -f package/crds/platform.jfrog.m.crossplane.io_clusterproviderconfigs.yaml
+kubectl apply -f package/crds/platform.jfrog.m.crossplane.io_providerconfigusages.yaml
+kubectl apply -f package/crds/platform.jfrog.m.crossplane.io_groups.yaml
+
+# Create provider config
+url=https://artifactory-endpoint.example.com
+token=<artifactory-token>
+sed -e "s/y0ur-url/${url}/g" -e "s/y0ur-t0k3n/${token}/g" examples/namespaced/clusterproviderconfig/secret.yaml.tmpl | kubectl apply -f -
+kubectl apply -f examples/namespaced/clusterproviderconfig/clusterproviderconfig.yaml
+kubectl apply -f examples/namespaced/group/group.yaml
+
+# Check the resource
+kubectl get -f examples/namespaced/group/group.yaml
+
+# Cleanup
+kubectl delete -f examples/namespaced/group/group.yaml
+kubectl delete -f examples/namespaced/clusterproviderconfig/clusterproviderconfig.yaml
+kubectl delete -f package/crds/platform.jfrog.m.crossplane.io_groups.yaml
+kubectl delete -f package/crds/platform.jfrog.m.crossplane.io_providerconfigusages.yaml
+kubectl delete -f package/crds/platform.jfrog.m.crossplane.io_clusterproviderconfigs.yaml
 ```
 
 Build, push, and install:
