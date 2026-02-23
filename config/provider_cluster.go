@@ -9,6 +9,7 @@ import (
 	crowdsettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/crowd_settings"
 	globalrole "github.com/hmlkao/provider-jfrog-platform/config/cluster/global_role"
 	"github.com/hmlkao/provider-jfrog-platform/config/cluster/group"
+	groupmembers "github.com/hmlkao/provider-jfrog-platform/config/cluster/group_members"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/config/cluster/http_sso_settings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/config/cluster/oidc_configuration"
 	oidcidentitymapping "github.com/hmlkao/provider-jfrog-platform/config/cluster/oidc_identity_mapping"
@@ -36,6 +37,7 @@ func GetProvider() *ujconfig.Provider {
 		crowdsettings.Configure,
 		globalrole.Configure,
 		group.Configure,
+		groupmembers.Configure,
 		httpssosettings.Configure,
 		oidcconfiguration.Configure,
 		oidcidentitymapping.Configure,
