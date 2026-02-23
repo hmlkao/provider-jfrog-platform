@@ -175,133 +175,6 @@ resources:
             type: (String) Type of the license.
             valid_through: (String) Date of the license is valid through.
         importStatements: []
-    platform_lifecycle:
-        subCategory: Lifecycle
-        description: Provides a lifecycle resource to manage the lifecycle configuration for a project or globally. The lifecycle defines the ordered stages through which software progresses. See JFrog documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/stages-lifecycle for more details.
-        name: platform_lifecycle
-        title: platform_lifecycle Resource - terraform-provider-platform
-        examples:
-            - name: global
-              manifest: |-
-                {
-                  "promote_stages": [
-                    "${platform_lifecycle_stage.dev.name}",
-                    "${platform_lifecycle_stage.qa.name}"
-                  ]
-                }
-              references:
-                promote_stages: platform_lifecycle_stage.dev.name
-              dependencies:
-                platform_lifecycle_stage.dev: |-
-                    {
-                      "category": "promote",
-                      "name": "dev"
-                    }
-                platform_lifecycle_stage.project_dev: |-
-                    {
-                      "category": "promote",
-                      "name": "my-project-dev",
-                      "project_key": "my-project"
-                    }
-                platform_lifecycle_stage.project_staging: |-
-                    {
-                      "category": "promote",
-                      "name": "my-project-staging",
-                      "project_key": "my-project"
-                    }
-                platform_lifecycle_stage.qa: |-
-                    {
-                      "category": "promote",
-                      "name": "qa"
-                    }
-            - name: project
-              manifest: |-
-                {
-                  "project_key": "my-project",
-                  "promote_stages": [
-                    "${platform_lifecycle_stage.project_dev.name}",
-                    "${platform_lifecycle_stage.project_staging.name}"
-                  ]
-                }
-              references:
-                promote_stages: platform_lifecycle_stage.project_dev.name
-              dependencies:
-                platform_lifecycle_stage.dev: |-
-                    {
-                      "category": "promote",
-                      "name": "dev"
-                    }
-                platform_lifecycle_stage.project_dev: |-
-                    {
-                      "category": "promote",
-                      "name": "my-project-dev",
-                      "project_key": "my-project"
-                    }
-                platform_lifecycle_stage.project_staging: |-
-                    {
-                      "category": "promote",
-                      "name": "my-project-staging",
-                      "project_key": "my-project"
-                    }
-                platform_lifecycle_stage.qa: |-
-                    {
-                      "category": "promote",
-                      "name": "qa"
-                    }
-        argumentDocs:
-            categories: (Attributes List) An ordered list of lifecycle categories and stages. (see below for nested schema)
-            category: (String) The category name (code or promote).
-            name: (String) The stage name (for example, DEV or QA).
-            project_key: (String) The project key for which to manage the lifecycle. If not set, manages the global lifecycle.
-            promote_stages: (List of String) The new, ordered list of stage names that comprise the lifecycle. Global stages, such as PR, COMMIT, and PROD, cannot be modified and should not be included in the request.
-            release_stage: (String) Name of the release stage (for example, PROD).
-            scope: (String) The scope at which the stage exists (global or project).
-            stages: (Attributes List) An ordered list of stages within a particular category. (see below for nested schema)
-        importStatements: []
-    platform_lifecycle_stage:
-        subCategory: Lifecycle
-        description: Provides a lifecycle stage resource to create and manage lifecycle stages. A lifecycle stage represents a step in the software development lifecycle. See JFrog documentation https://jfrog.com/help/r/jfrog-platform-administration-documentation/stages-lifecycle for more details.
-        name: platform_lifecycle_stage
-        title: platform_lifecycle_stage Resource - terraform-provider-platform
-        examples:
-            - name: dev
-              manifest: |-
-                {
-                  "category": "promote",
-                  "name": "dev"
-                }
-            - name: staging
-              manifest: |-
-                {
-                  "category": "promote",
-                  "name": "my-project-staging",
-                  "project_key": "my-project"
-                }
-            - name: qa
-              manifest: |-
-                {
-                  "category": "code",
-                  "name": "my-project-qa",
-                  "project_key": "my-project"
-                }
-            - name: test
-              manifest: |-
-                {
-                  "name": "my-project-test",
-                  "project_key": "my-project"
-                }
-        argumentDocs:
-            category: '(String) The category of the stage: none, code, or promote (default: promote).'
-            created: (Number) The timestamp when the stage was created (milliseconds since epoch).
-            detach_on_destroy: (Boolean) If true, the stage will be detached from the lifecycle when the resource is destroyed. This is useful to prevent the stage from being deleted when the lifecycle is destroyed.
-            modified: (Number) The timestamp when the stage was last modified (milliseconds since epoch).
-            name: '(String) The unique name of the stage (for example, DEV, QA, PROD). For project-scoped stages, the name must be prefixed with the project_key (e.g., ''bookverse-deploy'' if project_key is ''bookverse''). Important: Stage names are case-sensitive.'
-            project_key: (String) [For project-level stages only] The project key associated with the stage. When set, the stage name must be prefixed with this value (e.g. 'bookverse-deploy' if project_key is 'bookverse').
-            repositories: (Set of String) A list of repository keys assigned to this stage. This is relevant only when the category is promote. Repositories are managed by the API and returned in the response. Read-only.
-            scope: '(String) The scope of the stage: GLOBAL or PROJECT. This is determined by the API based on whether project_key is provided. Read-only.'
-            total_repository_count: (Number) The total number of repositories assigned to this stage. Read-only.
-            used_in_lifecycles: (List of String) Lists the project keys that use this stage as part of its lifecycle.
-        importStatements: []
     platform_myjfrog_ip_allowlist:
         subCategory: MyJFrog Portal
         description: Provides a MyJFrog IP allowlist https://jfrog.com/help/r/jfrog-hosting-models-documentation/configure-the-ip/cidr-allowlist resource to manage list of allow IP/CIDR addresses. To use this resource, you need an access token. Only a Primary Admin can generate MyJFrog tokens. For more information, see Generate a Token in MyJFrog https://jfrog.com/help/r/jfrog-hosting-models-documentation/generate-a-token-in-myjfrog. ->This resource is supported only on the Cloud (SaaS) platform. ~>The rate limit is 5 times per hour for actions that result in a successful outcome (for Create, Update, and Delete actions). See Allowlist REST API https://jfrog.com/help/r/jfrog-rest-apis/allowlist-rest-api for full list of limitations. !>This resource is being deprecated and moved to the new provider jfrog/myjfrog https://registry.terraform.io/providers/jfrog/myjfrog. Use myjfrog_ip_allowlist resource there instead.
@@ -662,7 +535,7 @@ resources:
         importStatements: []
     platform_saml_settings:
         subCategory: Authentication Providers Configuration
-        description: Provides a JFrog SAML SSO Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/saml-sso resource. ~>This resource supports both JFrog SaaS and Self-Hosted instances. For SaaS instances, the
+        description: Provides a JFrog SAML SSO Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/saml-sso resource. ~>Only available for self-hosted instances.
         name: platform_saml_settings
         title: platform_saml_settings Resource - terraform-provider-platform
         examples:

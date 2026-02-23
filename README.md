@@ -48,7 +48,7 @@ The short group is `platform`, so the `apiGroup` is `platform.jfrog.m.crossplane
 | `platform_crowd_settings`        | :heavy_check_mark:                                                                                                           | `CrowdSettings`       |
 | `platform_global_role`           | :heavy_check_mark:                                                                                                           | `GlobalRole`          |
 | `platform_group`                 | :heavy_check_mark: ([Known Issues](./KNOWN_ISSUES.md#platform_group))                                                        | `Group`               |
-| `platform_group_members`         | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                       |
+| `platform_group_members`         | :heavy_check_mark:                                                                                                           | `GroupMembers`        |
 | `platform_http_sso_settings`     | :heavy_check_mark:                                                                                                           | `HTTPSSOSettings`     |
 | `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                       |
 | `platform_oidc_configuration`    | :heavy_check_mark:                                                                                                           | `OIDCConfiguration`   |

@@ -11,6 +11,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"platform_crowd_settings":        config.IdentifierFromProvider,
 	"platform_global_role":           config.IdentifierFromProvider,
 	"platform_group":                 config.IdentifierFromProvider, // Cannot use NameAsIdentifier, 'name' parameter can contain characters which are not allowed in Terraform resource name
+	"platform_group_members":         config.NameAsIdentifier,
 	"platform_http_sso_settings":     config.IdentifierFromProvider,
 	"platform_oidc_configuration":    config.IdentifierFromProvider,
 	"platform_oidc_identity_mapping": config.IdentifierFromProvider,

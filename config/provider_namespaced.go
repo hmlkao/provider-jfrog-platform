@@ -9,6 +9,7 @@ import (
 	crowdsettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/crowd_settings"
 	globalrole "github.com/hmlkao/provider-jfrog-platform/config/namespaced/global_role"
 	"github.com/hmlkao/provider-jfrog-platform/config/namespaced/group"
+	groupmembers "github.com/hmlkao/provider-jfrog-platform/config/namespaced/group_members"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/config/namespaced/http_sso_settings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/config/namespaced/oidc_configuration"
 	oidcidentitymapping "github.com/hmlkao/provider-jfrog-platform/config/namespaced/oidc_identity_mapping"
@@ -36,6 +37,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		crowdsettings.Configure,
 		globalrole.Configure,
 		group.Configure,
+		groupmembers.Configure,
 		httpssosettings.Configure,
 		oidcconfiguration.Configure,
 		oidcidentitymapping.Configure,
