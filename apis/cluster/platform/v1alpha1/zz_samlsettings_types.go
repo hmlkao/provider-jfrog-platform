@@ -258,7 +258,7 @@ type SAMLSettingsStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// SAMLSettings is the Schema for the SAMLSettingss API. Provides a JFrog SAML SSO Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/saml-sso resource. ~>Only available for self-hosted instances.
+// SAMLSettings is the Schema for the SAMLSettingss API. Provides a JFrog SAML SSO Settings https://jfrog.com/help/r/jfrog-platform-administration-documentation/saml-sso resource. ~>This resource supports both JFrog SaaS and Self-Hosted instances. For SaaS instances, the
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
