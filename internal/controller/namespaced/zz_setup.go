@@ -13,6 +13,7 @@ import (
 	crowdsettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/crowdsettings"
 	globalrole "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/globalrole"
 	group "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/group"
+	groupmembers "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/groupmembers"
 	httpssosettings "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/httpssosettings"
 	oidcconfiguration "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/oidcconfiguration"
 	oidcidentitymapping "github.com/hmlkao/provider-jfrog-platform/internal/controller/namespaced/platform/oidcidentitymapping"
@@ -33,6 +34,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		crowdsettings.Setup,
 		globalrole.Setup,
 		group.Setup,
+		groupmembers.Setup,
 		httpssosettings.Setup,
 		oidcconfiguration.Setup,
 		oidcidentitymapping.Setup,
@@ -59,6 +61,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		crowdsettings.SetupGated,
 		globalrole.SetupGated,
 		group.SetupGated,
+		groupmembers.SetupGated,
 		httpssosettings.SetupGated,
 		oidcconfiguration.SetupGated,
 		oidcidentitymapping.SetupGated,
