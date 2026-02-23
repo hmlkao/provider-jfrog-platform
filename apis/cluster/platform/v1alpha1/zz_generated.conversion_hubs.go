@@ -19,6 +19,9 @@ func (tr *GlobalRole) Hub() {}
 func (tr *Group) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *GroupMembers) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *HTTPSSOSettings) Hub() {}
 
 // Hub marks this type as a conversion hub.

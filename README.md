@@ -51,6 +51,8 @@ The short group is `platform`, so the `apiGroup` is `platform.jfrog.m.crossplane
 | `platform_group_members`         | :heavy_check_mark:                                                                                                           | `GroupMembers`        |
 | `platform_http_sso_settings`     | :heavy_check_mark:                                                                                                           | `HTTPSSOSettings`     |
 | `platform_license`               | :x: ([Resource Import Not Implemented](./KNOWN_ISSUES.md#resource-import-not-implemented))                                   |                       |
+| `platform_lifecycle`             | :x:                                                                                                                          |                       |
+| `platform_lifecycle_stage`       | :x:                                                                                                                          |                       |
 | `platform_oidc_configuration`    | :heavy_check_mark:                                                                                                           | `OIDCConfiguration`   |
 | `platform_oidc_identity_mapping` | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `OIDCIdentityMapping` |
 | `platform_permission`            | :heavy_check_mark: ([Nested Schema](./KNOWN_ISSUES.md#nested-schema))                                                        | `Permission`          |

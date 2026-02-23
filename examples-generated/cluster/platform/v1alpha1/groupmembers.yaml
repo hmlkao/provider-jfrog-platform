@@ -1,0 +1,30 @@
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: GroupMembers
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/groupmembers
+  labels:
+    testing.upbound.io/example-name: my-group-members
+  name: my-group-members
+spec:
+  forProvider:
+    members:
+    - admin
+
+---
+
+apiVersion: platform.jfrog.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: platform/v1alpha1/groupmembers
+  labels:
+    testing.upbound.io/example-name: my-group
+  name: my-group
+spec:
+  forProvider:
+    adminPrivileges: false
+    autoJoin: true
+    description: My group
+    externalId: My Azure ID
+    name: my-group
