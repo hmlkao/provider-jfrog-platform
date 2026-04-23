@@ -8,7 +8,7 @@ JFrog Platform API.
 
 The repo was created from [crossplane/upjet-provider-template@9644008](https://github.com/crossplane/upjet-provider-template/tree/96440083ef6ed070d9413436a9d6a40000d6773f) template.
 
-The provider is generated from Terraform provider [jfrog/platform v2.2.8](https://registry.terraform.io/providers/jfrog/platform/2.2.8/docs).
+The provider is generated from Terraform provider [jfrog/platform v2.2.9](https://registry.terraform.io/providers/jfrog/platform/2.2.9/docs).
 
 - [Provider JFrog Platform](#provider-jfrog-platform)
   - [Getting Started](#getting-started)
@@ -36,7 +36,7 @@ EOF
 
 ## Supported resources
 
-This is a list of all resources from [Terraform provider v2.2.8](https://registry.terraform.io/providers/jfrog/platform/2.2.8/docs).
+This is a list of all resources from [Terraform provider v2.2.9](https://registry.terraform.io/providers/jfrog/platform/2.2.9/docs).
 
 The short group is `platform`, so the `apiGroup` is `platform.jfrog.crossplane.io` for **cluster-scoped resources**.
 
