@@ -53,8 +53,8 @@ type SAMLSettingsInitParameters struct {
 	// The identity provider login URL (when you try to login, the service provider redirects to this URL).
 	LoginURL *string `json:"loginUrl,omitempty" tf:"login_url,omitempty"`
 
-	// (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
-	// The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
+	// (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the {baseUrl} placeholder for dynamic base URL substitution (e.g. {baseUrl}/ui/login/).
+	// The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the `{baseUrl}` placeholder for dynamic base URL substitution (e.g. `{baseUrl}/ui/login/`).
 	LogoutURL *string `json:"logoutUrl,omitempty" tf:"logout_url,omitempty"`
 
 	// (String) SAML Settings name.
@@ -119,8 +119,8 @@ type SAMLSettingsObservation struct {
 	// The identity provider login URL (when you try to login, the service provider redirects to this URL).
 	LoginURL *string `json:"loginUrl,omitempty" tf:"login_url,omitempty"`
 
-	// (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
-	// The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
+	// (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the {baseUrl} placeholder for dynamic base URL substitution (e.g. {baseUrl}/ui/login/).
+	// The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the `{baseUrl}` placeholder for dynamic base URL substitution (e.g. `{baseUrl}/ui/login/`).
 	LogoutURL *string `json:"logoutUrl,omitempty" tf:"logout_url,omitempty"`
 
 	// (String) SAML Settings name.
@@ -196,8 +196,8 @@ type SAMLSettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	LoginURL *string `json:"loginUrl,omitempty" tf:"login_url,omitempty"`
 
-	// (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
-	// The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
+	// (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the {baseUrl} placeholder for dynamic base URL substitution (e.g. {baseUrl}/ui/login/).
+	// The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the `{baseUrl}` placeholder for dynamic base URL substitution (e.g. `{baseUrl}/ui/login/`).
 	// +kubebuilder:validation:Optional
 	LogoutURL *string `json:"logoutUrl,omitempty" tf:"logout_url,omitempty"`
 

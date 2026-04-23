@@ -695,7 +695,7 @@ resources:
             group_attribute: (String) The group attribute in the SAML login XML response. Note that the system will search for a case-sensitive match to an existing group..
             ldap_group_settings: (Set of String) List of LDAP group setting names. Only support in Artifactory 7.98 or later. See Enabling Synchronization of LDAP Groups for SAML SSO for more details.
             login_url: (String) The identity provider login URL (when you try to login, the service provider redirects to this URL).
-            logout_url: (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL).
+            logout_url: (String) The identity provider logout URL (when you try to logout, the service provider redirects to this URL). Supports the {baseUrl} placeholder for dynamic base URL substitution (e.g. {baseUrl}/ui/login/).
             name: (String) SAML Settings name.
             name_id_attribute: (String) The username attribute used to configure the SSO URL for the identity provider.
             service_provider_name: (String) The SAML service provider name. This should be a URI that is also known as the entityID, providerID, or entity identity.
