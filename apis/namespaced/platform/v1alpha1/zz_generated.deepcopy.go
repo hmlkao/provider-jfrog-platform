@@ -2179,6 +2179,16 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ManageResources != nil {
+		in, out := &in.ManageResources, &out.ManageResources
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ManageWebhook != nil {
+		in, out := &in.ManageWebhook, &out.ManageWebhook
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
@@ -2195,8 +2205,28 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PolicyManager != nil {
+		in, out := &in.PolicyManager, &out.PolicyManager
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PolicyViewer != nil {
+		in, out := &in.PolicyViewer, &out.PolicyViewer
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ReportsManager != nil {
+		in, out := &in.ReportsManager, &out.ReportsManager
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UseGroupMembersResource != nil {
 		in, out := &in.UseGroupMembersResource, &out.UseGroupMembersResource
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WatchManager != nil {
+		in, out := &in.WatchManager, &out.WatchManager
 		*out = new(bool)
 		**out = **in
 	}
@@ -2449,6 +2479,16 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ManageResources != nil {
+		in, out := &in.ManageResources, &out.ManageResources
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ManageWebhook != nil {
+		in, out := &in.ManageWebhook, &out.ManageWebhook
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
@@ -2465,6 +2505,16 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PolicyManager != nil {
+		in, out := &in.PolicyManager, &out.PolicyManager
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PolicyViewer != nil {
+		in, out := &in.PolicyViewer, &out.PolicyViewer
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Realm != nil {
 		in, out := &in.Realm, &out.Realm
 		*out = new(string)
@@ -2475,8 +2525,18 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReportsManager != nil {
+		in, out := &in.ReportsManager, &out.ReportsManager
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UseGroupMembersResource != nil {
 		in, out := &in.UseGroupMembersResource, &out.UseGroupMembersResource
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WatchManager != nil {
+		in, out := &in.WatchManager, &out.WatchManager
 		*out = new(bool)
 		**out = **in
 	}
@@ -2515,6 +2575,16 @@ func (in *GroupParameters) DeepCopyInto(out *GroupParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ManageResources != nil {
+		in, out := &in.ManageResources, &out.ManageResources
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ManageWebhook != nil {
+		in, out := &in.ManageWebhook, &out.ManageWebhook
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Members != nil {
 		in, out := &in.Members, &out.Members
 		*out = make([]*string, len(*in))
@@ -2531,8 +2601,28 @@ func (in *GroupParameters) DeepCopyInto(out *GroupParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PolicyManager != nil {
+		in, out := &in.PolicyManager, &out.PolicyManager
+		*out = new(bool)
+		**out = **in
+	}
+	if in.PolicyViewer != nil {
+		in, out := &in.PolicyViewer, &out.PolicyViewer
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ReportsManager != nil {
+		in, out := &in.ReportsManager, &out.ReportsManager
+		*out = new(bool)
+		**out = **in
+	}
 	if in.UseGroupMembersResource != nil {
 		in, out := &in.UseGroupMembersResource, &out.UseGroupMembersResource
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WatchManager != nil {
+		in, out := &in.WatchManager, &out.WatchManager
 		*out = new(bool)
 		**out = **in
 	}

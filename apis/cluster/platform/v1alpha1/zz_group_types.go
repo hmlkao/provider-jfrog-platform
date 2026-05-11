@@ -23,13 +23,21 @@ type GroupInitParameters struct {
 	// When this parameter is set, any new users defined in the system are automatically assigned to this group.
 	AutoJoin *bool `json:"autoJoin,omitempty" tf:"auto_join,omitempty"`
 
-	// (String) A description for the group.
-	// A description for the group.
+	// empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing "" here would cause perpetual plan drift.
+	// A description for the group. Must be non-empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing `""` here would cause perpetual plan drift.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// (String) New external group ID used to configure the corresponding group in Azure AD.
 	// New external group ID used to configure the corresponding group in Azure AD.
 	ExternalID *string `json:"externalId,omitempty" tf:"external_id,omitempty"`
+
+	// (Boolean) Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+	// Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+	ManageResources *bool `json:"manageResources,omitempty" tf:"manage_resources,omitempty"`
+
+	// (Boolean) Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+	// Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+	ManageWebhook *bool `json:"manageWebhook,omitempty" tf:"manage_webhook,omitempty"`
 
 	// (Set of String, Deprecated) List of users assigned to the group.
 	// List of users assigned to the group.
@@ -40,9 +48,25 @@ type GroupInitParameters struct {
 	// Name of the group.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Boolean) Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to true together with policy_viewer = false is rejected at plan time. Omit policy_viewer or set it to true. Available from Artifactory 7.128.0.
+	// Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to `true` together with `policy_viewer = false` is rejected at plan time. Omit `policy_viewer` or set it to `true`. Available from Artifactory 7.128.0.
+	PolicyManager *bool `json:"policyManager,omitempty" tf:"policy_manager,omitempty"`
+
+	// (Boolean) Whether group has policy viewer role. Implied by policy_manager: when policy_manager = true, the server forces this attribute to true. Available from Artifactory 7.128.0.
+	// Whether group has policy viewer role. Implied by `policy_manager`: when `policy_manager = true`, the server forces this attribute to `true`. Available from Artifactory 7.128.0.
+	PolicyViewer *bool `json:"policyViewer,omitempty" tf:"policy_viewer,omitempty"`
+
+	// (Boolean) Whether group has reports manager role. Available from Artifactory 7.128.0.
+	// Whether group has reports manager role. Available from Artifactory 7.128.0.
+	ReportsManager *bool `json:"reportsManager,omitempty" tf:"reports_manager,omitempty"`
+
 	// (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
 	// When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
 	UseGroupMembersResource *bool `json:"useGroupMembersResource,omitempty" tf:"use_group_members_resource,omitempty"`
+
+	// (Boolean) Whether group has watch manager role. Available from Artifactory 7.128.0.
+	// Whether group has watch manager role. Available from Artifactory 7.128.0.
+	WatchManager *bool `json:"watchManager,omitempty" tf:"watch_manager,omitempty"`
 }
 
 type GroupObservation struct {
@@ -55,8 +79,8 @@ type GroupObservation struct {
 	// When this parameter is set, any new users defined in the system are automatically assigned to this group.
 	AutoJoin *bool `json:"autoJoin,omitempty" tf:"auto_join,omitempty"`
 
-	// (String) A description for the group.
-	// A description for the group.
+	// empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing "" here would cause perpetual plan drift.
+	// A description for the group. Must be non-empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing `""` here would cause perpetual plan drift.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// (String) New external group ID used to configure the corresponding group in Azure AD.
@@ -64,6 +88,14 @@ type GroupObservation struct {
 	ExternalID *string `json:"externalId,omitempty" tf:"external_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Boolean) Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+	// Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+	ManageResources *bool `json:"manageResources,omitempty" tf:"manage_resources,omitempty"`
+
+	// (Boolean) Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+	// Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+	ManageWebhook *bool `json:"manageWebhook,omitempty" tf:"manage_webhook,omitempty"`
 
 	// (Set of String, Deprecated) List of users assigned to the group.
 	// List of users assigned to the group.
@@ -74,6 +106,14 @@ type GroupObservation struct {
 	// Name of the group.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Boolean) Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to true together with policy_viewer = false is rejected at plan time. Omit policy_viewer or set it to true. Available from Artifactory 7.128.0.
+	// Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to `true` together with `policy_viewer = false` is rejected at plan time. Omit `policy_viewer` or set it to `true`. Available from Artifactory 7.128.0.
+	PolicyManager *bool `json:"policyManager,omitempty" tf:"policy_manager,omitempty"`
+
+	// (Boolean) Whether group has policy viewer role. Implied by policy_manager: when policy_manager = true, the server forces this attribute to true. Available from Artifactory 7.128.0.
+	// Whether group has policy viewer role. Implied by `policy_manager`: when `policy_manager = true`, the server forces this attribute to `true`. Available from Artifactory 7.128.0.
+	PolicyViewer *bool `json:"policyViewer,omitempty" tf:"policy_viewer,omitempty"`
+
 	// (String) The realm for the group.
 	// The realm for the group.
 	Realm *string `json:"realm,omitempty" tf:"realm,omitempty"`
@@ -82,9 +122,17 @@ type GroupObservation struct {
 	// The realm for the group.
 	RealmAttributes *string `json:"realmAttributes,omitempty" tf:"realm_attributes,omitempty"`
 
+	// (Boolean) Whether group has reports manager role. Available from Artifactory 7.128.0.
+	// Whether group has reports manager role. Available from Artifactory 7.128.0.
+	ReportsManager *bool `json:"reportsManager,omitempty" tf:"reports_manager,omitempty"`
+
 	// (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
 	// When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
 	UseGroupMembersResource *bool `json:"useGroupMembersResource,omitempty" tf:"use_group_members_resource,omitempty"`
+
+	// (Boolean) Whether group has watch manager role. Available from Artifactory 7.128.0.
+	// Whether group has watch manager role. Available from Artifactory 7.128.0.
+	WatchManager *bool `json:"watchManager,omitempty" tf:"watch_manager,omitempty"`
 }
 
 type GroupParameters struct {
@@ -99,8 +147,8 @@ type GroupParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoJoin *bool `json:"autoJoin,omitempty" tf:"auto_join,omitempty"`
 
-	// (String) A description for the group.
-	// A description for the group.
+	// empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing "" here would cause perpetual plan drift.
+	// A description for the group. Must be non-empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing `""` here would cause perpetual plan drift.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -108,6 +156,16 @@ type GroupParameters struct {
 	// New external group ID used to configure the corresponding group in Azure AD.
 	// +kubebuilder:validation:Optional
 	ExternalID *string `json:"externalId,omitempty" tf:"external_id,omitempty"`
+
+	// (Boolean) Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+	// Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+	// +kubebuilder:validation:Optional
+	ManageResources *bool `json:"manageResources,omitempty" tf:"manage_resources,omitempty"`
+
+	// (Boolean) Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+	// Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+	// +kubebuilder:validation:Optional
+	ManageWebhook *bool `json:"manageWebhook,omitempty" tf:"manage_webhook,omitempty"`
 
 	// (Set of String, Deprecated) List of users assigned to the group.
 	// List of users assigned to the group.
@@ -120,10 +178,30 @@ type GroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// (Boolean) Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to true together with policy_viewer = false is rejected at plan time. Omit policy_viewer or set it to true. Available from Artifactory 7.128.0.
+	// Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to `true` together with `policy_viewer = false` is rejected at plan time. Omit `policy_viewer` or set it to `true`. Available from Artifactory 7.128.0.
+	// +kubebuilder:validation:Optional
+	PolicyManager *bool `json:"policyManager,omitempty" tf:"policy_manager,omitempty"`
+
+	// (Boolean) Whether group has policy viewer role. Implied by policy_manager: when policy_manager = true, the server forces this attribute to true. Available from Artifactory 7.128.0.
+	// Whether group has policy viewer role. Implied by `policy_manager`: when `policy_manager = true`, the server forces this attribute to `true`. Available from Artifactory 7.128.0.
+	// +kubebuilder:validation:Optional
+	PolicyViewer *bool `json:"policyViewer,omitempty" tf:"policy_viewer,omitempty"`
+
+	// (Boolean) Whether group has reports manager role. Available from Artifactory 7.128.0.
+	// Whether group has reports manager role. Available from Artifactory 7.128.0.
+	// +kubebuilder:validation:Optional
+	ReportsManager *bool `json:"reportsManager,omitempty" tf:"reports_manager,omitempty"`
+
 	// (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
 	// When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
 	// +kubebuilder:validation:Optional
 	UseGroupMembersResource *bool `json:"useGroupMembersResource,omitempty" tf:"use_group_members_resource,omitempty"`
+
+	// (Boolean) Whether group has watch manager role. Available from Artifactory 7.128.0.
+	// Whether group has watch manager role. Available from Artifactory 7.128.0.
+	// +kubebuilder:validation:Optional
+	WatchManager *bool `json:"watchManager,omitempty" tf:"watch_manager,omitempty"`
 }
 
 // GroupSpec defines the desired state of Group

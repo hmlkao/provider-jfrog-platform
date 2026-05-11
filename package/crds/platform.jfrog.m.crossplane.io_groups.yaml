@@ -74,14 +74,24 @@ spec:
                     type: boolean
                   description:
                     description: |-
-                      (String) A description for the group.
-                      A description for the group.
+                      empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing "" here would cause perpetual plan drift.
+                      A description for the group. Must be non-empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing `""` here would cause perpetual plan drift.
                     type: string
                   externalId:
                     description: |-
                       (String) New external group ID used to configure the corresponding group in Azure AD.
                       New external group ID used to configure the corresponding group in Azure AD.
                     type: string
+                  manageResources:
+                    description: |-
+                      (Boolean) Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+                      Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+                    type: boolean
+                  manageWebhook:
+                    description: |-
+                      (Boolean) Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+                      Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+                    type: boolean
                   members:
                     description: |-
                       (Set of String, Deprecated) List of users assigned to the group.
@@ -95,10 +105,30 @@ spec:
                       (String) Name of the group.
                       Name of the group.
                     type: string
+                  policyManager:
+                    description: |-
+                      (Boolean) Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to true together with policy_viewer = false is rejected at plan time. Omit policy_viewer or set it to true. Available from Artifactory 7.128.0.
+                      Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to `true` together with `policy_viewer = false` is rejected at plan time. Omit `policy_viewer` or set it to `true`. Available from Artifactory 7.128.0.
+                    type: boolean
+                  policyViewer:
+                    description: |-
+                      (Boolean) Whether group has policy viewer role. Implied by policy_manager: when policy_manager = true, the server forces this attribute to true. Available from Artifactory 7.128.0.
+                      Whether group has policy viewer role. Implied by `policy_manager`: when `policy_manager = true`, the server forces this attribute to `true`. Available from Artifactory 7.128.0.
+                    type: boolean
+                  reportsManager:
+                    description: |-
+                      (Boolean) Whether group has reports manager role. Available from Artifactory 7.128.0.
+                      Whether group has reports manager role. Available from Artifactory 7.128.0.
+                    type: boolean
                   useGroupMembersResource:
                     description: |-
                       (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
                       When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
+                    type: boolean
+                  watchManager:
+                    description: |-
+                      (Boolean) Whether group has watch manager role. Available from Artifactory 7.128.0.
+                      Whether group has watch manager role. Available from Artifactory 7.128.0.
                     type: boolean
                 type: object
               initProvider:
@@ -126,14 +156,24 @@ spec:
                     type: boolean
                   description:
                     description: |-
-                      (String) A description for the group.
-                      A description for the group.
+                      empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing "" here would cause perpetual plan drift.
+                      A description for the group. Must be non-empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing `""` here would cause perpetual plan drift.
                     type: string
                   externalId:
                     description: |-
                       (String) New external group ID used to configure the corresponding group in Azure AD.
                       New external group ID used to configure the corresponding group in Azure AD.
                     type: string
+                  manageResources:
+                    description: |-
+                      (Boolean) Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+                      Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+                    type: boolean
+                  manageWebhook:
+                    description: |-
+                      (Boolean) Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+                      Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+                    type: boolean
                   members:
                     description: |-
                       (Set of String, Deprecated) List of users assigned to the group.
@@ -147,10 +187,30 @@ spec:
                       (String) Name of the group.
                       Name of the group.
                     type: string
+                  policyManager:
+                    description: |-
+                      (Boolean) Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to true together with policy_viewer = false is rejected at plan time. Omit policy_viewer or set it to true. Available from Artifactory 7.128.0.
+                      Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to `true` together with `policy_viewer = false` is rejected at plan time. Omit `policy_viewer` or set it to `true`. Available from Artifactory 7.128.0.
+                    type: boolean
+                  policyViewer:
+                    description: |-
+                      (Boolean) Whether group has policy viewer role. Implied by policy_manager: when policy_manager = true, the server forces this attribute to true. Available from Artifactory 7.128.0.
+                      Whether group has policy viewer role. Implied by `policy_manager`: when `policy_manager = true`, the server forces this attribute to `true`. Available from Artifactory 7.128.0.
+                    type: boolean
+                  reportsManager:
+                    description: |-
+                      (Boolean) Whether group has reports manager role. Available from Artifactory 7.128.0.
+                      Whether group has reports manager role. Available from Artifactory 7.128.0.
+                    type: boolean
                   useGroupMembersResource:
                     description: |-
                       (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
                       When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
+                    type: boolean
+                  watchManager:
+                    description: |-
+                      (Boolean) Whether group has watch manager role. Available from Artifactory 7.128.0.
+                      Whether group has watch manager role. Available from Artifactory 7.128.0.
                     type: boolean
                 type: object
               managementPolicies:
@@ -233,8 +293,8 @@ spec:
                     type: boolean
                   description:
                     description: |-
-                      (String) A description for the group.
-                      A description for the group.
+                      empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing "" here would cause perpetual plan drift.
+                      A description for the group. Must be non-empty when set; omit the attribute to leave the group with no description. The Access service normalizes empty strings to null on read, so allowing `""` here would cause perpetual plan drift.
                     type: string
                   externalId:
                     description: |-
@@ -243,6 +303,16 @@ spec:
                     type: string
                   id:
                     type: string
+                  manageResources:
+                    description: |-
+                      (Boolean) Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+                      Whether group manages resources in the default project. Available from Artifactory 7.128.0.
+                    type: boolean
+                  manageWebhook:
+                    description: |-
+                      (Boolean) Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+                      Whether group has manage webhook permissions. Available from Artifactory 7.128.0.
+                    type: boolean
                   members:
                     description: |-
                       (Set of String, Deprecated) List of users assigned to the group.
@@ -256,6 +326,16 @@ spec:
                       (String) Name of the group.
                       Name of the group.
                     type: string
+                  policyManager:
+                    description: |-
+                      (Boolean) Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to true together with policy_viewer = false is rejected at plan time. Omit policy_viewer or set it to true. Available from Artifactory 7.128.0.
+                      Whether group has policy manager role. The policy manager role implies the policy viewer role on the server side: setting this to `true` together with `policy_viewer = false` is rejected at plan time. Omit `policy_viewer` or set it to `true`. Available from Artifactory 7.128.0.
+                    type: boolean
+                  policyViewer:
+                    description: |-
+                      (Boolean) Whether group has policy viewer role. Implied by policy_manager: when policy_manager = true, the server forces this attribute to true. Available from Artifactory 7.128.0.
+                      Whether group has policy viewer role. Implied by `policy_manager`: when `policy_manager = true`, the server forces this attribute to `true`. Available from Artifactory 7.128.0.
+                    type: boolean
                   realm:
                     description: |-
                       (String) The realm for the group.
@@ -266,10 +346,20 @@ spec:
                       (String) The realm for the group.
                       The realm for the group.
                     type: string
+                  reportsManager:
+                    description: |-
+                      (Boolean) Whether group has reports manager role. Available from Artifactory 7.128.0.
+                      Whether group has reports manager role. Available from Artifactory 7.128.0.
+                    type: boolean
                   useGroupMembersResource:
                     description: |-
                       (Boolean) When set to true, this resource will ignore the members attributes and allow memberships to be managed by platform_group_members resource instead. Default value is true.
                       When set to `true`, this resource will ignore the `members` attributes and allow memberships to be managed by `platform_group_members` resource instead. Default value is `true`.
+                    type: boolean
+                  watchManager:
+                    description: |-
+                      (Boolean) Whether group has watch manager role. Available from Artifactory 7.128.0.
+                      Whether group has watch manager role. Available from Artifactory 7.128.0.
                     type: boolean
                 type: object
               conditions:
