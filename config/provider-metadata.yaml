@@ -360,27 +360,31 @@ resources:
                   "description": "My generic OIDC configuration",
                   "issuer_url": "https://tempurl.org",
                   "name": "my-generic-oidc-configuration",
-                  "provider_type": "generic"
+                  "provider_type": "generic",
+                  "token_issuer": "https://tempurl.org"
                 }
             - name: my-azure-oidc-configuration
               manifest: |-
                 {
                   "audience": "azure-audience",
+                  "azure_app_id": "00000000-0000-0000-0000-000000000000",
                   "description": "My Azure OIDC configuration",
                   "issuer_url": "https://sts.windows.net/your-tenant-id/",
-                  "name": "{{ .name }}",
+                  "name": "my-azure-oidc-configuration",
                   "provider_type": "Azure",
                   "use_default_proxy": true
                 }
         argumentDocs:
             audience: (String) Informational field that you can use to include details of the audience that uses the OIDC configuration.
+            azure_app_id: (String) Azure Application ID. Only applicable when provider_type is Azure.
             description: (String) Description of the OIDC provider
-            enable_permissive_configuration: (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+            enable_permissive_configuration: '(Boolean) Only GitHub accepts false. Setting enable_permissive_configuration = false for GitHubEnterprise, generic, or Azure is rejected at plan time: the JFrog platform does not enforce restrictive (non-permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to true or left unset, the attribute is accepted for all provider types but only enforced for GitHub. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.'
             issuer_url: (String) OIDC issuer URL. For GitHub actions, the URL must start with https://token.actions.githubusercontent.com.
             name: (String) Name of the OIDC provider
-            organization: (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+            organization: '(String) This field is mandatory when provider_type is GitHub or GitHubEnterprise. It is only applicable to those provider types: the JFrog platform discards it for generic and Azure, so configuring it with any other provider_type is rejected at plan time. For GitHubEnterprise, the platform stores the value in token_issuer. Informational field that you can use to include details of the organization that uses the OIDC configuration. Upgrade caveat (provider 2.2.6 through 2.2.10): if you created a GitHubEnterprise configuration with organization set on those provider versions, upgrading to 2.2.11 with an unchanged configuration can leave the value in Terraform state but not on the platform — terraform plan and terraform plan -refresh-only report no changes. Perform a one-time remediation: change any attribute (for example description) and run terraform apply, run terraform apply -replace=''platform_oidc_configuration.<name>'', change organization and apply, or terraform import the resource and apply. Leaving the configuration unchanged leaves a silent security gap: the platform does not enforce the organization restriction Terraform state asserts.'
             project_key: (String) If set, this Identity Configuration will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Configuration will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
             provider_type: (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
+            token_issuer: (String) Token issuer URL of the identity provider. Not allowed when provider_type is GitHub or GitHubEnterprise.
             use_default_proxy: (Boolean) This enables and disables the default proxy for OIDC integration. If enabled, the OIDC mechanism will utilize the default proxy for all OIDC requests. If disabled, the OIDC mechanism does not use any proxy for all OIDC requests. Before enabling this functionality you must configure the default proxy.
         importStatements: []
     platform_oidc_identity_mapping:
@@ -425,7 +429,6 @@ resources:
                   "description": "My GitHub OIDC Project role identity mapping",
                   "name": "my-github-oidc-project-role-identity-mapping",
                   "priority": 1,
-                  "project_key": "my-project",
                   "provider_name": "my-github-oidc-configuration",
                   "token_spec": {
                     "audience": "jfrt@* jfac@* jfmc@* jfmd@* jfevt@* jfxfer@* jflnk@* jfint@* jfwks@*",
@@ -469,7 +472,7 @@ resources:
             groups_pattern: (String) Provide a pattern which is used to map OIDC groups to Artifactory groups.
             name: (String) Name of the OIDC identity mapping
             priority: (Number) Priority of the identity mapping. The priority should be a number. The higher priority is set for the lower number. If you do not enter a value, the identity mapping is assigned the lowest priority. We recommend that you assign the highest priority (1) to the strongest permission gate. Set the lowest priority to the weakest permission for a logical and effective access control setup.
-            project_key: (String) If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
+            project_key: '(String) This attribute has no effect and is ignored by the JFrog platform. The project scope is derived from token_spec.scope: only a scope matching applied-permissions/roles:<project_key>:<role> produces a project-scoped Identity Mapping. Every other scope type (applied-permissions/user, applied-permissions/groups) produces a global Identity Mapping regardless of this value.'
             provider_name: (String) Name of the OIDC configuration
             scope: (String) Scope of the token. Must start with applied-permissions/user, applied-permissions/admin, applied-permissions/roles:, or applied-permissions/groups:. Group names must be comma-separated, double quotes wrapped, e.g. applied-permissions/groups:\"readers\",\"my-group\", Role permissions are only applicable when in project scope and must be comma-separated, double quotes wrapped, e.g. applied-permissions:roles:<project-key>:"Developer","Viewer". username` is also required when setting role permission.
             token_spec: (Attributes) Specifications of the token. In case of success, a token with the following details will be generated and passed to OIDC Provider. (see below for nested schema)
@@ -509,21 +512,21 @@ resources:
                           "**",
                           "*.js"
                         ],
-                        "name": "ALL-LOCAL"
+                        "name": "ANY LOCAL"
                       },
                       {
                         "include_patterns": [
                           "**",
                           "*.js"
                         ],
-                        "name": "ALL-REMOTE"
+                        "name": "ANY REMOTE"
                       },
                       {
                         "include_patterns": [
                           "**",
                           "*.js"
                         ],
-                        "name": "ALL-DISTRIBUTION"
+                        "name": "ANY DISTRIBUTION"
                       }
                     ]
                   },
@@ -780,6 +783,12 @@ resources:
                   "enabled": true,
                   "filter_criteria": {
                     "artifact_filter_criteria": {
+                      "exclude_patterns": [
+                        "**/*.txt"
+                      ],
+                      "include_patterns": [
+                        "**/*.jar"
+                      ],
                       "repo_keys": [
                         "my-repo-key"
                       ]
@@ -798,17 +807,72 @@ resources:
                   ],
                   "source_code": "export default async (context: PlatformContext, data: BeforeDownloadRequest): Promise\u003cBeforeDownloadResponse\u003e =\u003e {\n  console.log(await context.clients.platformHttp.get('/artifactory/api/system/ping'));\n  console.log(await axios.get('https://my.external.resource'));\n  return {\n    status: 'DOWNLOAD_PROCEED',\n    message: 'proceed',\n  }\n}\n"
                 }
+            - name: my-any-repo-workers-service
+              manifest: |-
+                {
+                  "action": "BEFORE_DOWNLOAD",
+                  "description": "My workers service for every local and federated repository",
+                  "enabled": true,
+                  "filter_criteria": {
+                    "artifact_filter_criteria": {
+                      "any_federated": true,
+                      "any_local": true
+                    }
+                  },
+                  "key": "my-any-repo-workers-service",
+                  "source_code": "export default async (context: PlatformContext, data: BeforeDownloadRequest): Promise\u003cBeforeDownloadResponse\u003e =\u003e {\n  console.log(await context.clients.platformHttp.get('/artifactory/api/system/ping'));\n  return {\n    status: 'DOWNLOAD_PROCEED',\n    message: 'proceed',\n  }\n}\n"
+                }
+            - name: my-build-info-workers-service
+              manifest: |-
+                {
+                  "action": "AFTER_BUILD_INFO_SAVE",
+                  "description": "My workers service triggered after build info is saved",
+                  "enabled": true,
+                  "key": "my-build-info-workers-service",
+                  "source_code": "export default async (context: PlatformContext, data: AfterBuildInfoSaveRequest): Promise\u003cAfterBuildInfoSaveResponse\u003e =\u003e {\n  console.log(await context.clients.platformHttp.get('/artifactory/api/system/ping'));\n  return {\n    message: 'proceed',\n  }\n}\n"
+                }
+            - name: my-scheduled-workers-service
+              manifest: |-
+                {
+                  "action": "SCHEDULED_EVENT",
+                  "description": "My Scheduled workers service",
+                  "enabled": true,
+                  "filter_criteria": {
+                    "schedule": {
+                      "cron": "*/2 * * * *",
+                      "timezone": "UTC"
+                    }
+                  },
+                  "key": "my-scheduled-workers-service",
+                  "secrets": [
+                    {
+                      "key": "my-secret-key-1",
+                      "value": "my-secret-value-1"
+                    },
+                    {
+                      "key": "my-secret-key-2",
+                      "value": "my-secret-value-2"
+                    }
+                  ],
+                  "source_code": "export default async (context: PlatformContext, data: BeforeDownloadRequest): Promise\u003cBeforeDownloadResponse\u003e =\u003e {\n  console.log(await context.clients.platformHttp.get('/artifactory/api/system/ping'));\n  console.log(await axios.get('https://my.external.resource'));\n  return {\n    message: 'Request is successful',\n  }\n}\n"
+                }
         argumentDocs:
-            action: '(String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE'
+            action: '(String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT'
+            any_federated: (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+            any_local: (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+            any_remote: (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
             artifact_filter_criteria: (Attributes) (see below for nested schema)
+            cron: (String) Defines the Cron expression to schedule the worker.
             description: (String) Description of the worker.
             enabled: (Boolean) Whether to enable the worker immediately after creation.
-            exclude_patterns: (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-            filter_criteria: (Attributes) Defines the repositories to be used or excluded. (see below for nested schema)
-            include_patterns: (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+            exclude_patterns: (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
+            filter_criteria: '(Attributes) Defines the criteria for triggering the worker, either by specifying repositories and path patterns for artifact-based filtering or by defining a schedule using a Cron expression. Most actions require a filter once the worker is enabled: every artifact action requires artifact_filter_criteria, and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE is the only action that rejects a filter, so omit this attribute for it. (see below for nested schema)'
+            include_patterns: (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
             key: (String) The unique ID of the worker.
-            repo_keys: (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
+            repo_keys: (Set of String) Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of any_local, any_remote, or any_federated is set. An explicit empty set (repo_keys = []) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
+            schedule: (Attributes) (see below for nested schema)
             secrets: (Attributes Set) The secrets to be added to the worker. (see below for nested schema)
             source_code: (String) The worker script in TypeScript or JavaScript.
+            timezone: (String) Define which timezone the schedule applies to if provided.
             value: (String) The name of the secret.
         importStatements: []

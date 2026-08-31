@@ -31,8 +31,8 @@ type OIDCIdentityMappingInitParameters struct {
 	// Priority of the identity mapping. The priority should be a number. The higher priority is set for the lower number. If you do not enter a value, the identity mapping is assigned the lowest priority. We recommend that you assign the highest priority (1) to the strongest permission gate. Set the lowest priority to the weakest permission for a logical and effective access control setup.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// (String) If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
-	// If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
+	// permissions/roles:<project_key>:<role> produces a project-scoped Identity Mapping. Every other scope type (applied-permissions/user, applied-permissions/groups) produces a global Identity Mapping regardless of this value.
+	// This attribute has no effect and is ignored by the JFrog platform. The project scope is derived from `token_spec.scope`: only a scope matching `applied-permissions/roles:<project_key>:<role>` produces a project-scoped Identity Mapping. Every other scope type (`applied-permissions/user`, `applied-permissions/groups`) produces a global Identity Mapping regardless of this value.
 	ProjectKey *string `json:"projectKey,omitempty" tf:"project_key,omitempty"`
 
 	// (String) Name of the OIDC configuration
@@ -63,8 +63,8 @@ type OIDCIdentityMappingObservation struct {
 	// Priority of the identity mapping. The priority should be a number. The higher priority is set for the lower number. If you do not enter a value, the identity mapping is assigned the lowest priority. We recommend that you assign the highest priority (1) to the strongest permission gate. Set the lowest priority to the weakest permission for a logical and effective access control setup.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// (String) If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
-	// If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
+	// permissions/roles:<project_key>:<role> produces a project-scoped Identity Mapping. Every other scope type (applied-permissions/user, applied-permissions/groups) produces a global Identity Mapping regardless of this value.
+	// This attribute has no effect and is ignored by the JFrog platform. The project scope is derived from `token_spec.scope`: only a scope matching `applied-permissions/roles:<project_key>:<role>` produces a project-scoped Identity Mapping. Every other scope type (`applied-permissions/user`, `applied-permissions/groups`) produces a global Identity Mapping regardless of this value.
 	ProjectKey *string `json:"projectKey,omitempty" tf:"project_key,omitempty"`
 
 	// (String) Name of the OIDC configuration
@@ -97,8 +97,8 @@ type OIDCIdentityMappingParameters struct {
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
-	// (String) If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
-	// If set, this Identity Mapping will be available in the scope of the given project (editable by platform admin and project admin). If not set, this Identity Mapping will be global and only editable by platform admin. Once set, the projectKey cannot be changed.
+	// permissions/roles:<project_key>:<role> produces a project-scoped Identity Mapping. Every other scope type (applied-permissions/user, applied-permissions/groups) produces a global Identity Mapping regardless of this value.
+	// This attribute has no effect and is ignored by the JFrog platform. The project scope is derived from `token_spec.scope`: only a scope matching `applied-permissions/roles:<project_key>:<role>` produces a project-scoped Identity Mapping. Every other scope type (`applied-permissions/user`, `applied-permissions/groups`) produces a global Identity Mapping regardless of this value.
 	// +kubebuilder:validation:Optional
 	ProjectKey *string `json:"projectKey,omitempty" tf:"project_key,omitempty"`
 

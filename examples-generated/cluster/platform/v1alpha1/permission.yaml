@@ -22,15 +22,15 @@ spec:
       - includePatterns:
         - '**'
         - '*.js'
-        name: ALL-LOCAL
+        name: ANY LOCAL
       - includePatterns:
         - '**'
         - '*.js'
-        name: ALL-REMOTE
+        name: ANY REMOTE
       - includePatterns:
         - '**'
         - '*.js'
-        name: ALL-DISTRIBUTION
+        name: ANY DISTRIBUTION
     build:
       targets:
       - excludePatterns:
