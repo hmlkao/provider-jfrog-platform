@@ -80,6 +80,11 @@ spec:
                       (String) Informational field that you can use to include details of the audience that uses the OIDC configuration.
                       Informational field that you can use to include details of the audience that uses the OIDC configuration.
                     type: string
+                  azureAppId:
+                    description: |-
+                      (String) Azure Application ID. Only applicable when provider_type is Azure.
+                      Azure Application ID. Only applicable when `provider_type` is `Azure`.
+                    type: string
                   description:
                     description: |-
                       (String) Description of the OIDC provider
@@ -87,8 +92,8 @@ spec:
                     type: string
                   enablePermissiveConfiguration:
                     description: |-
-                      (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-                      Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to true or left unset, the attribute is accepted for all provider types but only enforced for GitHub. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      Only `GitHub` accepts `false`. Setting `enable_permissive_configuration = false` for `GitHubEnterprise`, `generic`, or `Azure` is rejected at plan time: the JFrog platform does not enforce restrictive (non-permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to `true` or left unset, the attribute is accepted for all provider types but only enforced for `GitHub`. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
                     type: boolean
                   issuerUrl:
                     description: |-
@@ -102,8 +107,8 @@ spec:
                     type: string
                   organization:
                     description: |-
-                      (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-                      This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      refresh-only report no changes.
+                      This field is mandatory when `provider_type` is `GitHub` or `GitHubEnterprise`. It is only applicable to those provider types: the JFrog platform discards it for `generic` and `Azure`, so configuring it with any other `provider_type` is rejected at plan time. For `GitHubEnterprise`, the platform stores the value in `token_issuer`. Informational field that you can use to include details of the organization that uses the OIDC configuration. **Upgrade caveat (provider 2.2.6 through 2.2.10):** if you created a `GitHubEnterprise` configuration with `organization` set on those provider versions, upgrading to 2.2.
                     type: string
                   projectKey:
                     description: |-
@@ -114,6 +119,11 @@ spec:
                     description: |-
                       (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
                       Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
+                    type: string
+                  tokenIssuer:
+                    description: |-
+                      (String) Token issuer URL of the identity provider. Not allowed when provider_type is GitHub or GitHubEnterprise.
+                      Token issuer URL of the identity provider. Not allowed when `provider_type` is `GitHub` or `GitHubEnterprise`.
                     type: string
                   useDefaultProxy:
                     description: |-
@@ -139,6 +149,11 @@ spec:
                       (String) Informational field that you can use to include details of the audience that uses the OIDC configuration.
                       Informational field that you can use to include details of the audience that uses the OIDC configuration.
                     type: string
+                  azureAppId:
+                    description: |-
+                      (String) Azure Application ID. Only applicable when provider_type is Azure.
+                      Azure Application ID. Only applicable when `provider_type` is `Azure`.
+                    type: string
                   description:
                     description: |-
                       (String) Description of the OIDC provider
@@ -146,8 +161,8 @@ spec:
                     type: string
                   enablePermissiveConfiguration:
                     description: |-
-                      (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-                      Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to true or left unset, the attribute is accepted for all provider types but only enforced for GitHub. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      Only `GitHub` accepts `false`. Setting `enable_permissive_configuration = false` for `GitHubEnterprise`, `generic`, or `Azure` is rejected at plan time: the JFrog platform does not enforce restrictive (non-permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to `true` or left unset, the attribute is accepted for all provider types but only enforced for `GitHub`. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
                     type: boolean
                   issuerUrl:
                     description: |-
@@ -161,8 +176,8 @@ spec:
                     type: string
                   organization:
                     description: |-
-                      (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-                      This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      refresh-only report no changes.
+                      This field is mandatory when `provider_type` is `GitHub` or `GitHubEnterprise`. It is only applicable to those provider types: the JFrog platform discards it for `generic` and `Azure`, so configuring it with any other `provider_type` is rejected at plan time. For `GitHubEnterprise`, the platform stores the value in `token_issuer`. Informational field that you can use to include details of the organization that uses the OIDC configuration. **Upgrade caveat (provider 2.2.6 through 2.2.10):** if you created a `GitHubEnterprise` configuration with `organization` set on those provider versions, upgrading to 2.2.
                     type: string
                   projectKey:
                     description: |-
@@ -173,6 +188,11 @@ spec:
                     description: |-
                       (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
                       Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
+                    type: string
+                  tokenIssuer:
+                    description: |-
+                      (String) Token issuer URL of the identity provider. Not allowed when provider_type is GitHub or GitHubEnterprise.
+                      Token issuer URL of the identity provider. Not allowed when `provider_type` is `GitHub` or `GitHubEnterprise`.
                     type: string
                   useDefaultProxy:
                     description: |-
@@ -289,6 +309,11 @@ spec:
                       (String) Informational field that you can use to include details of the audience that uses the OIDC configuration.
                       Informational field that you can use to include details of the audience that uses the OIDC configuration.
                     type: string
+                  azureAppId:
+                    description: |-
+                      (String) Azure Application ID. Only applicable when provider_type is Azure.
+                      Azure Application ID. Only applicable when `provider_type` is `Azure`.
+                    type: string
                   description:
                     description: |-
                       (String) Description of the OIDC provider
@@ -296,8 +321,8 @@ spec:
                     type: string
                   enablePermissiveConfiguration:
                     description: |-
-                      (Boolean) Only settable when provider_type is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
-                      Only settable when `provider_type` is GitHub or GitHubEnterprise. When set, Allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to true or left unset, the attribute is accepted for all provider types but only enforced for GitHub. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
+                      Only `GitHub` accepts `false`. Setting `enable_permissive_configuration = false` for `GitHubEnterprise`, `generic`, or `Azure` is rejected at plan time: the JFrog platform does not enforce restrictive (non-permissive) authentication for those provider types and keeps permissive authentication enabled regardless. When set to `true` or left unset, the attribute is accepted for all provider types but only enforced for `GitHub`. When set, allows authentication without any restrictions. For security best practices, it is recommended to add restrictions to limit access and enforce stricter controls. Use with caution, as this may grant broader access.
                     type: boolean
                   id:
                     type: string
@@ -313,8 +338,8 @@ spec:
                     type: string
                   organization:
                     description: |-
-                      (String) This field is mandatory, when provider_type is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
-                      This field is mandatory, when `provider_type` is GitHub or GitHubEnterprise. Informational field that you can use to include details of the organization that uses the OIDC configuration.
+                      refresh-only report no changes.
+                      This field is mandatory when `provider_type` is `GitHub` or `GitHubEnterprise`. It is only applicable to those provider types: the JFrog platform discards it for `generic` and `Azure`, so configuring it with any other `provider_type` is rejected at plan time. For `GitHubEnterprise`, the platform stores the value in `token_issuer`. Informational field that you can use to include details of the organization that uses the OIDC configuration. **Upgrade caveat (provider 2.2.6 through 2.2.10):** if you created a `GitHubEnterprise` configuration with `organization` set on those provider versions, upgrading to 2.2.
                     type: string
                   projectKey:
                     description: |-
@@ -325,6 +350,11 @@ spec:
                     description: |-
                       (String) Type of OIDC provider. Can be generic, GitHub, GitHubEnterprise or Azure.
                       Type of OIDC provider. Can be `generic`, `GitHub`, `GitHubEnterprise` or `Azure`.
+                    type: string
+                  tokenIssuer:
+                    description: |-
+                      (String) Token issuer URL of the identity provider. Not allowed when provider_type is GitHub or GitHubEnterprise.
+                      Token issuer URL of the identity provider. Not allowed when `provider_type` is `GitHub` or `GitHubEnterprise`.
                     type: string
                   useDefaultProxy:
                     description: |-

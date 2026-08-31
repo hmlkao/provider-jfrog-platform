@@ -64,8 +64,8 @@ spec:
                 properties:
                   action:
                     description: |-
-                      (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
-                      The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
+                      (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
+                      The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
                     type: string
                   description:
                     description: |-
@@ -78,36 +78,69 @@ spec:
                       Whether to enable the worker immediately after creation.
                     type: boolean
                   filterCriteria:
-                    description: (Attributes) Defines the repositories to be used
-                      or excluded. (see below for nested schema)
+                    description: 'based filtering or by defining a schedule using
+                      a Cron expression. Most actions require a filter once the worker
+                      is enabled: every artifact action requires artifact_filter_criteria,
+                      and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE
+                      is the only action that rejects a filter, so omit this attribute
+                      for it. (see below for nested schema)'
                     properties:
                       artifactFilterCriteria:
                         description: (Attributes) (see below for nested schema)
                         properties:
+                          anyFederated:
+                            description: |-
+                              (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every federated repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
+                          anyLocal:
+                            description: |-
+                              (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every local repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
+                          anyRemote:
+                            description: |-
+                              (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every remote repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
                           excludePatterns:
                             description: |-
-                              (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-                              Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
+                              trips as an empty set; omit the attribute when no exclude patterns are intended.
+                              Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
                           includePatterns:
                             description: |-
-                              (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
-                              Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+                              trips as an empty set; omit the attribute when no include patterns are intended.
+                              Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
                           repoKeys:
                             description: |-
-                              (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
-                              Defines which repositories are used when an action event occurs to trigger the worker.
+                              trips as an empty set; omit the attribute entirely when no repository list is intended.
+                              Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of `any_local`, `any_remote`, or `any_federated` is set. An explicit empty set (`repo_keys = []`) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
+                        type: object
+                      schedule:
+                        description: (Attributes) (see below for nested schema)
+                        properties:
+                          cron:
+                            description: |-
+                              (String) Defines the Cron expression to schedule the worker.
+                              Defines the Cron expression to schedule the worker.
+                            type: string
+                          timezone:
+                            description: |-
+                              (String) Define which timezone the schedule applies to if provided.
+                              Define which timezone the schedule applies to if provided.
+                            type: string
                         type: object
                     type: object
                   key:
@@ -153,8 +186,8 @@ spec:
                 properties:
                   action:
                     description: |-
-                      (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
-                      The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
+                      (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
+                      The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
                     type: string
                   description:
                     description: |-
@@ -167,36 +200,69 @@ spec:
                       Whether to enable the worker immediately after creation.
                     type: boolean
                   filterCriteria:
-                    description: (Attributes) Defines the repositories to be used
-                      or excluded. (see below for nested schema)
+                    description: 'based filtering or by defining a schedule using
+                      a Cron expression. Most actions require a filter once the worker
+                      is enabled: every artifact action requires artifact_filter_criteria,
+                      and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE
+                      is the only action that rejects a filter, so omit this attribute
+                      for it. (see below for nested schema)'
                     properties:
                       artifactFilterCriteria:
                         description: (Attributes) (see below for nested schema)
                         properties:
+                          anyFederated:
+                            description: |-
+                              (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every federated repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
+                          anyLocal:
+                            description: |-
+                              (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every local repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
+                          anyRemote:
+                            description: |-
+                              (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every remote repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
                           excludePatterns:
                             description: |-
-                              (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-                              Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
+                              trips as an empty set; omit the attribute when no exclude patterns are intended.
+                              Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
                           includePatterns:
                             description: |-
-                              (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
-                              Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+                              trips as an empty set; omit the attribute when no include patterns are intended.
+                              Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
                           repoKeys:
                             description: |-
-                              (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
-                              Defines which repositories are used when an action event occurs to trigger the worker.
+                              trips as an empty set; omit the attribute entirely when no repository list is intended.
+                              Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of `any_local`, `any_remote`, or `any_federated` is set. An explicit empty set (`repo_keys = []`) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
+                        type: object
+                      schedule:
+                        description: (Attributes) (see below for nested schema)
+                        properties:
+                          cron:
+                            description: |-
+                              (String) Defines the Cron expression to schedule the worker.
+                              Defines the Cron expression to schedule the worker.
+                            type: string
+                          timezone:
+                            description: |-
+                              (String) Define which timezone the schedule applies to if provided.
+                              Define which timezone the schedule applies to if provided.
+                            type: string
                         type: object
                     type: object
                   key:
@@ -294,10 +360,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.enabled)
                 || (has(self.initProvider) && has(self.initProvider.enabled))'
-            - message: spec.forProvider.filterCriteria is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.filterCriteria)
-                || (has(self.initProvider) && has(self.initProvider.filterCriteria))'
             - message: spec.forProvider.key is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.key)
@@ -313,8 +375,8 @@ spec:
                 properties:
                   action:
                     description: |-
-                      (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
-                      The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
+                      (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
+                      The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
                     type: string
                   description:
                     description: |-
@@ -327,36 +389,69 @@ spec:
                       Whether to enable the worker immediately after creation.
                     type: boolean
                   filterCriteria:
-                    description: (Attributes) Defines the repositories to be used
-                      or excluded. (see below for nested schema)
+                    description: 'based filtering or by defining a schedule using
+                      a Cron expression. Most actions require a filter once the worker
+                      is enabled: every artifact action requires artifact_filter_criteria,
+                      and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE
+                      is the only action that rejects a filter, so omit this attribute
+                      for it. (see below for nested schema)'
                     properties:
                       artifactFilterCriteria:
                         description: (Attributes) (see below for nested schema)
                         properties:
+                          anyFederated:
+                            description: |-
+                              (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every federated repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
+                          anyLocal:
+                            description: |-
+                              (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every local repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
+                          anyRemote:
+                            description: |-
+                              (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
+                              Trigger the worker for every remote repository, in addition to any repository listed in `repo_keys`.
+                            type: boolean
                           excludePatterns:
                             description: |-
-                              (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-                              Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
+                              trips as an empty set; omit the attribute when no exclude patterns are intended.
+                              Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
                           includePatterns:
                             description: |-
-                              (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
-                              Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+                              trips as an empty set; omit the attribute when no include patterns are intended.
+                              Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
                           repoKeys:
                             description: |-
-                              (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
-                              Defines which repositories are used when an action event occurs to trigger the worker.
+                              trips as an empty set; omit the attribute entirely when no repository list is intended.
+                              Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of `any_local`, `any_remote`, or `any_federated` is set. An explicit empty set (`repo_keys = []`) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
                             items:
                               type: string
                             type: array
                             x-kubernetes-list-type: set
+                        type: object
+                      schedule:
+                        description: (Attributes) (see below for nested schema)
+                        properties:
+                          cron:
+                            description: |-
+                              (String) Defines the Cron expression to schedule the worker.
+                              Defines the Cron expression to schedule the worker.
+                            type: string
+                          timezone:
+                            description: |-
+                              (String) Define which timezone the schedule applies to if provided.
+                              Define which timezone the schedule applies to if provided.
+                            type: string
                         type: object
                     type: object
                   id:

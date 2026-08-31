@@ -15,78 +15,162 @@ import (
 
 type ArtifactFilterCriteriaInitParameters struct {
 
-	// (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-	// Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
+	// (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every federated repository, in addition to any repository listed in `repo_keys`.
+	AnyFederated *bool `json:"anyFederated,omitempty" tf:"any_federated,omitempty"`
+
+	// (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every local repository, in addition to any repository listed in `repo_keys`.
+	AnyLocal *bool `json:"anyLocal,omitempty" tf:"any_local,omitempty"`
+
+	// (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every remote repository, in addition to any repository listed in `repo_keys`.
+	AnyRemote *bool `json:"anyRemote,omitempty" tf:"any_remote,omitempty"`
+
+	// trips as an empty set; omit the attribute when no exclude patterns are intended.
+	// Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
 	// +listType=set
 	ExcludePatterns []*string `json:"excludePatterns,omitempty" tf:"exclude_patterns,omitempty"`
 
-	// (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
-	// Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+	// trips as an empty set; omit the attribute when no include patterns are intended.
+	// Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
 	// +listType=set
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
-	// (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
-	// Defines which repositories are used when an action event occurs to trigger the worker.
+	// trips as an empty set; omit the attribute entirely when no repository list is intended.
+	// Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of `any_local`, `any_remote`, or `any_federated` is set. An explicit empty set (`repo_keys = []`) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
 	// +listType=set
 	RepoKeys []*string `json:"repoKeys,omitempty" tf:"repo_keys,omitempty"`
 }
 
 type ArtifactFilterCriteriaObservation struct {
 
-	// (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-	// Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
+	// (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every federated repository, in addition to any repository listed in `repo_keys`.
+	AnyFederated *bool `json:"anyFederated,omitempty" tf:"any_federated,omitempty"`
+
+	// (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every local repository, in addition to any repository listed in `repo_keys`.
+	AnyLocal *bool `json:"anyLocal,omitempty" tf:"any_local,omitempty"`
+
+	// (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every remote repository, in addition to any repository listed in `repo_keys`.
+	AnyRemote *bool `json:"anyRemote,omitempty" tf:"any_remote,omitempty"`
+
+	// trips as an empty set; omit the attribute when no exclude patterns are intended.
+	// Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
 	// +listType=set
 	ExcludePatterns []*string `json:"excludePatterns,omitempty" tf:"exclude_patterns,omitempty"`
 
-	// (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
-	// Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+	// trips as an empty set; omit the attribute when no include patterns are intended.
+	// Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
 	// +listType=set
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
-	// (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
-	// Defines which repositories are used when an action event occurs to trigger the worker.
+	// trips as an empty set; omit the attribute entirely when no repository list is intended.
+	// Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of `any_local`, `any_remote`, or `any_federated` is set. An explicit empty set (`repo_keys = []`) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
 	// +listType=set
 	RepoKeys []*string `json:"repoKeys,omitempty" tf:"repo_keys,omitempty"`
 }
 
 type ArtifactFilterCriteriaParameters struct {
 
-	// (Set of String) Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
-	// Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker.
+	// (Boolean) Trigger the worker for every federated repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every federated repository, in addition to any repository listed in `repo_keys`.
+	// +kubebuilder:validation:Optional
+	AnyFederated *bool `json:"anyFederated,omitempty" tf:"any_federated,omitempty"`
+
+	// (Boolean) Trigger the worker for every local repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every local repository, in addition to any repository listed in `repo_keys`.
+	// +kubebuilder:validation:Optional
+	AnyLocal *bool `json:"anyLocal,omitempty" tf:"any_local,omitempty"`
+
+	// (Boolean) Trigger the worker for every remote repository, in addition to any repository listed in repo_keys.
+	// Trigger the worker for every remote repository, in addition to any repository listed in `repo_keys`.
+	// +kubebuilder:validation:Optional
+	AnyRemote *bool `json:"anyRemote,omitempty" tf:"any_remote,omitempty"`
+
+	// trips as an empty set; omit the attribute when no exclude patterns are intended.
+	// Define patterns to for all repository paths for repositories to be excluded in the repoKeys. Defines those repositories that do not trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no exclude patterns are intended.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	ExcludePatterns []*string `json:"excludePatterns,omitempty" tf:"exclude_patterns,omitempty"`
 
-	// (Set of String) Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
-	// Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker.
+	// trips as an empty set; omit the attribute when no include patterns are intended.
+	// Define patterns to match all repository paths for repositories identified in the repoKeys. Defines those repositories that trigger the worker. An explicit empty set is transmitted and round-trips as an empty set; omit the attribute when no include patterns are intended.
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	IncludePatterns []*string `json:"includePatterns,omitempty" tf:"include_patterns,omitempty"`
 
-	// (Set of String) Defines which repositories are used when an action event occurs to trigger the worker.
-	// Defines which repositories are used when an action event occurs to trigger the worker.
+	// trips as an empty set; omit the attribute entirely when no repository list is intended.
+	// Defines which repositories are used when an action event occurs to trigger the worker. Can be omitted when at least one of `any_local`, `any_remote`, or `any_federated` is set. An explicit empty set (`repo_keys = []`) is transmitted to the platform and round-trips as an empty set; omit the attribute entirely when no repository list is intended.
 	// +kubebuilder:validation:Optional
 	// +listType=set
-	RepoKeys []*string `json:"repoKeys" tf:"repo_keys,omitempty"`
+	RepoKeys []*string `json:"repoKeys,omitempty" tf:"repo_keys,omitempty"`
 }
 
 type FilterCriteriaInitParameters struct {
 
 	// (Attributes) (see below for nested schema)
 	ArtifactFilterCriteria *ArtifactFilterCriteriaInitParameters `json:"artifactFilterCriteria,omitempty" tf:"artifact_filter_criteria,omitempty"`
+
+	// (Attributes) (see below for nested schema)
+	Schedule *ScheduleInitParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
 }
 
 type FilterCriteriaObservation struct {
 
 	// (Attributes) (see below for nested schema)
 	ArtifactFilterCriteria *ArtifactFilterCriteriaObservation `json:"artifactFilterCriteria,omitempty" tf:"artifact_filter_criteria,omitempty"`
+
+	// (Attributes) (see below for nested schema)
+	Schedule *ScheduleObservation `json:"schedule,omitempty" tf:"schedule,omitempty"`
 }
 
 type FilterCriteriaParameters struct {
 
 	// (Attributes) (see below for nested schema)
 	// +kubebuilder:validation:Optional
-	ArtifactFilterCriteria *ArtifactFilterCriteriaParameters `json:"artifactFilterCriteria" tf:"artifact_filter_criteria,omitempty"`
+	ArtifactFilterCriteria *ArtifactFilterCriteriaParameters `json:"artifactFilterCriteria,omitempty" tf:"artifact_filter_criteria,omitempty"`
+
+	// (Attributes) (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Schedule *ScheduleParameters `json:"schedule,omitempty" tf:"schedule,omitempty"`
+}
+
+type ScheduleInitParameters struct {
+
+	// (String) Defines the Cron expression to schedule the worker.
+	// Defines the Cron expression to schedule the worker.
+	Cron *string `json:"cron,omitempty" tf:"cron,omitempty"`
+
+	// (String) Define which timezone the schedule applies to if provided.
+	// Define which timezone the schedule applies to if provided.
+	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
+}
+
+type ScheduleObservation struct {
+
+	// (String) Defines the Cron expression to schedule the worker.
+	// Defines the Cron expression to schedule the worker.
+	Cron *string `json:"cron,omitempty" tf:"cron,omitempty"`
+
+	// (String) Define which timezone the schedule applies to if provided.
+	// Define which timezone the schedule applies to if provided.
+	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
+}
+
+type ScheduleParameters struct {
+
+	// (String) Defines the Cron expression to schedule the worker.
+	// Defines the Cron expression to schedule the worker.
+	// +kubebuilder:validation:Optional
+	Cron *string `json:"cron" tf:"cron,omitempty"`
+
+	// (String) Define which timezone the schedule applies to if provided.
+	// Define which timezone the schedule applies to if provided.
+	// +kubebuilder:validation:Optional
+	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
 }
 
 type SecretsInitParameters struct {
@@ -126,8 +210,8 @@ type SecretsParameters struct {
 
 type WorkersServiceInitParameters struct {
 
-	// (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
-	// The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
+	// (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
+	// The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// (String) Description of the worker.
@@ -138,7 +222,7 @@ type WorkersServiceInitParameters struct {
 	// Whether to enable the worker immediately after creation.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// (Attributes) Defines the repositories to be used or excluded. (see below for nested schema)
+	// based filtering or by defining a schedule using a Cron expression. Most actions require a filter once the worker is enabled: every artifact action requires artifact_filter_criteria, and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE is the only action that rejects a filter, so omit this attribute for it. (see below for nested schema)
 	FilterCriteria *FilterCriteriaInitParameters `json:"filterCriteria,omitempty" tf:"filter_criteria,omitempty"`
 
 	// (String) The unique ID of the worker.
@@ -155,8 +239,8 @@ type WorkersServiceInitParameters struct {
 
 type WorkersServiceObservation struct {
 
-	// (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
-	// The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
+	// (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
+	// The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
 	// (String) Description of the worker.
@@ -167,7 +251,7 @@ type WorkersServiceObservation struct {
 	// Whether to enable the worker immediately after creation.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// (Attributes) Defines the repositories to be used or excluded. (see below for nested schema)
+	// based filtering or by defining a schedule using a Cron expression. Most actions require a filter once the worker is enabled: every artifact action requires artifact_filter_criteria, and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE is the only action that rejects a filter, so omit this attribute for it. (see below for nested schema)
 	FilterCriteria *FilterCriteriaObservation `json:"filterCriteria,omitempty" tf:"filter_criteria,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -186,8 +270,8 @@ type WorkersServiceObservation struct {
 
 type WorkersServiceParameters struct {
 
-	// (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
-	// The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE
+	// (String) The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
+	// The worker action with which the worker is associated. Valid values: BEFORE_DOWNLOAD, AFTER_DOWNLOAD, BEFORE_UPLOAD, AFTER_CREATE, AFTER_BUILD_INFO_SAVE, AFTER_MOVE, BEFORE_PROPERTY_CREATE, BEFORE_PROPERTY_DELETE, AFTER_PROPERTY_CREATE, AFTER_PROPERTY_DELETE, SCHEDULED_EVENT
 	// +kubebuilder:validation:Optional
 	Action *string `json:"action,omitempty" tf:"action,omitempty"`
 
@@ -201,7 +285,7 @@ type WorkersServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// (Attributes) Defines the repositories to be used or excluded. (see below for nested schema)
+	// based filtering or by defining a schedule using a Cron expression. Most actions require a filter once the worker is enabled: every artifact action requires artifact_filter_criteria, and SCHEDULED_EVENT requires schedule. AFTER_BUILD_INFO_SAVE is the only action that rejects a filter, so omit this attribute for it. (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	FilterCriteria *FilterCriteriaParameters `json:"filterCriteria,omitempty" tf:"filter_criteria,omitempty"`
 
@@ -258,7 +342,6 @@ type WorkersService struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.action) || (has(self.initProvider) && has(self.initProvider.action))",message="spec.forProvider.action is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.enabled) || (has(self.initProvider) && has(self.initProvider.enabled))",message="spec.forProvider.enabled is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.filterCriteria) || (has(self.initProvider) && has(self.initProvider.filterCriteria))",message="spec.forProvider.filterCriteria is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.key) || (has(self.initProvider) && has(self.initProvider.key))",message="spec.forProvider.key is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceCode) || (has(self.initProvider) && has(self.initProvider.sourceCode))",message="spec.forProvider.sourceCode is a required parameter"
 	Spec   WorkersServiceSpec   `json:"spec"`
