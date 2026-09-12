@@ -269,8 +269,7 @@ help-special: crossplane.help
 .PHONY: crossplane.help help-special
 
 # TODO(negz): Update CI to use these targets.
-# Add $(CROSSPLANE_CLI), because it's missing and needed by 'make local-deploy' and 'make build'
-vendor: modules.download $(CROSSPLANE_CLI)
+vendor: modules.download
 vendor.check: modules.check
 
 # This file contains custom make targets
