@@ -50,10 +50,11 @@ jobs:
       # Generate files for new version as we want them as part of PR
       - name: Setup Go
         if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version: ${{ env.GO_VERSION }}
       - name: Install goimports
+        if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
         run: go install golang.org/x/tools/cmd/goimports
       - name: Initialize generate
         if: ${{ steps.current-version.outputs.TFM_PROVIDER_VERSION_CURRENT != steps.latest-version.outputs.TFM_PROVIDER_VERSION_LATEST }}
@@ -127,13 +128,93 @@ jobs:
           #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
           token: ${{ secrets.BUMP_VERSION_TOKEN }}
 
-  #bump-go-version:
+  bump-go-version:
+    # Run this job only when the workflow is triggered manually, as we don't want to bump Go version automatically on a schedule
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    name: Bump Go language version
+    runs-on: ubuntu-latest
+    outputs:
+      current-version: ${{ steps.current-version.outputs.GO_VERSION_CURRENT }}
+      latest-version: ${{ steps.latest-version.outputs.GO_VERSION_LATEST }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - name: Get current version
+        id: current-version
+        run: |
+          current_version=$(grep -P '^go \d+\.\d+\.\d+$' < go.mod | cut -d' ' -f2)
+          echo "Current version used for build is '${current_version}'"
+          echo "GO_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
+      - name: Get latest version
+        id: latest-version
+        run: |
+          latest_version=$(curl -sSL https://go.dev/VERSION?m=text | head -n 1 | tr -d 'go')
+          if [[ "${latest_version}" == "null" ]]; then
+            echo "Failed to fetch the latest Go version"
+            exit 1
+          fi
+          echo "The latest version is '${latest_version}'"
+          echo "GO_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
+      - name: Bump version
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        run: scripts/bump_go_version.sh "${{steps.current-version.outputs.GO_VERSION_CURRENT}}" "${{steps.latest-version.outputs.GO_VERSION_LATEST}}"
+      - name: Get golangci-lint latest version
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        id: golangcilint-latest-version
+        run: |
+          latest_version=$(curl -sSL https://api.github.com/repos/golangci/golangci-lint/releases/latest | jq -r '.tag_name' | tr -d 'v')
+          if [[ "${latest_version}" == "null" ]]; then
+            echo "Failed to fetch the latest golangci-lint version"
+            exit 1
+          fi
+          echo "The latest version is '${latest_version}'"
+          echo "GOLANGCILINT_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
+      - name: Bump golangci-lint version
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        run: scripts/bump_golangci_lint_version.sh "${{steps.golangcilint-latest-version.outputs.GOLANGCILINT_VERSION_LATEST}}"
+
+      #####
+      # Generate files for new version as we want them as part of PR
+      - name: Setup Go
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: ${{ steps.latest-version.outputs.GO_VERSION_LATEST }}
+      - name: Install goimports
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        run: go install golang.org/x/tools/cmd/goimports
+      - name: Initialize generate
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        run: make generate.init
+      - name: Generate files
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        run: make generate
+      #####
+
+      - name: Create PR
+        # Previous step must be successful
+        #   https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#success
+        # The success() function evaluates to true even if the previous step was skipped, so we must check the same condition anyway
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST && success() }}
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          title: Bump Go language to v${{steps.latest-version.outputs.GO_VERSION_LATEST}}
+          commit-message: Bump Go language version to v${{steps.latest-version.outputs.GO_VERSION_LATEST}}
+          branch: bump-version/go
+          labels: bump-version, go
+          # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
+          #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
+          token: ${{ secrets.BUMP_VERSION_TOKEN }}
+
   #bump-up-version:
   #bump-kind-version:
   #bump-alpine-version:
 
   summary:
-    needs: [ bump-tfm-provider-version, bump-crossplane-version ]
+    needs: [ bump-tfm-provider-version, bump-crossplane-version, bump-go-version ]
+    if: ${{ always() }}
     name: Print summary
     runs-on: ubuntu-latest
     steps:
@@ -144,3 +225,6 @@ jobs:
           echo "|--------------|--------------------------------------------------------------------|-------------------------------------------------------------------|" >> $GITHUB_STEP_SUMMARY
           echo "| TFM provider | \`${{ needs.bump-tfm-provider-version.outputs.current-version }}\` | \`${{ needs.bump-tfm-provider-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Crossplane   | \`${{ needs.bump-crossplane-version.outputs.current-version }}\`   | \`${{ needs.bump-crossplane-version.outputs.latest-version }}\`   |" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ needs.bump-go-version.result }}" != "skipped" ]]; then
+          echo "| Go           | \`${{ needs.bump-go-version.outputs.current-version }}\`           | \`${{ needs.bump-go-version.outputs.latest-version }}\`           |" >> $GITHUB_STEP_SUMMARY
+          fi
