@@ -23,6 +23,7 @@ I have:
 
 - [ ] Read and followed Crossplane's [contribution process].
 - [ ] Run `make reviewable test` to ensure this PR is ready for review.
+- [ ] Update `README.md` (e.g., new resource implemented)
 
 ### How has this code been tested
 

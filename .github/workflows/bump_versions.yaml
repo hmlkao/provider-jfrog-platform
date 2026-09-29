@@ -209,6 +209,11 @@ jobs:
       - name: Bump version
         if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
         run: scripts/bump_go_version.sh "${{steps.current-version.outputs.GO_VERSION_CURRENT}}" "${{steps.latest-version.outputs.GO_VERSION_LATEST}}"
+      - name: Upgrade Go modules
+        if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
+        run: |
+          go get -u ./...
+          go mod tidy
       - name: Get golangci-lint latest version
         if: ${{ steps.current-version.outputs.GO_VERSION_CURRENT != steps.latest-version.outputs.GO_VERSION_LATEST }}
         id: golangcilint-latest-version

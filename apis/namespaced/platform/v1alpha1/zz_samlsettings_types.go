@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SAMLSettingsInitParameters struct {
@@ -30,7 +29,7 @@ type SAMLSettingsInitParameters struct {
 
 	// in requests.
 	// The certificate for SAML Authentication in Base64 format. NOTE! The certificate must contain the public key to allow Artifactory to verify sign-in requests.
-	CertificateSecretRef v1.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
+	CertificateSecretRef v2.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// (String) If auto_user_creation is enabled or an internal user exists, the system will set the user's email to the value in this attribute that is returned by the SAML login XML response.
 	// If `auto_user_creation` is enabled or an internal user exists, the system will set the user's email to the value in this attribute that is returned by the SAML login XML response.
@@ -168,7 +167,7 @@ type SAMLSettingsParameters struct {
 	// in requests.
 	// The certificate for SAML Authentication in Base64 format. NOTE! The certificate must contain the public key to allow Artifactory to verify sign-in requests.
 	// +kubebuilder:validation:Optional
-	CertificateSecretRef v1.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
+	CertificateSecretRef v2.LocalSecretKeySelector `json:"certificateSecretRef" tf:"-"`
 
 	// (String) If auto_user_creation is enabled or an internal user exists, the system will set the user's email to the value in this attribute that is returned by the SAML login XML response.
 	// If `auto_user_creation` is enabled or an internal user exists, the system will set the user's email to the value in this attribute that is returned by the SAML login XML response.
@@ -251,8 +250,8 @@ type SAMLSettingsSpec struct {
 
 // SAMLSettingsStatus defines the observed state of SAMLSettings.
 type SAMLSettingsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SAMLSettingsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SAMLSettingsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

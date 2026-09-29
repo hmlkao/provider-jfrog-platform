@@ -6,7 +6,7 @@ is built using [Upjet](https://github.com/crossplane/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 JFrog Platform API.
 
-The repo was created from [crossplane/upjet-provider-template@9644008](https://github.com/crossplane/upjet-provider-template/tree/96440083ef6ed070d9413436a9d6a40000d6773f) template.
+The repo was created from [crossplane/upjet-provider-template@fa46ff9](https://github.com/crossplane/upjet-provider-template/tree/fa46ff9a40b1858ad4f91cda09b4ad695fe71bc0) template.
 
 The provider is generated from Terraform provider [jfrog/platform v2.2.11](https://registry.terraform.io/providers/jfrog/platform/2.2.11/docs).
 
@@ -30,7 +30,7 @@ kind: Provider
 metadata:
   name: provider-jfrog-platform
 spec:
-  package: hmlkao/provider-jfrog-platform:v0.7.0
+  package: hmlkao/provider-jfrog-platform:v0.9.0
 EOF
 ```
 
