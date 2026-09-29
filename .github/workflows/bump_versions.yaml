@@ -3,7 +3,7 @@ name: Bump versions
 on:
   workflow_dispatch: ~
   schedule:
-    - cron: '0 10 * * Mon' # Every Monday at 10 o'clock UTC
+    - cron: '0 10 * * Fri' # Every Friday at 10 o'clock UTC
 
 permissions:
   contents: write
@@ -79,12 +79,12 @@ jobs:
           #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
           token: ${{ secrets.BUMP_VERSION_TOKEN }}
 
-  bump-crossplane-version:
-    name: Bump Crossplane version
+  bump-crossplane-bin-version:
+    name: Bump Crossplane BIN version
     runs-on: ubuntu-latest
     outputs:
-      current-version: ${{ steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT }}
-      latest-version: ${{ steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST }}
+      current-version: ${{ steps.current-version.outputs.CROSSPLANE_BIN_VERSION_CURRENT }}
+      latest-version: ${{ steps.latest-version.outputs.CROSSPLANE_BIN_VERSION_LATEST }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -94,9 +94,9 @@ jobs:
       - name: Get current version
         id: current-version
         run: |
-          current_version=$(grep '^CROSSPLANE_VERSION = ' < Makefile | cut -d' ' -f3)
+          current_version=$(grep '^CROSSPLANE_BIN_VERSION = ' < Makefile | cut -d' ' -f3)
           echo "Current version used for build is '${current_version}'"
-          echo "CROSSPLANE_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
+          echo "CROSSPLANE_BIN_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
 
       - name: Get latest version
         id: latest-version
@@ -107,22 +107,71 @@ jobs:
             exit 1
           fi
           echo "The latest version is '${latest_version}'"
-          echo "CROSSPLANE_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
+          echo "CROSSPLANE_BIN_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
 
       - name: Bump version
-        if: ${{ steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST }}
-        run: scripts/bump_crossplane_version.sh "${{steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT}}" "${{steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST}}"
+        if: ${{ steps.current-version.outputs.CROSSPLANE_BIN_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_BIN_VERSION_LATEST }}
+        run: scripts/bump_crossplane_bin_version.sh "${{steps.current-version.outputs.CROSSPLANE_BIN_VERSION_CURRENT}}" "${{steps.latest-version.outputs.CROSSPLANE_BIN_VERSION_LATEST}}"
 
       - name: Create PR
         # Previous step must be successful
         #   https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#success
         # The success() function evaluates to true even if the previous step was skipped, so we must check the same condition anyway
-        if: ${{ steps.current-version.outputs.CROSSPLANE_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST && success() }}
+        if: ${{ steps.current-version.outputs.CROSSPLANE_BIN_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_BIN_VERSION_LATEST && success() }}
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          title: Bump Crossplane to v${{steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST}}
-          commit-message: Bump Crossplane version to v${{steps.latest-version.outputs.CROSSPLANE_VERSION_LATEST}}
-          branch: bump-version/crossplane
+          title: Bump Crossplane BIN to v${{steps.latest-version.outputs.CROSSPLANE_BIN_VERSION_LATEST}}
+          commit-message: Bump Crossplane BIN version to v${{steps.latest-version.outputs.CROSSPLANE_BIN_VERSION_LATEST}}
+          branch: bump-version/crossplane-bin
+          labels: bump-version, crossplane
+          # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
+          #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
+          token: ${{ secrets.BUMP_VERSION_TOKEN }}
+
+  bump-crossplane-cli-version:
+    name: Bump Crossplane CLI version
+    runs-on: ubuntu-latest
+    outputs:
+      current-version: ${{ steps.current-version.outputs.CROSSPLANE_CLI_VERSION_CURRENT }}
+      latest-version: ${{ steps.latest-version.outputs.CROSSPLANE_CLI_VERSION_LATEST }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          submodules: true
+
+      - name: Get current version
+        id: current-version
+        run: |
+          current_version=$(grep '^CROSSPLANE_CLI_VERSION = ' < Makefile | cut -d' ' -f3)
+          echo "Current version used for build is '${current_version}'"
+          echo "CROSSPLANE_CLI_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
+
+      - name: Get latest version
+        id: latest-version
+        run: |
+          latest_version=$(curl -sSL https://api.github.com/repos/crossplane/cli/releases/latest | jq -r '.tag_name' | tr -d 'v')
+          if [[ "${latest_version}" == "null" ]]; then
+            echo "Failed to fetch the latest Crossplane CLI version"
+            exit 1
+          fi
+          echo "The latest version is '${latest_version}'"
+          echo "CROSSPLANE_CLI_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        if: ${{ steps.current-version.outputs.CROSSPLANE_CLI_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_CLI_VERSION_LATEST }}
+        run: scripts/bump_crossplane_cli_version.sh "${{steps.current-version.outputs.CROSSPLANE_CLI_VERSION_CURRENT}}" "${{steps.latest-version.outputs.CROSSPLANE_CLI_VERSION_LATEST}}"
+
+      - name: Create PR
+        # Previous step must be successful
+        #   https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#success
+        # The success() function evaluates to true even if the previous step was skipped, so we must check the same condition anyway
+        if: ${{ steps.current-version.outputs.CROSSPLANE_CLI_VERSION_CURRENT != steps.latest-version.outputs.CROSSPLANE_CLI_VERSION_LATEST && success() }}
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          title: Bump Crossplane CLI to ${{steps.latest-version.outputs.CROSSPLANE_CLI_VERSION_LATEST}}
+          commit-message: Bump Crossplane CLI version to ${{steps.latest-version.outputs.CROSSPLANE_CLI_VERSION_LATEST}}
+          branch: bump-version/crossplane-cli
           labels: bump-version, crossplane
           # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
           #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
@@ -213,7 +262,7 @@ jobs:
   #bump-alpine-version:
 
   summary:
-    needs: [ bump-tfm-provider-version, bump-crossplane-version, bump-go-version ]
+    needs: [ bump-tfm-provider-version, bump-crossplane-bin-version, bump-crossplane-cli-version, bump-go-version ]
     if: ${{ always() }}
     name: Print summary
     runs-on: ubuntu-latest
@@ -221,10 +270,11 @@ jobs:
       - name: Write summary
         run: |
           echo "# Versions" >> $GITHUB_STEP_SUMMARY
-          echo "| Component    | Current version                                                    | Latest version                                                    |" >> $GITHUB_STEP_SUMMARY
-          echo "|--------------|--------------------------------------------------------------------|-------------------------------------------------------------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| TFM provider | \`${{ needs.bump-tfm-provider-version.outputs.current-version }}\` | \`${{ needs.bump-tfm-provider-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| Crossplane   | \`${{ needs.bump-crossplane-version.outputs.current-version }}\`   | \`${{ needs.bump-crossplane-version.outputs.latest-version }}\`   |" >> $GITHUB_STEP_SUMMARY
+          echo "| Component      | Current version                                                      | Latest version                                                      |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------------|----------------------------------------------------------------------|---------------------------------------------------------------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| TFM provider   | \`${{ needs.bump-tfm-provider-version.outputs.current-version }}\`   | \`${{ needs.bump-tfm-provider-version.outputs.latest-version }}\`   |" >> $GITHUB_STEP_SUMMARY
+          echo "| Crossplane BIN | \`${{ needs.bump-crossplane-bin-version.outputs.current-version }}\` | \`${{ needs.bump-crossplane-bin-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Crossplane CLI | \`${{ needs.bump-crossplane-cli-version.outputs.current-version }}\` | \`${{ needs.bump-crossplane-cli-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
           if [[ "${{ needs.bump-go-version.result }}" != "skipped" ]]; then
-          echo "| Go           | \`${{ needs.bump-go-version.outputs.current-version }}\`           | \`${{ needs.bump-go-version.outputs.latest-version }}\`           |" >> $GITHUB_STEP_SUMMARY
+          echo "| Go             | \`${{ needs.bump-go-version.outputs.current-version }}\`             | \`${{ needs.bump-go-version.outputs.latest-version }}\`             |" >> $GITHUB_STEP_SUMMARY
           fi
