@@ -21,6 +21,8 @@ main() {
   # Use of sed -i'.tmp' is to make it compatible with both GNU and BSD sed. BSD sed requires an argument for the -i option, so we provide a temporary file extension '.tmp' to create a backup of the original file before making in-place edits. After the edits are made, we remove the temporary backup file.
   sed -i'.tmp' "s|CROSSPLANE_VERSION = ${current_version}|CROSSPLANE_VERSION = ${new_version}|" "${dir}/../Makefile" && rm "${dir}/../Makefile.tmp"
   sed -i'.tmp' "s|CROSSPLANE_BIN_VERSION = ${current_version}|CROSSPLANE_BIN_VERSION = ${new_version}|" "${dir}/../Makefile" && rm "${dir}/../Makefile.tmp"
+  sed -i'.tmp' "s|github.com/crossplane/crossplane-runtime/v2 v${current_version}|github.com/crossplane/crossplane-runtime/v2 v${new_version}|" "${dir}/../go.mod" && rm "${dir}/../go.mod.tmp"
+  sed -i'.tmp' "s|github.com/crossplane/crossplane/apis/v2 v${current_version}|github.com/crossplane/crossplane/apis/v2 v${new_version}|" "${dir}/../go.mod" && rm "${dir}/../go.mod.tmp"
 }
 
 main "$@"

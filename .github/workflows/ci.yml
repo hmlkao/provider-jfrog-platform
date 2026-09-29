@@ -10,9 +10,8 @@ on:
 
 env:
   # Common versions
-  GO_VERSION: '1.27'
   GOLANGCI_VERSION: 'v2.13.2'
-  DOCKER_BUILDX_VERSION: 'v0.30.1'
+  DOCKER_BUILDX_VERSION: 'v0.34.1'
 
 jobs:
   detect-noop:
@@ -40,7 +39,7 @@ jobs:
 
       - name: Get modified CRDs
         id: modified-crds
-        uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           files: |
             package/crds/**
@@ -70,7 +69,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: go.mod
 
       - name: Find the Go Build Cache
         id: go
@@ -114,7 +113,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: go.mod
 
       - name: Install goimports
         run: go install golang.org/x/tools/cmd/goimports
@@ -160,7 +159,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: go.mod
 
       - name: Find the Go Build Cache
         id: go
@@ -187,7 +186,7 @@ jobs:
         run: make -j2 test
 
       - name: Publish Unit Test Coverage
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v6.0.2
         with:
           flags: unittests
           files: _output/tests/linux_amd64/coverage.txt
@@ -209,7 +208,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: go.mod
 
       - name: Find the Go Build Cache
         id: go
@@ -275,7 +274,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: go.mod
 
       - name: Find the Go Build Cache
         id: go

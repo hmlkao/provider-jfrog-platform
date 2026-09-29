@@ -62,9 +62,10 @@ KIND_VERSION = v0.31.0
 # https://github.com/crossplane/uptest/releases
 UPTEST_VERSION = v2.2.0
 CRDDIFF_VERSION = v0.12.1
-# https://github.com/crossplane/crossplane/releases
+# https://github.com/crossplane/cli/releases
 CROSSPLANE_CLI_VERSION = v2.5.0
 # for e2e testing
+# https://github.com/crossplane/crossplane/releases
 CROSSPLANE_VERSION = 2.4.1
 CROSSPLANE_BIN_VERSION = 2.4.1
 -include build/makelib/k8s_tools.mk
@@ -109,7 +110,7 @@ xpkg.build.provider-jfrog-platform: do.build.images
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(CROSSPLANE_CLI) check-terraform-version
+build.init: $(UP) $(CROSSPLANE_CLI) check-terraform-version
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema

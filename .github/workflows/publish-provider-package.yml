@@ -14,7 +14,7 @@ on:
 
 jobs:
   publish-provider-package:
-    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
+    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@451c4dc6ad3691b0a702a997a0ac24e8bbc8bbaa # main
     permissions:
       contents: read
       packages: write
@@ -23,6 +23,7 @@ jobs:
       repository: provider-jfrog-platform
       version: ${{ github.event.inputs.version }}
       go-version: ${{ github.event.inputs.go-version }}
+      cleanup-disk: true
     secrets:
       GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}
       XPKG_MIRROR_TOKEN: ${{ secrets.UPBOUND_MARKETPLACE_PUSH_ROBOT_PSW }}

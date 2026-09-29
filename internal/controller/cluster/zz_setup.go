@@ -79,3 +79,29 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		awsiamrole.SetupWebhookWithManager,
+		crowdsettings.SetupWebhookWithManager,
+		globalrole.SetupWebhookWithManager,
+		group.SetupWebhookWithManager,
+		groupmembers.SetupWebhookWithManager,
+		httpssosettings.SetupWebhookWithManager,
+		oidcconfiguration.SetupWebhookWithManager,
+		oidcidentitymapping.SetupWebhookWithManager,
+		permission.SetupWebhookWithManager,
+		reverseproxy.SetupWebhookWithManager,
+		samlsettings.SetupWebhookWithManager,
+		scimgroup.SetupWebhookWithManager,
+		scimuser.SetupWebhookWithManager,
+		workersservice.SetupWebhookWithManager,
+		providerconfig.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

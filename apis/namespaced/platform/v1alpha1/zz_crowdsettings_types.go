@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CrowdSettingsInitParameters struct {
@@ -42,7 +41,7 @@ type CrowdSettingsInitParameters struct {
 
 	// (String, Sensitive) The application password configured for JPD in Crowd/JIRA.
 	// The application password configured for JPD in Crowd/JIRA.
-	PasswordSecretRef v1.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef v2.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// (String) The full URL of the server to use.
 	// The full URL of the server to use.
@@ -133,7 +132,7 @@ type CrowdSettingsParameters struct {
 	// (String, Sensitive) The application password configured for JPD in Crowd/JIRA.
 	// The application password configured for JPD in Crowd/JIRA.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef v1.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
+	PasswordSecretRef v2.LocalSecretKeySelector `json:"passwordSecretRef" tf:"-"`
 
 	// (String) The full URL of the server to use.
 	// The full URL of the server to use.
@@ -170,8 +169,8 @@ type CrowdSettingsSpec struct {
 
 // CrowdSettingsStatus defines the observed state of CrowdSettings.
 type CrowdSettingsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CrowdSettingsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CrowdSettingsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
