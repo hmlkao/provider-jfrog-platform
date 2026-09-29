@@ -65,8 +65,8 @@ CRDDIFF_VERSION = v0.12.1
 # https://github.com/crossplane/crossplane/releases
 CROSSPLANE_CLI_VERSION = v2.5.0
 # for e2e testing
-CROSSPLANE_VERSION = 2.4.1
-CROSSPLANE_BIN_VERSION = 2.4.1
+CROSSPLANE_VERSION = 2.4.2
+CROSSPLANE_BIN_VERSION = 2.4.2
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
