@@ -10,9 +10,32 @@ on:
         description: 'Tag message'
         required: true
 
+# Ends with an error
+#     error parsing called workflow
+#     ".github/workflows/tag.yaml"
+#     -> "crossplane-contrib/provider-workflows/.github/workflows/tag.yml@451c4dc6ad3691b0a702a997a0ac24e8bbc8bbaa"
+#     : workflow is not reusable as it is missing a `on.workflow_call` trigger
+# jobs:
+#   tag:
+#     uses: crossplane-contrib/provider-workflows/.github/workflows/tag.yml@451c4dc6ad3691b0a702a997a0ac24e8bbc8bbaa # main
+#     with:
+#       version: ${{ github.event.inputs.version }}
+#       message: ${{ github.event.inputs.message }}
 jobs:
-  tag:
-    uses: crossplane-contrib/provider-workflows/.github/workflows/tag.yml@451c4dc6ad3691b0a702a997a0ac24e8bbc8bbaa # main
-    with:
-      version: ${{ github.event.inputs.version }}
-      message: ${{ github.event.inputs.message }}
+  create-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      # contents and actions permissions are required for the negz/create-tag
+      # action to create a tag and push it to the repository
+      contents: write
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Create Tag
+        uses: negz/create-tag@8dce6c9d9b12d161abe01c02d2b03f19e2e9e9bb # v2.0.0
+        with:
+          version: ${{ github.event.inputs.version }}
+          message: ${{ github.event.inputs.message }}
+          token: ${{ secrets.GITHUB_TOKEN }}
