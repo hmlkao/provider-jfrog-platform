@@ -30,7 +30,7 @@ kind: Provider
 metadata:
   name: provider-jfrog-platform
 spec:
-  package: hmlkao/provider-jfrog-platform:v0.9.0
+  package: hmlkao/provider-jfrog-platform:v0.10.0
 EOF
 ```
 
