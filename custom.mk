@@ -2,7 +2,7 @@
 # up CLI was removed from build module, but crossplane CLI doesn't support 'xpkg append' subcommand
 #   https://github.com/crossplane/build/commit/32266ec2df9b775cc23675131147009375fe9bb6
 # So, it's added here as a custom workaround
-UP_VERSION ?= v0.41.0
+UP_VERSION ?= v0.56.0
 UP_CHANNEL ?= stable
 UP := $(TOOLS_HOST_DIR)/up-$(UP_VERSION)
 
