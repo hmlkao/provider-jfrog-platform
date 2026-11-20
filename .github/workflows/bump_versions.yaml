@@ -189,6 +189,55 @@ jobs:
           #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
           token: ${{ secrets.BUMP_VERSION_TOKEN }}
 
+  bump-up-cli-version:
+    name: Bump Up CLI version
+    runs-on: ubuntu-latest
+    outputs:
+      current-version: ${{ steps.current-version.outputs.UP_CLI_VERSION_CURRENT }}
+      latest-version: ${{ steps.latest-version.outputs.UP_CLI_VERSION_LATEST }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          submodules: true
+
+      - name: Get current version
+        id: current-version
+        run: |
+          current_version=$(grep '^UP_VERSION ?= ' < custom.mk | cut -d' ' -f3 | tr -d 'v')
+          echo "Current version used for build is '${current_version}'"
+          echo "UP_CLI_VERSION_CURRENT=${current_version}" >> $GITHUB_OUTPUT
+
+      - name: Get latest version
+        id: latest-version
+        run: |
+          latest_version=$(curl -sSL https://cli.upbound.io/stable/current/version | tr -d 'v')
+          if [[ "${latest_version}" == "null" ]]; then
+            echo "Failed to fetch the latest Up CLI version"
+            exit 1
+          fi
+          echo "The latest version is '${latest_version}'"
+          echo "UP_CLI_VERSION_LATEST=${latest_version}" >> $GITHUB_OUTPUT
+
+      - name: Bump version
+        if: ${{ steps.current-version.outputs.UP_CLI_VERSION_CURRENT != steps.latest-version.outputs.UP_CLI_VERSION_LATEST }}
+        run: scripts/bump_up_cli_version.sh "${{steps.current-version.outputs.UP_CLI_VERSION_CURRENT}}" "${{steps.latest-version.outputs.UP_CLI_VERSION_LATEST}}"
+
+      - name: Create PR
+        # Previous step must be successful
+        #   https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#success
+        # The success() function evaluates to true even if the previous step was skipped, so we must check the same condition anyway
+        if: ${{ steps.current-version.outputs.UP_CLI_VERSION_CURRENT != steps.latest-version.outputs.UP_CLI_VERSION_LATEST && success() }}
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          title: Bump Up CLI to v${{steps.latest-version.outputs.UP_CLI_VERSION_LATEST}}
+          commit-message: Bump Up CLI version to v${{steps.latest-version.outputs.UP_CLI_VERSION_LATEST}}
+          branch: bump-version/up-cli
+          labels: bump-version, up
+          # Cannot use GITHUB_TOKEN, because other workflows are not triggered with it, PAT must be used
+          #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
+          token: ${{ secrets.BUMP_VERSION_TOKEN }}
+
   bump-go-version:
     # Run this job only when the workflow is triggered manually, as we don't want to bump Go version automatically on a schedule
     if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -274,12 +323,11 @@ jobs:
           #   https://github.com/peter-evans/create-pull-request/tree/v7/?tab=readme-ov-file#token
           token: ${{ secrets.BUMP_VERSION_TOKEN }}
 
-  #bump-up-version:
   #bump-kind-version:
   #bump-alpine-version:
 
   summary:
-    needs: [ bump-tfm-provider-version, bump-crossplane-bin-version, bump-crossplane-cli-version, bump-go-version ]
+    needs: [ bump-tfm-provider-version, bump-crossplane-bin-version, bump-crossplane-cli-version, bump-up-cli-version, bump-go-version ]
     if: ${{ always() }}
     name: Print summary
     runs-on: ubuntu-latest
@@ -292,6 +340,7 @@ jobs:
           echo "| TFM provider   | \`${{ needs.bump-tfm-provider-version.outputs.current-version }}\`   | \`${{ needs.bump-tfm-provider-version.outputs.latest-version }}\`   |" >> $GITHUB_STEP_SUMMARY
           echo "| Crossplane BIN | \`${{ needs.bump-crossplane-bin-version.outputs.current-version }}\` | \`${{ needs.bump-crossplane-bin-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Crossplane CLI | \`${{ needs.bump-crossplane-cli-version.outputs.current-version }}\` | \`${{ needs.bump-crossplane-cli-version.outputs.latest-version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Up CLI         | \`${{ needs.bump-up-cli-version.outputs.current-version }}\`         | \`${{ needs.bump-up-cli-version.outputs.latest-version }}\`         |" >> $GITHUB_STEP_SUMMARY
           if [[ "${{ needs.bump-go-version.result }}" != "skipped" ]]; then
           echo "| Go             | \`${{ needs.bump-go-version.outputs.current-version }}\`             | \`${{ needs.bump-go-version.outputs.latest-version }}\`             |" >> $GITHUB_STEP_SUMMARY
           fi
