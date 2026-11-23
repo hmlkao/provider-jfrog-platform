@@ -14,6 +14,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	google.golang.org/grpc v1.85.0
 	k8s.io/api v0.38.0-beta.0
+	k8s.io/apiextensions-api v0.38.0-beta.0
 	k8s.io/apiextensions-apiserver v0.38.0-beta.0
 	k8s.io/apimachinery v0.38.0-beta.0
 	k8s.io/client-go v0.38.0-beta.0
@@ -140,7 +141,6 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/apiextensions-api v0.38.0-beta.0 // indirect
 	k8s.io/code-generator v0.38.0-beta.0 // indirect
 	k8s.io/component-base v0.38.0-beta.0 // indirect
 	k8s.io/gengo/v2 v2.0.0-20260408192533-25e2208e0dc3 // indirect

@@ -24,6 +24,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 	authv1 "k8s.io/api/authorization/v1"
 	corev1 "k8s.io/api/core/v1"
+	v1 "k8s.io/apiextensions-api/pkg/apis/apiextensions/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -150,7 +151,7 @@ func main() {
 		Cache: cache.Options{
 			SyncPeriod: syncPeriod,
 			ByObject: map[client.Object]cache.ByObject{
-				&apiextensionsv1.CustomResourceDefinition{}: {
+				&v1.CustomResourceDefinition{}: {
 					Transform: customresourcesgate.TransformStripCRDSchema,
 				},
 			},
